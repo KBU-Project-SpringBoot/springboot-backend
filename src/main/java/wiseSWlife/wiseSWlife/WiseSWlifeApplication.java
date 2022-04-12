@@ -1,13 +1,13 @@
-package wise_SW_life.wiseSWLife;
+package wiseSWlife.wiseSWlife;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WiseSwLifeApplication {
+public class WiseSWlifeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WiseSwLifeApplication.class, args);
+		SpringApplication.run(WiseSWlifeApplication.class, args);
 	}
 
 }
