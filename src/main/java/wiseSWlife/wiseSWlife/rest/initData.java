@@ -3,7 +3,7 @@ package wiseSWlife.wiseSWlife.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import wiseSWlife.wiseSWlife.domain.member.Member;
-import wiseSWlife.wiseSWlife.domain.repositoryInterface.MemberRepository;
+import wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository.MemberRepository;
 
 import javax.annotation.PostConstruct;
 

@@ -2,18 +2,14 @@ package wiseSWlife.wiseSWlife.rest.signUp;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import wiseSWlife.wiseSWlife.domain.member.Member;
-import wiseSWlife.wiseSWlife.domain.repositoryInterface.MemberRepository;
+import wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository.MemberRepository;
 import wiseSWlife.wiseSWlife.rest.signUp.form.SignUpForm;
 import wiseSWlife.wiseSWlife.rest.signUp.response.SignUpResponseData;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j

@@ -3,7 +3,7 @@ package wiseSWlife.wiseSWlife.domain.login;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.domain.member.Member;
-import wiseSWlife.wiseSWlife.domain.repositoryInterface.MemberRepository;
+import wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
