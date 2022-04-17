@@ -17,4 +17,6 @@ public class LoginResponseData {
 
     private String loginId;
 
+    private String sessionId;
+
 }
