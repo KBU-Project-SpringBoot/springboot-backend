@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.domain.repositoryInterface;
+package wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository;
 
 import wiseSWlife.wiseSWlife.domain.member.Member;
 

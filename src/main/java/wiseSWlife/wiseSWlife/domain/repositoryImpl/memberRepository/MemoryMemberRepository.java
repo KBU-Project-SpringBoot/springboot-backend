@@ -1,8 +1,8 @@
-package wiseSWlife.wiseSWlife.domain.repositoryImpl;
+package wiseSWlife.wiseSWlife.domain.repositoryImpl.memberRepository;
 
 import org.springframework.stereotype.Repository;
 import wiseSWlife.wiseSWlife.domain.member.Member;
-import wiseSWlife.wiseSWlife.domain.repositoryInterface.MemberRepository;
+import wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository.MemberRepository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

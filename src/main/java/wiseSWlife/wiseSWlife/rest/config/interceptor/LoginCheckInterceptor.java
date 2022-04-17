@@ -21,11 +21,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         if(session == null || session.getAttribute(SessionConst.LOGIN_SESSION_KEY)==null){
         log.info("미인증 사용자 요청 {}",request);
-//        response.sendError(HttpServletResponse.SC_FORBIDDEN);
-        response.sendRedirect("/login");
-
-        //403 -> 세션 만료
-        response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            response.setStatus(403);
             return false;
         }
         return true;
