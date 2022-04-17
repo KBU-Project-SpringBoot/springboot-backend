@@ -28,7 +28,6 @@ public class LoginController {
 
     private final LoginService loginService;
 
-
     @RequestMapping("/login")
     @ResponseBody
     public LoginResponseData login(@RequestBody LoginForm form, HttpServletRequest request) throws IOException, InterruptedException {
@@ -38,6 +37,7 @@ public class LoginController {
         if (loggedMember == null) {
             return new LoginResponseData(HttpStatus.BAD_REQUEST,request.getRequestURI(), "login fail", form.getUsername(),null);
         }
+
 
         String command = "C:\\Users\\User\\PycharmProjects\\pythonProjectVenv\\venv\\Scripts\\python.exe"; //명령어
         String arg1 = "C:\\Users\\User\\PycharmProjects\\pythonProjectVenv\\Wife_SW_Life\\test.py";//인지
