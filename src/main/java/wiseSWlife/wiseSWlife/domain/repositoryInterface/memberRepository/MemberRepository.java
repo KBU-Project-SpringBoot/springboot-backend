@@ -1,9 +1,13 @@
 package wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository;
 
+
+
+
 import wiseSWlife.wiseSWlife.domain.member.Member;
 
 import java.util.List;
 import java.util.Optional;
+
 
 public interface MemberRepository {
     //회원 저장 (C)

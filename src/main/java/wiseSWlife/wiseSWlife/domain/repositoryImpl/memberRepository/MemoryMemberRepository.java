@@ -1,6 +1,7 @@
 package wiseSWlife.wiseSWlife.domain.repositoryImpl.memberRepository;
 
 import org.springframework.stereotype.Repository;
+
 import wiseSWlife.wiseSWlife.domain.member.Member;
 import wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository.MemberRepository;
 

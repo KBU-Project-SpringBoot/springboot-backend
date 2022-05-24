@@ -29,12 +29,12 @@ public class FreeBoardComment {
 
     private String freeBoardCommentNickName;
 
-    private Date date;
+
 
     public FreeBoardComment(String freeBoardCommentLoginId, String freeBoardCommentNickName, Date date, String freeBoardComment) {
         this.freeBoardCommentLoginId = freeBoardCommentLoginId;
         this.freeBoardCommentNickName = freeBoardCommentNickName;
-        this.date = date;
+
         this.freeBoardComment = freeBoardComment;
     }
 

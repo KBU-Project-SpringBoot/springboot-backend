@@ -3,6 +3,7 @@ package wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.fre
 import wiseSWlife.wiseSWlife.domain.community.freeBoard.FreeBoardComment;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FreeBoardCommentRepository {
 
@@ -16,7 +17,7 @@ public interface FreeBoardCommentRepository {
     List<FreeBoardComment> findAllFreeBoardCommentByLoginId(String loginId);
 
     // 댓글 관리번호로 댓글 확인 (R)
-    FreeBoardComment findFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardCommentSeq);
+    Optional<FreeBoardComment> findFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardCommentSeq);
 
     // 댓글 업데이트 (U)
     FreeBoardComment updateFreeBoardComment(Long freeBoardCommentSeq, FreeBoardComment updatedFreeBoardComment);
