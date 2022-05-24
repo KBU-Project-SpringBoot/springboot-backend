@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.domain.repositoryImpl.community.freeBoard;
+package wiseSWlife.wiseSWlife.domain.repositoryImpl.communityRepository.freeBoardRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -43,7 +43,7 @@ public class MemoryFreeBoardRepositoryImpl implements FreeBoardRepository {
 
     @Override
     public Optional<FreeBoard> findFreeBoardByFreeBoardSeq(Long freeBoardSeq) {
-        if(store.keySet().contains(freeBoardSeq)){
+        if(store.containsKey(freeBoardSeq)){
             return Optional.of(store.get(freeBoardSeq));
         }
         return Optional.empty();

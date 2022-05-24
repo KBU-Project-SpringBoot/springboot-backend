@@ -28,7 +28,7 @@ public class FreeBoard {
 
     private String freeBoardNickName;
 
-    private Date date;
+
 
     private String freeBoardTitle;
 
@@ -39,7 +39,7 @@ public class FreeBoard {
     public FreeBoard(String freeBoardLoginId, String freeBoardNickName, Date date, String freeBoardTitle, String freeBoardText) {
         this.freeBoardLoginId = freeBoardLoginId;
         this.freeBoardNickName = freeBoardNickName;
-        this.date = date;
+
         this.freeBoardTitle = freeBoardTitle;
         this.freeBoardText = freeBoardText;
     }
