@@ -15,7 +15,7 @@ public class RestConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
-                        "/",
+                        "/**",
                         "/signUp",
                         "/login",
                         "/logout",

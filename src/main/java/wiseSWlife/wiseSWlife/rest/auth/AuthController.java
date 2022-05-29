@@ -23,6 +23,6 @@ public class AuthController {
     @RequestMapping("/Auth/me")
     @ResponseBody
     public AuthResponseData auth(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY) SessionForm form, HttpServletRequest request){
-        return new AuthResponseData(HttpStatus.OK,request.getRequestURI()," The current request data has been answered.", form.getLoginId(), form.getSessionId());
+        return new AuthResponseData(HttpStatus.OK,request.getRequestURI()," The current request data has been answered.", form.getLoginId(), form.getNickName());
     }
 }

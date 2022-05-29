@@ -11,6 +11,6 @@ public class SessionForm {
 
     private String loginId;
 
-    private String sessionId;
+    private String nickName;
 
 }
