@@ -16,8 +16,8 @@ public class initData {
     public void init(){
             
         //init Member
-        memberRepository.save(new Member("김지용", "김지용"));
-        memberRepository.save(new Member("신범철", "신범철"));
+        memberRepository.save(new Member("김지용", "rlawldyd", "김지용"));
+        memberRepository.save(new Member("신범철", "tlsqjacjf", "신범철"));
         
     }
 }

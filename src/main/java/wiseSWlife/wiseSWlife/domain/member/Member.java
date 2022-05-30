@@ -14,11 +14,13 @@ public class Member {
     private String loginId;
     private String password;
 
+    private String nickName;
+
     private Authority authority;
 
-    public Member(String loginId, String password) {
+    public Member(String loginId, String password, String nickName) {
         this.loginId = loginId;
         this.password = password;
-
+        this.nickName = nickName;
     }
 }

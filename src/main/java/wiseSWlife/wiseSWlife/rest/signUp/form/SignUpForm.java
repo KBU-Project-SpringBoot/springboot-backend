@@ -5,6 +5,7 @@ import lombok.NonNull;
 
 @Data
 public class SignUpForm {
-    private String username;
+    private String loginId;
     private String password;
+    private String nickName;
 }

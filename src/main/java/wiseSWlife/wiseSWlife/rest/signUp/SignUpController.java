@@ -22,13 +22,13 @@ public class SignUpController {
     @RequestMapping("/signUp")
     @ResponseBody
     public SignUpResponseData signUp(@RequestBody SignUpForm form, HttpServletRequest request) {
-        Optional<Member> signUpMem = memberRepository.findByLoginId(form.getUsername());
+        Optional<Member> signUpMem = memberRepository.findByLoginId(form.getLoginId());
         if (signUpMem.isPresent()) {
-            log.info("회원 가입 실패 [이미 존재하는 ID = {}]", form.getUsername());
-            return new SignUpResponseData(HttpStatus.BAD_REQUEST, request.getRequestURI(), "이미 존재하는 ID입니다.", form.getUsername());
+            log.info("회원 가입 실패 [이미 존재하는 ID = {}]", form.getLoginId());
+            return new SignUpResponseData(HttpStatus.BAD_REQUEST, request.getRequestURI(), "이미 존재하는 ID입니다.", form.getLoginId());
         }
-        memberRepository.save(new Member(form.getUsername(), form.getPassword()));
-        log.info("회원 가입 완료 {} , {}", form.getUsername(), form.getPassword());
-        return new SignUpResponseData(HttpStatus.OK, request.getRequestURI(), "SignUp Success", form.getUsername());
+        memberRepository.save(new Member(form.getLoginId(), form.getPassword(), form.getNickName()));
+        log.info("회원 가입 완료 {} , {}", form.getLoginId(), form.getPassword());
+        return new SignUpResponseData(HttpStatus.OK, request.getRequestURI(), "SignUp Success", form.getLoginId());
     }
 }
