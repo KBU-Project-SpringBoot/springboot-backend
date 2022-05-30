@@ -3,10 +3,9 @@ package wiseSWlife.wiseSWlife.rest.login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import wiseSWlife.wiseSWlife.domain.login.LoginService;
+import wiseSWlife.wiseSWlife.domain.login.loginServiceImpl.SimpleLoginService;
 import wiseSWlife.wiseSWlife.domain.member.Member;
 import wiseSWlife.wiseSWlife.rest.login.form.LoginForm;
 import wiseSWlife.wiseSWlife.rest.login.response.LoginResponseData;
@@ -14,11 +13,8 @@ import wiseSWlife.wiseSWlife.rest.session.SessionConst;
 import wiseSWlife.wiseSWlife.rest.session.form.SessionForm;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -26,13 +22,13 @@ import java.util.Map;
 
 public class LoginController {
 
-    private final LoginService loginService;
+    private final SimpleLoginService simpleLoginService;
 
     @RequestMapping("/login")
     @ResponseBody
     public LoginResponseData login(@RequestBody LoginForm form, HttpServletRequest request) throws IOException, InterruptedException {
 
-        Member loggedMember = loginService.login(form.getUsername(), form.getPassword());
+        Member loggedMember = simpleLoginService.login(form.getUsername(), form.getPassword());
 
         if (loggedMember == null) {
             return new LoginResponseData(HttpStatus.BAD_REQUEST,request.getRequestURI(), "login fail", form.getUsername(),null);
