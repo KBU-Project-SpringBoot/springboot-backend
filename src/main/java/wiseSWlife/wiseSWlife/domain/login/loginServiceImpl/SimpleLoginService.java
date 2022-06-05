@@ -49,18 +49,22 @@ public class SimpleLoginService implements LoginService {
         //System.out.println(testLine);//데이터 유형 : 로그인 성공시 ->{세션, 학번, 이름, 학과}
                                                          //실패시 null
 
+        if(testLine == null){
+            return null;
+        }
+
         GsonBuilder builder1 = new GsonBuilder();
         builder1.setPrettyPrinting();
         Gson gson = builder1.create();
         Member member = gson.fromJson(testLine,Member.class);
 
-        System.out.println("너는 누구니"+member);
+//        System.out.println("너는 누구니"+member);//member 객체
+//
+//        testLine = gson.toJson(member);//json으로 변경
+//        System.out.println("얘는 뭐지"+testLine);//json형
 
-        testLine = gson.toJson(member);//얘가 객체네
-        System.out.println("얘는 뭐지"+testLine);
 
-
-        return null;
+        return member;
 
 
     }
