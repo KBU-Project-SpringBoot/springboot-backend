@@ -16,7 +16,6 @@ public class Faq {
 
     private String title;
 
-
     private String questionMember;
 
     private String question;

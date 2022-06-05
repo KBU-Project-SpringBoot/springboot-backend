@@ -24,7 +24,7 @@ public class FreeBoard {
 
     private Long freeBoardSeq;
 
-    private String freeBoardLoginId;
+    private String freeBoardSid;
 
     private String freeBoardNickName;
 
@@ -36,8 +36,8 @@ public class FreeBoard {
 
     private Object freeBoardContent;
 
-    public FreeBoard(String freeBoardLoginId, String freeBoardNickName, Date date, String freeBoardTitle, String freeBoardText) {
-        this.freeBoardLoginId = freeBoardLoginId;
+    public FreeBoard(String freeBoardSid, String freeBoardNickName, Date date, String freeBoardTitle, String freeBoardText) {
+        this.freeBoardSid = freeBoardSid;
         this.freeBoardNickName = freeBoardNickName;
 
         this.freeBoardTitle = freeBoardTitle;

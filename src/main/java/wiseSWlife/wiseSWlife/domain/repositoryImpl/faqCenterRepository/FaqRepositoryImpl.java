@@ -20,9 +20,9 @@ public class FaqRepositoryImpl implements FaqRepository {
     }
 
     @Override
-    public Optional<Faq> findByNickName(String nickName) {
+    public Optional<Faq> findBySid(String sid) {
         return findAll().stream()
-                .filter(f -> f.getQuestionMember().equals(nickName))
+                .filter(f -> f.getQuestionMember().equals(sid))
                 .findFirst();
     }
 

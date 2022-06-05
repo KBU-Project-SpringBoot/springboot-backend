@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.rest.session.form;
+package wiseSWlife.wiseSWlife.config.session.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Data @Getter @Setter
 public class SessionForm {
 
-    private String loginId;
+    private String sid;
 
-    private String nickName;
+    private String intCookie;
 
 }

@@ -40,9 +40,9 @@ public class MemoryFreeBoardCommentRepositoryImpl implements FreeBoardCommentRep
 
     // 댓글 작성자가 작성한 모든 댓글 확인 (R)
     @Override
-    public List<FreeBoardComment> findAllFreeBoardCommentByLoginId(String loginId) {
+    public List<FreeBoardComment> findAllFreeBoardCommentBySid(String sid) {
         return store.values().stream()
-                .filter(c -> c.getFreeBoardCommentLoginId().equals(loginId))
+                .filter(c -> c.getFreeBoardCommentSid().equals(sid))
                 .collect(Collectors.toList());
     }
 
@@ -63,7 +63,7 @@ public class MemoryFreeBoardCommentRepositoryImpl implements FreeBoardCommentRep
             return null;
         }
         FreeBoardComment freeBoardComment = freeBoardCommentByFreeBoardCommentSeq.get();
-        freeBoardComment.setFreeBoardCommentLoginId(updatedFreeBoardComment.getFreeBoardCommentLoginId());
+        freeBoardComment.setFreeBoardCommentSid(updatedFreeBoardComment.getFreeBoardCommentSid());
         freeBoardComment.setFreeBoardCommentNickName(updatedFreeBoardComment.getFreeBoardCommentNickName());
         freeBoardComment.setFreeBoardComment(updatedFreeBoardComment.getFreeBoardComment());
         freeBoardComment.setFreeBoardCommentContent(updatedFreeBoardComment.getFreeBoardCommentContent());

@@ -11,8 +11,8 @@ public interface QuestionRepository {
     // question 저장
     Question save(Question question);
 
-    //nickName을 통해 question 찾기
-    Optional<Question> findQuestionByNickName(String nickName);
+    //sid을 통해 question 찾기
+    Optional<Question> findQuestionBySid(String sid);
 
     // 관리번호 로 Question 찾기 //
     Optional<Question> findQuestionByNum(Long mangeNum);

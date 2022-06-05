@@ -25,14 +25,14 @@ public class FreeBoardComment {
 
     private Long freeBoardCommentSeq;
 
-    private String freeBoardCommentLoginId;
+    private String freeBoardCommentSid;
 
     private String freeBoardCommentNickName;
 
 
 
-    public FreeBoardComment(String freeBoardCommentLoginId, String freeBoardCommentNickName, Date date, String freeBoardComment) {
-        this.freeBoardCommentLoginId = freeBoardCommentLoginId;
+    public FreeBoardComment(String freeBoardCommentSid, String freeBoardCommentNickName, Date date, String freeBoardComment) {
+        this.freeBoardCommentSid = freeBoardCommentSid;
         this.freeBoardCommentNickName = freeBoardCommentNickName;
 
         this.freeBoardComment = freeBoardComment;

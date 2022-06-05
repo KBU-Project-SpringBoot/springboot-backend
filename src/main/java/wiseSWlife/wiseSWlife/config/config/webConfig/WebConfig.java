@@ -1,14 +1,14 @@
-package wiseSWlife.wiseSWlife.rest.config.restConfig;
+package wiseSWlife.wiseSWlife.config.config.webConfig;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import wiseSWlife.wiseSWlife.rest.config.interceptor.LoginCheckInterceptor;
+import wiseSWlife.wiseSWlife.config.config.interceptor.LoginCheckInterceptor;
 
 @Configuration
 @RequiredArgsConstructor
-public class RestConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginCheckInterceptor())

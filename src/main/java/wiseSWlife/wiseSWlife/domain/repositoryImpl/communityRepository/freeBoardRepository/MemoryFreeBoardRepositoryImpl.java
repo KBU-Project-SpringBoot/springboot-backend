@@ -35,9 +35,9 @@ public class MemoryFreeBoardRepositoryImpl implements FreeBoardRepository {
     }
 
     @Override
-    public List<FreeBoard> findFreeBoardByLoginId(String loginId) {
+    public List<FreeBoard> findFreeBoardBySid(String sid) {
         return findAllFreeBoard().stream()
-                .filter(f -> f.getFreeBoardLoginId().equals(loginId))
+                .filter(f -> f.getFreeBoardSid().equals(sid))
                 .collect(Collectors.toList());
     }
 

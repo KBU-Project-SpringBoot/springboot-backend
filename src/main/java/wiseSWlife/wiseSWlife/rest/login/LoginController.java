@@ -9,8 +9,8 @@
 //import wiseSWlife.wiseSWlife.domain.member.Member;
 //import wiseSWlife.wiseSWlife.rest.login.form.LoginForm;
 //import wiseSWlife.wiseSWlife.rest.login.response.LoginResponseData;
-//import wiseSWlife.wiseSWlife.rest.session.SessionConst;
-//import wiseSWlife.wiseSWlife.rest.session.form.SessionForm;
+//import wiseSWlife.wiseSWlife.config.session.SessionConst;
+//import wiseSWlife.wiseSWlife.config.session.form.SessionForm;
 //
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpSession;
