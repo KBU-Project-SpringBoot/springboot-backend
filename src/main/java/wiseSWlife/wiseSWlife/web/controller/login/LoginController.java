@@ -54,7 +54,7 @@ public class LoginController {
         // login Success logic
 
         HttpSession session = request.getSession();
-        SessionForm sessionForm = new SessionForm(loginMember.getSid(), loginMember.getIntCookie());
+        SessionForm sessionForm = new SessionForm(loginMember.getSid(),loginMember.getName(), loginMember.getIntCookie());
         session.setAttribute(SessionConst.LOGIN_SESSION_KEY, sessionForm);
         log.info("Login Success [redirectURL = {} ]", redirectURL);
         return "redirect:"+redirectURL;
