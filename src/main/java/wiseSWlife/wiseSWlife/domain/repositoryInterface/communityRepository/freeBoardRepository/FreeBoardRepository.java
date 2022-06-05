@@ -14,7 +14,7 @@ public interface FreeBoardRepository {
     List<FreeBoard> findAllFreeBoard();
 
     // 작성자가 작성한 게시글 확인 (R)
-    List<FreeBoard> findFreeBoardByLoginId(String loginId);
+    List<FreeBoard> findFreeBoardBySid(String sid);
 
     //게시판 관리 번호를 통해 게시글 확인 (R)
     Optional<FreeBoard> findFreeBoardByFreeBoardSeq(Long freeBoardSeq);

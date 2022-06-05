@@ -22,9 +22,9 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public Optional<Question> findQuestionByNickName(String nickName) {
+    public Optional<Question> findQuestionBySid(String sid) {
         return findAll().stream()
-                .filter(q -> q.getQuestionMember().equals(nickName))
+                .filter(q -> q.getQuestionMember().equals(sid))
                 .findFirst();
     }
 

@@ -14,7 +14,7 @@ public interface FreeBoardCommentRepository {
     List<FreeBoardComment> findAllFreeBoardCommentByFreeBoardSeq(Long freeBoardSeq);
 
     // 댓글 작성자가 작성한 모든 댓글 확인 (R)
-    List<FreeBoardComment> findAllFreeBoardCommentByLoginId(String loginId);
+    List<FreeBoardComment> findAllFreeBoardCommentBySid(String sid);
 
     // 댓글 관리번호로 댓글 확인 (R)
     Optional<FreeBoardComment> findFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardCommentSeq);

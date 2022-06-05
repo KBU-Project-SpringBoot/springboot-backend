@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import wiseSWlife.wiseSWlife.config.session.SessionConst;
+import wiseSWlife.wiseSWlife.config.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.domain.login.loginServiceImpl.SimpleLoginService;
-import wiseSWlife.wiseSWlife.domain.login.loginServiceInterface.LoginService;
 import wiseSWlife.wiseSWlife.domain.member.Member;
-import wiseSWlife.wiseSWlife.rest.session.SessionConst;
-import wiseSWlife.wiseSWlife.rest.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.web.controller.login.loginForm.LoginForm;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,10 +53,10 @@ public class LoginController {
 
         // login Success logic
 
-//        HttpSession session = request.getSession();
-//        SessionForm sessionForm = new SessionForm(loginMember.getLoginId(), loginMember.getNickName());
-//        session.setAttribute(SessionConst.LOGIN_SESSION_KEY, sessionForm);
-//        log.info("Login Success [redirectURL = {} ]", redirectURL);
+        HttpSession session = request.getSession();
+        SessionForm sessionForm = new SessionForm(loginMember.getSid(), loginMember.getIntCookie());
+        session.setAttribute(SessionConst.LOGIN_SESSION_KEY, sessionForm);
+        log.info("Login Success [redirectURL = {} ]", redirectURL);
         return "redirect:"+redirectURL;
     }
 

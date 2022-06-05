@@ -10,8 +10,8 @@ public interface FaqRepository {
     // faq 저장
     Faq save(Faq faq);
 
-    //nickName을 통해 faq 찾기
-    Optional<Faq> findByNickName(String nickName);
+    //sid을 통해 faq 찾기
+    Optional<Faq> findBySid(String sid);
 
     // 등록 num으로 Faq 찾기
     Optional<Faq> findByNum(Long num);

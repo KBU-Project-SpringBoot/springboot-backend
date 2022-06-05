@@ -14,7 +14,7 @@ public class Member {
 
     private String intCookie;//map=> key : 컴소생황 sessionkey, value : 인트라넷 쿠키값
 
-    public Member(String sid, String name, String major, String sessionId) {
+    public Member(String sid, String name, String major, String intCookie) {
         this.sid = sid;
         this.name = name;
         this.major = major;

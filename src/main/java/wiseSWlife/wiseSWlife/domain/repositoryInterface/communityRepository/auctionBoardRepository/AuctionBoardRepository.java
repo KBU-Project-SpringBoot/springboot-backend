@@ -15,7 +15,7 @@ public interface AuctionBoardRepository {
     //상품 번호로 상품 찾기
     Optional<Auction> findAuctionBySeq(Long auctionSeq);
     // 로그인 Id로 등록한 모든 상품 확인
-    List<Auction> findAllAuctionByLoginId(String loginId);
+    List<Auction> findAllAuctionBySid(String sid);
     // 판매 완료 확인
     Boolean soldOutCheck(Long auctionSeq);
     // 상품 업데이트

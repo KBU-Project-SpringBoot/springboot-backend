@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.rest;
+package wiseSWlife.wiseSWlife.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

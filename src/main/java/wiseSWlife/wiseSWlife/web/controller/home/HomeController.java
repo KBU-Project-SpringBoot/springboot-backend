@@ -7,8 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository.MemberRepository;
-import wiseSWlife.wiseSWlife.rest.session.SessionConst;
-import wiseSWlife.wiseSWlife.rest.session.form.SessionForm;
+import wiseSWlife.wiseSWlife.config.session.SessionConst;
+import wiseSWlife.wiseSWlife.config.session.form.SessionForm;
 
 @Slf4j
 @Controller
