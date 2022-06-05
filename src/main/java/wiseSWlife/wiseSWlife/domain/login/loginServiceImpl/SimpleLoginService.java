@@ -32,6 +32,7 @@ public class SimpleLoginService implements LoginService {
         fw.write("    resp = await IntranetAPI.Profile.fetch(cookies=cookie)\n");
         fw.write("    result = IntranetAPI.Profile.parse(resp)\n");
         fw.write("    responseData = dict(cookie.items()|result.data.items())\n");
+        fw.write("    responseData[\"intCookie\"] = responseData.pop(\"ASP.NET_SessionId\")\n");
         fw.write("    print(responseData)\n");
         fw.write("asyncio.run(main())");
         fw.flush();
