@@ -11,6 +11,8 @@ public class SessionForm {
 
     private String sid;
 
+    private String name;
+
     private String intCookie;
 
 }

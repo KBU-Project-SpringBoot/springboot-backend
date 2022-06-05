@@ -1,10 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+
 </head>
 <body>
+<hr class="my-4">
+<div class="container" style="max-width: 600px">
 
+    <div class="row">
+
+
+
+        <div class="col" style="width: 100px;">
+            <h5 style="text-align: right;" th:text="|${sessionForm.name} 님|">로그인 사용자 이름</h5>
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/login}'|" type="button">MyPage</button>
+
+        </div>
+    </div>
+
+    <div class="py-5 text-center">
+        <h2>슬기로운 컴소 생활</h2>
+        <h2 style="align-content: center;"><img width="190"  src="/img/duck.gif"></h2>
+
+
+
+    </div>
+
+    <div>
+        <h4 style="text-align: left;">게시판</h4>
+        <br>
+
+        <div class="row">
+
+            <div class="col">
+
+                <button class="btn btn-primary float-end"
+
+                        onclick="location.href='addForm.html'"
+                        th:onclick="|location.href='@{/question/questionForm}'|"
+                        type="button"
+                        style="width: 100%;">자유 게시판</button>
+
+            </div>
+
+            <div class="col">
+
+                <button class="btn btn-primary float-end"
+
+                        onclick="location.href='addForm.html'"
+                        th:onclick="|location.href='@{/question/questionForm}'|"
+                        type="button"
+                        style="width: 100%;">중고 판매</button>
+
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <h4 style="text-align: left;">새로운 기능</h4>
+        <br>
+
+        <div class="row">
+
+            <div class="col">
+
+                <button class="btn btn-primary float-end"
+
+                        onclick="location.href='addForm.html'"
+                        th:onclick="|location.href='@{/question/questionForm}'|"
+                        type="button"
+                        style="width: 100%; border-color: lightpink; background-color:lightpink;">졸업 요건 확인</button>
+
+            </div>
+
+            <div class="col">
+
+                <button class="btn btn-primary float-end"
+
+                        onclick="location.href='addForm.html'"
+                        th:onclick="|location.href='@{/question/questionForm}'|"
+                        type="button"
+                        style="width: 100%; border-color: hotpink; background-color: hotpink;">기술 스택 확인</button>
+
+            </div>
+        </div>
+    </div>
+    <hr class="my-4">
+
+
+
+
+</div> <!-- /container -->
 </body>
 </html>
