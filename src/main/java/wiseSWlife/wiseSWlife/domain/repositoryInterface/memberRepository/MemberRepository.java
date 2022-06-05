@@ -1,8 +1,5 @@
 package wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository;
 
-
-
-
 import wiseSWlife.wiseSWlife.domain.member.Member;
 
 import java.util.List;
@@ -14,27 +11,9 @@ public interface MemberRepository {
     Member save(Member member);
 
     // LoginId로 회원 조회 (R)
-    Optional<Member> findByLoginId(String loginId);
+    Optional<Member> findBySid(String sid);
 
     //모든 회원 조회 (R)
     List<Member> findAll();
 
-
-
-    // ManageSeq 이용시 사용
-    default Optional<Member> findByManageSeq(Long manageSeq){
-        return null; }
-
-    // test 용도
-    default void clearMemStore(){}
-
-
-    //중복 확인 용도
-    default List<String>allLoginId(){
-        return null;
-    }
-
-    default List<String>allNickName(){
-        return null;
-    }
 }

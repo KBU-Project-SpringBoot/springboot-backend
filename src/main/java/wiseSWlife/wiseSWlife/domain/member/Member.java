@@ -3,24 +3,21 @@ package wiseSWlife.wiseSWlife.domain.member;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import wiseSWlife.wiseSWlife.domain.authority.Authority;
 
 @Data @Getter @Setter
 public class Member {
-    /** 회원 객체 **/
+    /** 인트라넷 회원 정보 객체 **/
 
-    private long manageSeq;
+    private String sid;//학번
+    private String name;//이름
+    private String major;//학과
 
-    private String loginId;
-    private String password;
+    private String intCookie;//map=> key : 컴소생황 sessionkey, value : 인트라넷 쿠키값
 
-    private String nickName;
-
-    private Authority authority;
-
-    public Member(String loginId, String password, String nickName) {
-        this.loginId = loginId;
-        this.password = password;
-        this.nickName = nickName;
+    public Member(String sid, String name, String major, String sessionId) {
+        this.sid = sid;
+        this.name = name;
+        this.major = major;
+        this.intCookie = intCookie;
     }
 }
