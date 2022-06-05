@@ -10,25 +10,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryMemberRepository implements MemberRepository {
-    private static Map<Long, Member> store = new ConcurrentHashMap<>();
-    private static long manageSequence = 0L;
-
-    private static Set<String> idStore = new HashSet<>();
+    private static Map<String, Member> store = new ConcurrentHashMap<>();
 
     @Override
     public Member save(Member member) {
-        member.setManageSeq(manageSequence++);
-        store.put(member.getManageSeq(), member);
-
-        //중복 확인용
-        idStore.add(member.getLoginId());
+        store.put(member.getSid(), member);
         return member;
     }
 
     @Override
-    public Optional<Member> findByLoginId(String loginId) {
+    public Optional<Member> findBySid(String sid){
         return findAll().stream()
-                .filter(m -> m.getLoginId().equals(loginId))
+                .filter(m->m.getSid().equals(sid))
                 .findFirst();
     }
 
@@ -37,9 +30,4 @@ public class MemoryMemberRepository implements MemberRepository {
         return new ArrayList<>(store.values());
     }
 
-    //Testing clear
-    @Override
-    public void clearMemStore() {
-        store.clear();
-    }
 }
