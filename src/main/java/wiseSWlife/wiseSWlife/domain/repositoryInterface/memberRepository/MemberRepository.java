@@ -10,6 +10,8 @@ public interface MemberRepository {
     //회원 저장 (C)
     Member save(Member member);
 
+    Member update(Member member);
+
     // sid로 회원 조회 (R)
     Optional<Member> findBySid(String sid);
 

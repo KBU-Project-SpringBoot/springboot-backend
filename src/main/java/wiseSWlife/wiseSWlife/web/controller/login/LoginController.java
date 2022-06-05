@@ -12,12 +12,14 @@ import wiseSWlife.wiseSWlife.config.session.SessionConst;
 import wiseSWlife.wiseSWlife.config.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.domain.login.loginServiceImpl.SimpleLoginService;
 import wiseSWlife.wiseSWlife.domain.member.Member;
+import wiseSWlife.wiseSWlife.domain.repositoryInterface.memberRepository.MemberRepository;
 import wiseSWlife.wiseSWlife.web.controller.login.loginForm.LoginForm;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Optional;
 
 
 @Slf4j
@@ -25,7 +27,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoginController {
 
-    //private final LoginService loginService;
+    private final MemberRepository memberRepository;
     private final SimpleLoginService simpleLoginService;
 
     @GetMapping("/login")
@@ -52,6 +54,11 @@ public class LoginController {
 
 
         // login Success logic
+        Optional<Member> bySid = memberRepository.findBySid(loginMember.getSid());
+        if(bySid.isEmpty()){
+            memberRepository.save(loginMember);
+        }
+        memberRepository.update(loginMember);
 
         HttpSession session = request.getSession();
         SessionForm sessionForm = new SessionForm(loginMember.getSid(),loginMember.getName(), loginMember.getIntCookie());
