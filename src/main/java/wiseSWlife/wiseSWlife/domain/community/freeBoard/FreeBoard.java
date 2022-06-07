@@ -14,7 +14,7 @@ public class FreeBoard {
      * ==자유 게시판==
      *
      * 게시판 관리 번호
-     * 작성자 id
+     * 작성자 학번
      * 작성자 닉네임 ( 로그인Id 사용 Or 익명 )
      * 날짜
      * 제목
@@ -28,7 +28,7 @@ public class FreeBoard {
 
     private String freeBoardNickName;
 
-
+    private Date date;
 
     private String freeBoardTitle;
 
@@ -36,7 +36,7 @@ public class FreeBoard {
 
     private Object freeBoardContent;
 
-    public FreeBoard(String freeBoardSid, String freeBoardNickName, Date date, String freeBoardTitle, String freeBoardText) {
+    public FreeBoard(String freeBoardSid, String freeBoardNickName, String freeBoardTitle, String freeBoardText) {
         this.freeBoardSid = freeBoardSid;
         this.freeBoardNickName = freeBoardNickName;
 
