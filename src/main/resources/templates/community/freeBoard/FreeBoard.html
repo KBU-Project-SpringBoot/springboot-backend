@@ -23,7 +23,7 @@
 
     <div class="py-5 text-center">
 
-        <h2 style="text-align: left;"><img width="190" style="float: left;" src="/img/duck.gif">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Community</h2>
+        <h2 style="text-align: left;"><img width="190" style="float: left;" src="/img/duck.gif">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Community</h2>
 
         <br>
         <br>
@@ -38,7 +38,7 @@
             <button class="btn btn-primary float-end"
 
                     onclick="location.href='addForm.html'"
-                    th:onclick="|location.href='@{/question/questionForm}'|"
+                    th:onclick="|location.href='@{/community/freeBoard/post}'|"
                     type="button">게시글 작성</button>
 
         </div>
@@ -52,17 +52,17 @@
 
             <thead>
             <tr>
-                <th th:text="#{label.faq.num}">번호</th>
-                <th th:text ="#{label.faq.title}">게시글 제목</th>
-                <th th:text="#{label.faq.questionMember}">게시자</th>
+                <th th:text="#{label.freeBoard.num}">번호</th>
+                <th th:text ="#{label.freeBoard.title}">게시글 제목</th>
+                <th th:text="#{label.freeBoard.questionMember}">게시자</th>
             </tr>
             </thead>
 
             <tbody>
-            <tr th:each ="faq : ${freeBoard}" th:if="${freeBoard!=null}">
-                <td><a href="item.html" th:href="@{/FAQ/{faqNum}(faqNum=${faq.num})}" th:text="${faq.num}">1</a></td>
-                <td><a href="item.html" th:href="@{/FAQ/{faqNum}(faqNum=${faq.num})}" th:text="${faq.title}">로그인이 안되요</a></td>
-                <td th:text="${faq.questionMember}">질문자A </td>
+            <tr th:each ="freeBoard : ${freeBoards}">
+                <td><a href="item.html" th:href="@{/community/freeBoard/{freeBoardSeq}(freeBoardSeq=${freeBoard.freeBoardSeq})}" th:text="${freeBoard.freeBoardSeq}">1</a></td>
+                <td><a href="item.html" th:href="@{/community/freeBoard/{freeBoardSeq}(freeBoardSeq=${freeBoard.freeBoardSeq})}" th:text="${freeBoard.freeBoardTitle}">로그인이 안되요</a></td>
+                <td th:text="${freeBoard.freeBoardNickName}">질문자A </td>
             </tr>
             </tbody>
         </table>

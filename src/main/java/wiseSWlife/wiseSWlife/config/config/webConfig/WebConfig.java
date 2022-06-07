@@ -15,7 +15,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
-                        "/**",
+                        "/",
+                        "/community/freeBoard",
                         "/signUp",
                         "/login",
                         "/logout",

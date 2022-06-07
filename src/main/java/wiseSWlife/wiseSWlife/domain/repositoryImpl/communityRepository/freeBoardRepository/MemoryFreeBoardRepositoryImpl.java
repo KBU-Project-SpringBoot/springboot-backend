@@ -6,10 +6,7 @@ import wiseSWlife.wiseSWlife.domain.community.freeBoard.FreeBoard;
 import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.freeBoardRepository.FreeBoardCommentRepository;
 import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.freeBoardRepository.FreeBoardRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -25,6 +22,7 @@ public class MemoryFreeBoardRepositoryImpl implements FreeBoardRepository {
     @Override
     public FreeBoard save(FreeBoard freeBoard) {
         freeBoard.setFreeBoardSeq(freeBoardSeq++);
+        freeBoard.setDate(new Date());
         store.put(freeBoard.getFreeBoardSeq(), freeBoard);
         return freeBoard;
     }
