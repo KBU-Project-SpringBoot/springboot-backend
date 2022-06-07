@@ -13,6 +13,8 @@ public class SessionForm {
 
     private String name;
 
+    private String major;
+
     private String intCookie;
 
 }
