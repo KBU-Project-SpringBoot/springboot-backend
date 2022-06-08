@@ -1,9 +1,10 @@
 package wiseSWlife.wiseSWlife.domain.repositoryImpl.communityRepository.auctionBoardRepository;
 
 import org.springframework.stereotype.Repository;
-import wiseSWlife.wiseSWlife.domain.auction.Auction;
+import wiseSWlife.wiseSWlife.domain.community.auction.Auction;
 import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.auctionBoardRepository.AuctionBoardRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +23,11 @@ public class MemoryAuctionBoardRepositoryImpl implements AuctionBoardRepository 
         auction.setAuctionSeq(auctionSeq++);
         store.put(auction.getAuctionSeq(), auction);
         return auction;
+    }
+
+    @Override
+    public List<Auction> findAllAuction() {
+        return new ArrayList<>(store.values());
     }
 
     @Override

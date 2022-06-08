@@ -17,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/",
                         "/community/freeBoard",
+                        "/community/auctionBoard",
                         "/signUp",
                         "/login",
                         "/logout",
