@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.domain.auction;
+package wiseSWlife.wiseSWlife.domain.community.auction;
 
 import lombok.Data;
 import lombok.Getter;
@@ -12,8 +12,10 @@ public class Auction {
 
     //    판매 번호
     private Long auctionSeq;
-    //    판매자
+    //    판매자 닉네임
     private String seller;
+    // 판매자 학번
+    private String sellerSid;
     //    상품 이름
     private String productName;
     //    상품 가격
@@ -27,11 +29,12 @@ public class Auction {
     //    판매완료 여부
     private boolean soldOut;
 
-    public Auction(String seller, String productName, Long price, String text, Date date) {
+    public Auction(String seller,String sellerSid, String productName, Long price, String text, Date date) {
         this.seller = seller;
         this.productName = productName;
         this.price = price;
-        Text = text;
+        this.sellerSid = sellerSid;
+        this.Text = text;
         this.date = date;
     }
 }
