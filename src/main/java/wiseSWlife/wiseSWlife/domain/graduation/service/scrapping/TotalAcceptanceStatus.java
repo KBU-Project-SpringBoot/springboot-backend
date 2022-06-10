@@ -1,21 +1,18 @@
-package wiseSWlife.wiseSWlife.domain.graduation.service;
+package wiseSWlife.wiseSWlife.domain.graduation.service.scrapping;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import wiseSWlife.wiseSWlife.domain.graduation.ExamTable;
+import wiseSWlife.wiseSWlife.domain.graduation.TotalAcceptanceStatusTable;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class ExamScrapping {
+public class TotalAcceptanceStatus {
 
-    public Map<String, Boolean> scrapping(String intCookie) throws IOException, InterruptedException {
+    public TotalAcceptanceStatusTable scrapping(String intCookie) throws IOException, InterruptedException {
         String command = "C:\\Users\\User\\PycharmProjects\\pythonProjectVenv\\venv\\Scripts\\python.exe"; //명령어
         String arg1 = "C:\\Users\\User\\PycharmProjects\\pythonProjectVenv\\Wife_SW_Life\\login.py";//인지
 
@@ -24,8 +21,8 @@ public class ExamScrapping {
         fw.write("import asyncio\n" + "\n");
         fw.write("from biblebot import IntranetAPI\n" + "\n");
         fw.write("async def main():\n");
-        fw.write("    resp = await IntranetAPI.GraduationExam.fetch(cookies={'ASP.NET_SessionId': '" + intCookie + "'})\n");
-        fw.write("    result = IntranetAPI.GraduationExam.parse(resp)\n");
+        fw.write("    resp = await IntranetAPI.TotalAcceptanceStatus.fetch(cookies={'ASP.NET_SessionId': '" + intCookie + "'})\n");
+        fw.write("    result = IntranetAPI.TotalAcceptanceStatus.parse(resp)\n");
         fw.write("    responseData = dict(result.data.items())\n");
         fw.write("    print(responseData)\n");
         fw.write("asyncio.run(main())");
@@ -41,24 +38,15 @@ public class ExamScrapping {
         }
 
         String testLine = br.readLine();
+        System.out.println(testLine);
 
         GsonBuilder builder1 = new GsonBuilder();
         builder1.setPrettyPrinting();
         Gson gson = builder1.create();
 
-        ExamTable examTable = gson.fromJson(testLine,ExamTable.class);
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = gson.fromJson(testLine, TotalAcceptanceStatusTable.class);
 
-        Map<String, Boolean> examMap = new HashMap<>();
 
-        for(ArrayList i:examTable.getBody()){
-            if(i.get(4).equals("합격자 신청 불가")){
-                examMap.put(i.get(2).toString(),true);
-            }
-            else{
-                examMap.put(i.get(2).toString(),false);
-            }
-        }
-        return examMap;
+        return totalAcceptanceStatusTable;
     }
-
 }

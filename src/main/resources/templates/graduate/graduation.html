@@ -41,6 +41,35 @@
     </div>
 
     <br>
+    <br>
+
+    <h1>졸업 총 학점</h1>
+    <div>
+        졸업학점 : <span th:text="|${creditForm.standardCredit} 학점|"></span>
+    </div>
+    <div>
+        이수학점 : <span th:text="|${creditForm.myCredit} 학점|"></span>
+    </div>
+    <div>
+        달성률 : <span th:text="|${creditForm.creditPercentage} %|"></span>
+    </div>
+
+    <br>
+    <br>
+
+    <h1>졸업 평균 평점</h1>
+    <div>
+        졸업평균평점 : <span th:text="|${gpaForm.standardGPA} 점|"></span>
+    </div>
+    <div>
+        내 평균평점 : <span th:text="|${gpaForm.myGPA} 점|"></span>
+    </div>
+    <div>
+        통과여부 : <span th:text="${gpaForm.passGPA}"></span>
+    </div>
+
+
+    <br>
 
     <div class="row">
         <div class="col">
