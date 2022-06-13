@@ -1,6 +1,7 @@
 package wiseSWlife.wiseSWlife.domain.repositoryImpl.communityRepository.freeBoardRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import wiseSWlife.wiseSWlife.domain.community.freeBoard.FreeBoard;
 import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.freeBoardRepository.FreeBoardCommentRepository;
@@ -10,6 +11,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class MemoryFreeBoardRepositoryImpl implements FreeBoardRepository {
@@ -21,9 +23,11 @@ public class MemoryFreeBoardRepositoryImpl implements FreeBoardRepository {
 
     @Override
     public FreeBoard save(FreeBoard freeBoard) {
+
         freeBoard.setFreeBoardSeq(freeBoardSeq++);
         freeBoard.setDate(new Date());
         store.put(freeBoard.getFreeBoardSeq(), freeBoard);
+        log.info("freeBoard save = {}",freeBoard);
         return freeBoard;
     }
 
@@ -64,5 +68,6 @@ public class MemoryFreeBoardRepositoryImpl implements FreeBoardRepository {
     @Override
     public void removeFreeBoardByFreeBoardSeq(Long freeBoardSeq) {
         commentRepository.removeAllFreeBoardCommentByFreeBoardSeq(freeBoardSeq);
+        store.remove(freeBoardSeq);
     }
 }

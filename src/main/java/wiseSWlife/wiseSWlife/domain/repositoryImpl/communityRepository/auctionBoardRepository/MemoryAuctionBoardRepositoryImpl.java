@@ -40,8 +40,8 @@ public class MemoryAuctionBoardRepositoryImpl implements AuctionBoardRepository 
 
     @Override
     public List<Auction> findAllAuctionBySid(String sid) {
-        return store.values().stream()
-                .filter(a -> a.getSeller().equals(sid))
+        return findAllAuction().stream()
+                .filter(a -> a.getSellerSid().equals(sid))
                 .collect(Collectors.toList());
     }
 

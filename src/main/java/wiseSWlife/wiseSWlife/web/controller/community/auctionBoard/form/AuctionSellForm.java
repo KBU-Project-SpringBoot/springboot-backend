@@ -1,12 +1,15 @@
 package wiseSWlife.wiseSWlife.web.controller.community.auctionBoard.form;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 @Data
+@AllArgsConstructor
 public class AuctionSellForm {
     @NotEmpty
     @NotNull
@@ -20,8 +23,7 @@ public class AuctionSellForm {
     @NotNull
     private String Text;
 
-
-    @NotNull
+    @Nullable
     @PositiveOrZero
     private int price;
 

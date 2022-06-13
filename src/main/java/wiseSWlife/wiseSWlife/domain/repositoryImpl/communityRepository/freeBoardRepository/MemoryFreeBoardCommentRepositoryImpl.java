@@ -49,10 +49,11 @@ public class MemoryFreeBoardCommentRepositoryImpl implements FreeBoardCommentRep
     @Override
     // 댓글 관리번호로 댓글 확인 (R)
     public Optional<FreeBoardComment> findFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardCommentSeq) {
-        if (store.containsKey(freeBoardCommentSeq)) {
-            Optional.of(store.get(freeBoardCommentSeq));
+        if (!store.containsKey(freeBoardCommentSeq)) {
+            return Optional.empty();
         }
-        return Optional.empty();
+        return Optional.of(store.get(freeBoardCommentSeq));
+
     }
 
     @Override
@@ -72,10 +73,9 @@ public class MemoryFreeBoardCommentRepositoryImpl implements FreeBoardCommentRep
 
     @Override
     // 관리번호로 댓글 삭제 (D)
-    public void removeFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardSeq) {
-        Optional<FreeBoardComment> freeBoardCommentByFreeBoardCommentSeq = findFreeBoardCommentByFreeBoardCommentSeq(freeBoardCommentSeq);
-        if (!freeBoardCommentByFreeBoardCommentSeq.isEmpty()) {
-            store.remove(freeBoardSeq);
+    public void removeFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardCommentSeq) {
+        if (store.containsKey(freeBoardCommentSeq)) {
+            store.remove(freeBoardCommentSeq);
         }
     }
 

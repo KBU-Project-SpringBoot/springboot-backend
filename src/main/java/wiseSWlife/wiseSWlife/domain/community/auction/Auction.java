@@ -19,7 +19,7 @@ public class Auction {
     //    상품 이름
     private String productName;
     //    상품 가격
-    private Long price;
+    private Integer price;
     //    상품 설명
     private String Text;
     //    상품 이미지 경로
@@ -29,7 +29,7 @@ public class Auction {
     //    판매완료 여부
     private boolean soldOut;
 
-    public Auction(String seller,String sellerSid, String productName, Long price, String text, Date date) {
+    public Auction(String seller,String sellerSid, String productName, int price, String text, Date date) {
         this.seller = seller;
         this.productName = productName;
         this.price = price;

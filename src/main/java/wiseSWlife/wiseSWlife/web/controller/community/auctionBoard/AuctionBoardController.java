@@ -12,6 +12,7 @@ import wiseSWlife.wiseSWlife.domain.community.auction.Auction;
 import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.auctionBoardRepository.AuctionBoardRepository;
 import wiseSWlife.wiseSWlife.web.controller.community.auctionBoard.form.AuctionSellForm;
 import wiseSWlife.wiseSWlife.web.controller.community.freeBoard.form.FreeBoardCommentForm;
+import wiseSWlife.wiseSWlife.web.controller.community.freeBoard.form.FreeBoardPostForm;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -48,12 +49,13 @@ public class AuctionBoardController {
             return "community/auctionBoard/AuctionSell";
         }
         //post success logic
-        auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), Long.valueOf(sellForm.getPrice()), sellForm.getText(), new Date()));
+        auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), sellForm.getPrice(), sellForm.getText(), new Date()));
         return "redirect:/community/auctionBoard";
     }
 
     @GetMapping("community/auctionBoard/{auctionSeq}")
     public String requestAuctionBoard(@PathVariable("auctionSeq")Long auctionSeq,
+                                      @SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY, required = false)SessionForm sessionForm,
                                       Model model) {
 
         Optional<Auction> findAuction = auctionBoardRepository.findAuctionBySeq(auctionSeq);
@@ -64,7 +66,60 @@ public class AuctionBoardController {
 
         //success logic
         model.addAttribute("auctionBoard", findAuction.get());
+        model.addAttribute("sessionSid", sessionForm.getSid());
         return "community/auctionBoard/RequestAuctionBoard";
 
+    }
+
+    @GetMapping("/community/auctionBoard/update/{auctionSeq}")
+    public String requestAuctionUpdate(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY) SessionForm form,
+                                       @PathVariable("auctionSeq")Long auctionSeq,
+                                       Model model) {
+        Optional<Auction> findAuction = auctionBoardRepository.findAuctionBySeq(auctionSeq);
+        if(findAuction.isEmpty()){
+            return "redirect:/community/auctionBoard";
+        }
+        Auction pastAuction = findAuction.get();
+
+        model.addAttribute("auctionSellForm",new AuctionSellForm(pastAuction.getSeller(),pastAuction.getProductName(),pastAuction.getText(), Math.toIntExact(pastAuction.getPrice())));
+        return "community/auctionBoard/AuctionUpdate";
+    }
+
+    @PostMapping ("/community/auctionBoard/update/{auctionSeq}")
+    public String AuctionUpdate(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY) SessionForm sessionForm,
+                                @PathVariable("auctionSeq")Long auctionSeq,
+                                @Valid @ModelAttribute("auctionSellForm")AuctionSellForm updatedAuction, BindingResult bindingResult) {
+        Optional<Auction> findAuction = auctionBoardRepository.findAuctionBySeq(auctionSeq);
+        if(findAuction.isEmpty()){
+            return "redirect:/community/auctionBoard";
+        }
+        if(bindingResult.hasErrors()){
+            return "community/auctionBoard/AuctionUpdate";
+        }
+
+        Auction auction = findAuction.get();
+        if (sessionForm.getSid().equals(auction.getSellerSid())) {
+            auction.setProductName(updatedAuction.getProductName());
+            auction.setPrice(updatedAuction.getPrice());
+            auction.setText(updatedAuction.getText());
+            auction.setSeller(updatedAuction.getSeller());
+            auction.setDate(new Date());
+
+        }
+        return "redirect:/community/auctionBoard/" + auctionSeq;
+    }
+
+    @GetMapping("/community/auctionBoard/remove/{auctionSeq}")
+    public String auctionRemove(@PathVariable("auctionSeq") Long auctionSeq,
+                                @SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY, required = false) SessionForm sessionForm) {
+        Optional<Auction> findAuction = auctionBoardRepository.findAuctionBySeq(auctionSeq);
+
+        if(findAuction.isEmpty()){
+            return "redirect:/community/auctionBoard";
+        }
+        if(findAuction.get().getSellerSid().equals(sessionForm.getSid())){
+            auctionBoardRepository.removeAuction(auctionSeq);
+        }
+        return "redirect:/community/auctionBoard";
     }
 }
