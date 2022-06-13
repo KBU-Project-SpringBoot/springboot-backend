@@ -29,6 +29,6 @@ public class initData {
         freeBoardRepository.save(new FreeBoard("201604009", "익명","영졸 기간이 언제인가요?", "영졸 시작 기간은?"));
 
         //init community auctionBoard
-        auctionBoardRepository.save(new Auction("김지용", "201604009","소주", 12000L, "아끼던거 팜", null));
+        auctionBoardRepository.save(new Auction("김지용", "201604009","웹 시스템 개발 교재", 12000, "아끼던거 팜", null));
     }
 }

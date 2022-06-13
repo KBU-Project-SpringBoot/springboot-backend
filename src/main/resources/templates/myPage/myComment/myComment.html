@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+
+</head>
+<body>
+<hr class="my-4">
+<div class="container" style="max-width: 600px">
+
+    <div class="row">
+
+        <div class="col" th:if="${sessionForm!=null}" >
+            <h5 style="text-align: right;" th:text="|${sessionForm.name} 님|">로그인 사용자 이름</h5>
+            <button class="btn btn-secondary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/logout}'|" type="button">로그아웃</button>
+        </div>
+    </div>
+
+    <div class="py-5 text-center">
+
+        <h2 style="text-align: left;"><img width="190" style="float: left;" src="/img/duck.gif">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Community</h2>
+
+        <br>
+        <br>
+        <h4 style="text-align: left;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp내가 작성한 댓글</h4>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col">
+
+            <br>
+
+        </div>
+
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <h2>[자유 게시판 댓글]</h2>
+                <thead>
+                <tr>
+                    <th th:text="#{label.freeBoard.num}">번호</th>
+                    <th th:text ="#{label.freeBoard.title}">댓글</th>
+                    <th th:text="#{label.freeBoard.questionMember}">닉네임</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each ="comment : ${freeBoardComments}">
+                    <td><a href="item.html" th:href="@{/community/freeBoard/{freeBoardSeq}(freeBoardSeq=${comment.freeBoardSeq})}" th:text="${comment.freeBoardCommentSeq}">1</a></td>
+                    <td><a href="item.html" th:href="@{/community/freeBoard/{freeBoardSeq}(freeBoardSeq=${comment.freeBoardSeq})}" th:text="${comment.freeBoardComment}">로그인이 안되요</a></td>
+                    <td th:text="${comment.freeBoardCommentNickName}">질문자A </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col">
+
+            <button class="btn btn-secondary "
+                    style="width: 100%;"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/myPage}'|" type="button">MyPage</button>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>

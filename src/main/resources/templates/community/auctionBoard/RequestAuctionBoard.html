@@ -87,19 +87,39 @@
 
     </div>
 
-    <br>
-
+    <div th:if="${sessionSid == auctionBoard.sellerSid}">
         <hr class="my-4">
         <div class="row">
+            <div class="col">
 
+                <button class="w-100 btn btn-primary btn-lg"
+                        onclick="location.href='items.html'"
+                        th:onclick="|location.href='@{/community/auctionBoard/update/{auctionBoardSeq}(auctionBoardSeq=${auctionBoard.auctionSeq})}'|"
+                        type="button">게시글 수정</button>
+            </div>
             <div class="col">
 
                 <button class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='items.html'"
-                        th:onclick="|location.href='@{/community/auctionBoard}'|"
-                        type="button">목록으로</button>
+                        th:onclick="|location.href='@{/community/auctionBoard/remove/{auctionBoardSeq}(auctionBoardSeq=${auctionBoard.auctionSeq})}'|"
+                        type="button">게시글 삭제</button>
             </div>
         </div>
+    </div>
+
+
+    <br>
+
+    <div class="row">
+
+        <div class="col">
+
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/community/auctionBoard}'|"
+                    type="button">목록으로</button>
+        </div>
+    </div>
 
     </form>
 </div> <!-- /container -->

@@ -68,6 +68,26 @@
 
     </div>
 
+    <div th:if="${sessionSid == freeBoard.freeBoardSid}">
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/community/freeBoard/update/{freeBoardSeq}(freeBoardSeq=${freeBoard.freeBoardSeq})}'|"
+                    type="button">게시글 수정</button>
+        </div>
+        <div class="col">
+
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/community/freeBoard/remove/{freeBoardSeq}(freeBoardSeq=${freeBoard.freeBoardSeq})}'|"
+                    type="button">게시글 삭제</button>
+        </div>
+    </div>
+    </div>
+
     <br>
 
     <div>
@@ -79,6 +99,7 @@
             <tr>
                 <th>댓글</th>
                 <th>글쓴이</th>
+                <th></th>
             </tr>
             </thead>
 
@@ -86,6 +107,13 @@
             <tr th:each ="comment : ${commentList}" th:if="${commentList!=null}">
                 <td th:text="${comment.freeBoardComment}">알아서 하세요 </td>
                 <td th:text="${comment.freeBoardCommentNickName}">질문자A </td>
+                <td th:if="${comment.freeBoardCommentSid == sessionSid }" >
+                    <button class="w-100 btn btn-secondary btn-lg"
+                                    onclick="location.href='items.html'"
+                                    th:onclick="|location.href='@{/community/freeBoard/removeComment/{freeBoardSeq}/{freeBoardCommentSeq}(freeBoardSeq=${freeBoard.freeBoardSeq},freeBoardCommentSeq=${comment.freeBoardCommentSeq})}'|"
+                                    style="padding: 0.11rem 0.11px;"
+                                    type="button">댓글 삭제</button>
+                </td>
             </tr>
             </tbody>
         </table>
