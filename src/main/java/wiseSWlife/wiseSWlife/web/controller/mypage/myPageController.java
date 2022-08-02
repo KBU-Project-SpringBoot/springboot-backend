@@ -6,11 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import wiseSWlife.wiseSWlife.config.session.SessionConst;
-import wiseSWlife.wiseSWlife.config.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.auctionBoardRepository.AuctionBoardRepository;
-import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.freeBoardRepository.FreeBoardCommentRepository;
-import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.freeBoardRepository.FreeBoardRepository;
+import wiseSWlife.wiseSWlife.global.session.SessionConst;
+import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
+import wiseSWlife.wiseSWlife.db.repository.communityRepository.auctionBoardRepository.AuctionBoardRepository;
+import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardCommentRepository;
+import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardRepository;
 
 @Slf4j
 @Controller

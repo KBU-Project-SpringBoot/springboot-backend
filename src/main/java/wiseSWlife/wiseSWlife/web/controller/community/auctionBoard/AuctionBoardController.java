@@ -6,13 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import wiseSWlife.wiseSWlife.config.session.SessionConst;
-import wiseSWlife.wiseSWlife.config.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.domain.community.auction.Auction;
-import wiseSWlife.wiseSWlife.domain.repositoryInterface.communityRepository.auctionBoardRepository.AuctionBoardRepository;
-import wiseSWlife.wiseSWlife.web.controller.community.auctionBoard.form.AuctionSellForm;
-import wiseSWlife.wiseSWlife.web.controller.community.freeBoard.form.FreeBoardCommentForm;
-import wiseSWlife.wiseSWlife.web.controller.community.freeBoard.form.FreeBoardPostForm;
+import wiseSWlife.wiseSWlife.global.session.SessionConst;
+import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
+import wiseSWlife.wiseSWlife.model.community.auction.Auction;
+import wiseSWlife.wiseSWlife.db.repository.communityRepository.auctionBoardRepository.AuctionBoardRepository;
+import wiseSWlife.wiseSWlife.model.community.auction.form.AuctionSellForm;
 
 import javax.validation.Valid;
 import java.util.Date;
