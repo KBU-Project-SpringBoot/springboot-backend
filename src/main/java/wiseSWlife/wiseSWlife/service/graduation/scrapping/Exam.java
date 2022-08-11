@@ -14,7 +14,6 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class Exam {
-
     public Map<String, Boolean> scrapping(String intCookie) throws IOException, InterruptedException {
         String command = "C:\\Users\\User\\PycharmProjects\\pythonProjectVenv\\venv\\Scripts\\python.exe"; //명령어
         String arg1 = "C:\\Users\\User\\PycharmProjects\\pythonProjectVenv\\Wife_SW_Life\\login.py";//인지
@@ -41,24 +40,32 @@ public class Exam {
         }
 
         String testLine = br.readLine();
-
         GsonBuilder builder1 = new GsonBuilder();
         builder1.setPrettyPrinting();
         Gson gson = builder1.create();
 
         ExamTable examTable = gson.fromJson(testLine,ExamTable.class);
+        Map<String, Boolean> examMap = examParsing(examTable);
 
+        return examMap;
+    }
+
+    private Map<String, Boolean> examParsing(ExamTable examTable) {
         Map<String, Boolean> examMap = new HashMap<>();
+        String[] subjects = {"성경", "영어", "컴퓨터", "컴퓨터2"};
+
+        for(String i : subjects){
+            examMap.put(i, false);
+        }
 
         for(ArrayList i:examTable.getBody()){
-            if(i.get(4).equals("합격자 신청 불가")){
-                examMap.put(i.get(2).toString(),true);
+            if(i.get(4).equals("합격")){
+                examMap.put(i.get(1).toString(),true);
             }
             else{
-                examMap.put(i.get(2).toString(),false);
+                examMap.put(i.get(1).toString(),false);
             }
         }
         return examMap;
     }
-
 }
