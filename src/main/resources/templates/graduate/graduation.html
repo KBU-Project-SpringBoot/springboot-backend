@@ -91,6 +91,46 @@
     <div>
         남은 학점 : <span th:text="|${bcrForm.bibleStudy + bcrForm.conduction + ((bcrForm.wheatGrain == 'true')? 1 : 0)}학점|"></span>
     </div>
+    <br>
+    <br>
+
+    <h1>전공</h1>
+    <h2>기초 + 필수</h2>
+    <div>
+        미래설계상담 : <span th:text="|${8 - majorForm.futureDesign}개의 수업이 남았습니다.|"></span>
+    </div>
+    <div>
+        수강한 과목 : <th:block th:each="majorForms : ${majorForm.majorBeginAndRequirementArr}">
+        <span th:text="|${majorForms}, |"></span>
+    </th:block>
+    </div>
+    <div>
+        이수 학점 : <span th:text="|${majorForm.majorRequirement} 점|"></span>
+    </div>
+    <div>
+        잔여 학점 : <span th:if="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|${majorForm.totalMajorRequirement - majorForm.majorRequirement} 점|"></span>
+        <span th:unless="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="전공학점통과"></span>
+    </div>
+    <br>
+
+    <h2>선택</h2>
+    <div>
+        수강한 과목 : <th:block th:each="majorForms : ${majorForm.majorSelectArr}">
+        <span th:text="|${majorForms}, |"></span>
+    </th:block>
+    <div>
+        이수 학점 : <span th:text="|${majorForm.commonMajor - majorForm.majorRequirement} 점|"></span>
+    </div>
+    <br>
+
+    <h2>전공 합산</h2>
+    <div>
+        총 이수 학점 : <span th:text="|${majorForm.commonMajor} 점|"></span>
+    </div>
+        <div>
+            잔여 학점 : <span th:if="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|${majorForm.totalCommonMajor - majorForm.commonMajor} 점|"></span>
+            <span th:unless="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="전공학점통과"></span>
+        </div>
 
     <br>
 

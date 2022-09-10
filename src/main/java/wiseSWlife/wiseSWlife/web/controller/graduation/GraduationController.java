@@ -12,6 +12,7 @@ import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.model.graduation.form.BCRForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
+import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.ParsingBCR;
 import wiseSWlife.wiseSWlife.service.graduation.scrapping.Exam;
 import wiseSWlife.wiseSWlife.service.graduation.scrapping.TotalAcceptanceStatus;
@@ -49,6 +50,9 @@ public class GraduationController {
 
         BCRForm bcrForm = parsingBCR.getStudy(totalAcceptanceStatusTable.getBody().get("기초공통필수"));
         model.addAttribute("bcrForm", bcrForm);
+
+        MajorForm majorForm = standard2017.checkMajor(totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
+        model.addAttribute("majorForm", majorForm);
 
 
         if(sid.equals("2017")){
