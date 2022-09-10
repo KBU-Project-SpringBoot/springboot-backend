@@ -13,10 +13,10 @@ import wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard;
 public class Standard2017 implements Standard {
 
     @Value("${totalCredit.2017}")
-    String totalCredit;
+    String totalCredit;//졸업학점
 
     @Value("${totalGPA.2017}")
-    String totalGPA;
+    String totalGPA;//졸업기준 평균평점
 
     @Override
     public CreditForm percentageGraduationCredit(int myCredit){

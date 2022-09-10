@@ -68,6 +68,29 @@
         통과여부 : <span th:text="${gpaForm.passGPA}"></span>
     </div>
 
+    <br>
+    <br>
+
+    <h1>기초 공통 필수</h1>
+    <div>
+        채플 : <span th:text="|${bcrForm.chapel}개의 수업이 남았습니다.|"></span>
+    </div>
+    <div>
+        전도훈련 : <span th:text="|${bcrForm.conduction}개의 수업이 남았습니다.|"></span>
+    </div>
+    <div>
+        성서적세계관 : <span th:text="|${bcrForm.bibleStudy}개의 수업이 남았습니다.|"></span>
+    </div>
+    <div>
+        밀알 : <span th:if="${bcrForm.wheatGrain.toString() == 'true'}" th:text="이수"></span>
+        <span th:if="${bcrForm.wheatGrain.toString() == 'false'}" th:text="미이수"></span>
+    </div>
+    <div>
+        이수 학점 : <span th:text="|${15 - bcrForm.bibleStudy - bcrForm.conduction - ((bcrForm.wheatGrain == 'true')? 1 : 0)}학점|"></span>
+    </div>
+    <div>
+        남은 학점 : <span th:text="|${bcrForm.bibleStudy + bcrForm.conduction + ((bcrForm.wheatGrain == 'true')? 1 : 0)}학점|"></span>
+    </div>
 
     <br>
 
