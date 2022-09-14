@@ -3,6 +3,7 @@ package wiseSWlife.wiseSWlife.service.graduation.scrapping;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 
@@ -14,11 +15,17 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class Exam {
-    public Map<String, Boolean> scrapping(String intCookie) throws IOException, InterruptedException {
-        String command = "C:\\Users\\User\\PycharmProjects\\pythonProjectVenv\\venv\\Scripts\\python.exe"; //명령어
-        String arg1 = "C:\\Users\\User\\PycharmProjects\\pythonProjectVenv\\Wife_SW_Life\\login.py";//인지
+    @Value("${python.engine}")
+    String pythonEngine;
 
-        File testFile = new File(arg1);
+    @Value("${python.file}")
+    String pythonFile;
+
+    @Value("${python.encoding}")
+    String pythonEncoding;
+
+    public Map<String, Boolean> scrapping(String intCookie) throws IOException, InterruptedException {
+        File testFile = new File(pythonFile);
         FileWriter fw = new FileWriter(testFile);
         fw.write("import asyncio\n" + "\n");
         fw.write("from biblebot import IntranetAPI\n" + "\n");
@@ -31,10 +38,10 @@ public class Exam {
         fw.flush();
         fw.close();
 
-        ProcessBuilder builder = new ProcessBuilder(command, arg1);
+        ProcessBuilder builder = new ProcessBuilder(pythonEngine, pythonFile);
         Process process = builder.start();
         int exitVal = process.waitFor();//자식 프로세스가 종료될 때까지 기다림
-        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), "euc-kr")); // 서브 프로세스가 출력하는 내용을 받기 위해
+        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), pythonEncoding)); // 서브 프로세스가 출력하는 내용을 받기 위해
         if(exitVal != 0) {//비정상적으로 종료시
             System.out.println("서브 프로세스가 비정상 종료되었습니다.");
         }

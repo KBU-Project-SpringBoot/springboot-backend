@@ -2,6 +2,7 @@ package wiseSWlife.wiseSWlife.service.graduation.standardImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
+@PropertySource("graduation.properties")
 public class Standard2017 implements Standard {
 
     @Value("${totalCredit.2017}")
@@ -21,10 +23,10 @@ public class Standard2017 implements Standard {
     @Value("${totalGPA.2017}")
     String totalGPA;//졸업기준 평균평점
 
-    @Value("24")
+    @Value("${totalMajorRequirement.2017}")
     String totalMajorRequirement;//전공필수 총학점
 
-    @Value("66")
+    @Value("${totalCommonMajor.2017}")
     String totalCommonMajor;//기본전공 총학점
 
     @Override
