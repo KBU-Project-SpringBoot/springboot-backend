@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
-import wiseSWlife.wiseSWlife.model.graduation.form.BCRForm;
-import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
-import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
-import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
+import wiseSWlife.wiseSWlife.model.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.ParsingBCR;
 import wiseSWlife.wiseSWlife.service.graduation.scrapping.Exam;
 import wiseSWlife.wiseSWlife.service.graduation.scrapping.TotalAcceptanceStatus;
@@ -48,12 +45,14 @@ public class GraduationController {
         System.out.println("너는 허허 : " + totalAcceptanceStatusTable);
 
 
-        BCRForm bcrForm = parsingBCR.getStudy(totalAcceptanceStatusTable.getBody().get("기초공통필수"));
+        BCRForm bcrForm = parsingBCR.getStudy(totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
 
         MajorForm majorForm = standard2017.checkMajor(totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
         model.addAttribute("majorForm", majorForm);
 
+        RefinementForm refinementForm = standard2017.checkRefinement(totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        model.addAttribute("refinementForm", refinementForm);
 
         if(sid.equals("2017")){
             CreditForm creditForm = standard2017.percentageGraduationCredit(Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));

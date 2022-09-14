@@ -109,7 +109,7 @@
     </div>
     <div>
         잔여 학점 : <span th:if="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|${majorForm.totalMajorRequirement - majorForm.majorRequirement} 점|"></span>
-        <span th:unless="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="전공학점통과"></span>
+        <span th:unless="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|0 점|"></span>
     </div>
     <br>
 
@@ -118,21 +118,83 @@
         수강한 과목 : <th:block th:each="majorForms : ${majorForm.majorSelectArr}">
         <span th:text="|${majorForms}, |"></span>
     </th:block>
+    </div>
     <div>
         이수 학점 : <span th:text="|${majorForm.commonMajor - majorForm.majorRequirement} 점|"></span>
     </div>
+
     <br>
 
     <h2>전공 합산</h2>
     <div>
         총 이수 학점 : <span th:text="|${majorForm.commonMajor} 점|"></span>
     </div>
-        <div>
-            잔여 학점 : <span th:if="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|${majorForm.totalCommonMajor - majorForm.commonMajor} 점|"></span>
-            <span th:unless="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="전공학점통과"></span>
-        </div>
+    <div>
+        잔여 학점 : <span th:if="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|${majorForm.totalCommonMajor - majorForm.commonMajor} 점|"></span>
+        <span th:unless="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|0 점|"></span>
+    </div>
 
     <br>
+    <br>
+
+    <h2>교양</h2>
+    <div>
+        수강한 과목 : <th:block th:each="refinementForms : ${refinementForm.refinementArr}">
+        <span th:text="|${refinementForms}, |"></span>
+    </th:block>
+    </div>
+    <div>
+        이수 학점 : <span th:text="|${refinementForm.refinement} 점|"></span>
+    </div>
+    <div>
+        잔여 학점 : <span th:if="${refinementForm.totalRefinement - refinementForm.refinement > 0}" th:text="|${refinementForm.totalRefinement - refinementForm.refinement} 점|"></span>
+        <span th:unless="${refinementForm.totalRefinement - refinementForm.refinement > 0}" th:text="|0 점|"></span>
+    </div>
+
+    <br>
+    <br>
+
+    <h2>영어</h2>
+    <div>
+        수강한 과목 : <th:block th:each="refinementForms : ${refinementForm.EnglishArr}">
+        <span th:text="|${refinementForms}, |"></span>
+    </th:block>
+    </div>
+    <div>
+        이수 학점 : <span th:text="|${refinementForm.english} 점|"></span>
+    </div>
+    <div>
+        잔여 학점 : <span th:if="${refinementForm.totalEnglish - refinementForm.english > 0}" th:text="|${refinementForm.totalEnglish - refinementForm.english} 점|"></span>
+        <span th:unless="${refinementForm.totalEnglish - refinementForm.english > 0}" th:text="|0 점|"></span>
+    </div>
+
+
+    <br>
+    <br>
+
+    <h2>기초 교양 수업</h2>
+    <div>
+        이수 학점 : <span th:text="|${refinementForm.basicClass} 점|"></span>
+    </div>
+    <div>
+        잔여 학점 : <span th:if="${refinementForm.totalBasicClass - refinementForm.basicClass > 0}" th:text="|${refinementForm.totalBasicClass - refinementForm.basicClass} 점|"></span>
+        <span th:unless="${refinementForm.totalBasicClass - refinementForm.basicClass > 0}" th:text= "|0 점|"></span>
+    </div>
+
+    <br>
+    <br>
+
+    <h2>대학생활과 자기개발</h2>
+    <div>
+        대학생활과 자기개발 : <span th:if="${refinementForm.collegeLifeAndSelfDevelopment.toString() == 'true'}" th:text="이수"></span>
+        <span th:if="${refinementForm.collegeLifeAndSelfDevelopment.toString() == 'false'}" th:text="미이수"></span>
+    </div>
+
+    <br>
+    <br>
+
+
+
 
     <div class="row">
         <div class="col">
