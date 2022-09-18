@@ -39,6 +39,10 @@
 
     </div>
 
+    <div style="text-align: center" th:if="${auctionBoard.imgUrl !=null }">
+    <img th:src="|/images/${auctionBoard.imgUrl}|" width="300" height="300" align="center">
+    </div>
+
     <div>
 
         <label for="productName">상품명</label>
