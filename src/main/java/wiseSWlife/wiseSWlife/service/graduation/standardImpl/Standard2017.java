@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
+import wiseSWlife.wiseSWlife.model.graduation.form.RefinementForm;
 import wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard;
 
 import java.util.ArrayList;
@@ -28,6 +29,15 @@ public class Standard2017 implements Standard {
 
     @Value("${totalCommonMajor.2017}")
     String totalCommonMajor;//기본전공 총학점
+
+    @Value("${totalEnglish.2017}")
+    String totalEnglish;//영어 총학점
+
+    @Value("${totalBasicClass.2017}")
+    String totalBasicClass;//학글 같은 기초수업 총학점
+
+    @Value("${totalRefinement.2017}")
+    String totalRefinement;//교양선택 총학점
 
     @Override
     public CreditForm percentageGraduationCredit(int myCredit){
@@ -80,4 +90,35 @@ public class Standard2017 implements Standard {
 
         return majorForm;
     }
+
+    @Override
+    public RefinementForm checkRefinement(ArrayList<String>[] myRefinementSelect, ArrayList<String>[] myRefinementRequirement){
+        int myRefinementCnt = 0;
+        ArrayList<String> myRefinementArr = new ArrayList<>();
+        int myEnglishCnt = 0;
+        ArrayList<String> myEnglishArr = new ArrayList<>();
+        int myBasicClassCnt = 0;
+        boolean myCollegeLifeAndSelfDevelopment = false;
+
+        for(ArrayList<String> i : myRefinementSelect){
+            myRefinementCnt += Integer.parseInt(i.get(1));
+            myRefinementArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
+        }
+
+        for(ArrayList<String> i : myRefinementRequirement){
+            if(i.get(0).contains("영어")){
+                myEnglishCnt += Integer.parseInt(i.get(1));
+                myEnglishArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
+            }else if(i.get(0).contains("학술적글쓰기") || i.get(0).contains("글쓰기의기초") || i.get(0).contains("사고와표현")){
+                myBasicClassCnt += Integer.parseInt(i.get(1));
+            }else if(i.get(0).contains("대학생활과자기계발")){
+                myCollegeLifeAndSelfDevelopment = true;
+            }
+        }
+
+        RefinementForm refinementForm = new RefinementForm(Integer.parseInt(totalRefinement), myRefinementArr, myRefinementCnt, Integer.parseInt(totalEnglish), myEnglishArr, myEnglishCnt, Integer.parseInt(totalBasicClass), myBasicClassCnt, myCollegeLifeAndSelfDevelopment);
+
+        return refinementForm;
+    }
+
 }
