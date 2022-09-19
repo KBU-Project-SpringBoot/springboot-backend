@@ -2,15 +2,16 @@ package wiseSWlife.wiseSWlife.global.initData;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import wiseSWlife.wiseSWlife.db.repository.imgRepository.ImgRepository;
 import wiseSWlife.wiseSWlife.model.community.auction.Auction;
 import wiseSWlife.wiseSWlife.model.community.freeBoard.FreeBoard;
 import wiseSWlife.wiseSWlife.model.community.freeBoard.FreeBoardComment;
+import wiseSWlife.wiseSWlife.model.img.ImgItem;
 import wiseSWlife.wiseSWlife.model.member.Member;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.auctionBoardRepository.AuctionBoardRepository;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardCommentRepository;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardRepository;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
-
 import javax.annotation.PostConstruct;
 import java.util.Date;
 
@@ -21,6 +22,7 @@ public class initData {
     private final FreeBoardRepository freeBoardRepository;
     private final FreeBoardCommentRepository freeBoardCommentRepository;
     private final AuctionBoardRepository auctionBoardRepository;
+    private final ImgRepository imgRepository;
 
     @PostConstruct
     public void init(){
@@ -45,11 +47,17 @@ public class initData {
         freeBoardCommentRepository.save(new FreeBoardComment("201504009",2L,"감자튀김",new Date(),"햄벅 추천"));
 
 
+        //init img save
+        ImgItem img1 = imgRepository.save(new ImgItem("웹교제","111.png"));
+        ImgItem img2 = imgRepository.save(new ImgItem("마우스","222.png"));
+        ImgItem img3 = imgRepository.save(new ImgItem("맥북","333.png"));
+        ImgItem img4 = imgRepository.save(new ImgItem("치약","444.png"));
+
         //init community auctionBoard
-        auctionBoardRepository.save(new Auction("박수홍", "201304009","웹 시스템 개발 교재", 10000, "웹 시스템 교재 판매 합니다~", null));
-        auctionBoardRepository.save(new Auction("황종민", "201204009","내 절친 마우스", 17000, "아끼던거 팜", null));
-        auctionBoardRepository.save(new Auction("박희준", "201104009","맥북 판매", 0, "선 제시", null));
-        auctionBoardRepository.save(new Auction("김지용", "201004009","치약", 500, "딸기맛 치약 입니다", null));
+        auctionBoardRepository.save(new Auction("박수홍", "201304009","웹 시스템 개발 교재", 10000,img1.getStoreImgName(), "웹 시스템 교재 판매 합니다~", null));
+        auctionBoardRepository.save(new Auction("황종민", "201204009","내 절친 마우스", 17000,img2.getStoreImgName(), "아끼던거 팜", null));
+        auctionBoardRepository.save(new Auction("박희준", "201104009","맥북 판매", 0,img3.getStoreImgName(), "선 제시", null));
+        auctionBoardRepository.save(new Auction("김지용", "201004009","치약", 500, img4.getStoreImgName(),"딸기맛 치약 입니다", null));
 
 
     }

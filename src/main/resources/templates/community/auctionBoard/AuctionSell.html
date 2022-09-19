@@ -39,7 +39,7 @@
 
     </div>
 
-    <form action="item.html" th:action th:object="${auctionSellForm}" method="post">
+    <form action="item.html" th:action th:object="${auctionSellForm}" method="post" enctype="multipart/form-data">
         <div>
 
             <div th:if="${#fields.hasGlobalErrors()}">
@@ -83,6 +83,16 @@
                 상품 설명 오류
             </div>
 
+        </div>
+
+        <div>
+
+            <label for="img">상품 이미지</label>
+            <input type="file" id="img" th:field="*{img}"  class="form-control"
+                   th:errorclass="field-error" placeholder="이미지를 선택하세요" >
+            <div class="field-error" th:errors="*{img}">
+                판매자 오류
+            </div>
         </div>
 
         <div>
