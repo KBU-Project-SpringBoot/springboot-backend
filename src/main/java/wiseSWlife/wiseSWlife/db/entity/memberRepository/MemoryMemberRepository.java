@@ -22,7 +22,7 @@ public class MemoryMemberRepository implements MemberRepository {
     public Member update(Member member){
         Member findMember = store.get(member.getSid());
 
-        findMember.setIntCookie(member.getSid());
+        findMember.setIntCookie(member.getIntCookie());
 
         return findMember;
     }
