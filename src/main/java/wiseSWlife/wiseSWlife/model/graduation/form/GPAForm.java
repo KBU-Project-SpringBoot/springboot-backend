@@ -11,6 +11,4 @@ public class GPAForm {
     private double standardGPA;
 
     private double myGPA;
-
-    private String passGPA;
 }
