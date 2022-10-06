@@ -5,8 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
-@Data @Setter @Getter
+@AllArgsConstructor @Setter @Getter
 public class GPAForm {
     private double standardGPA;
 

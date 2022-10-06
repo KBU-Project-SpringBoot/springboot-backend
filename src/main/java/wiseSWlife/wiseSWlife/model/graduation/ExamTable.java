@@ -1,18 +1,17 @@
 package wiseSWlife.wiseSWlife.model.graduation;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 
-@AllArgsConstructor
-@Data @Setter @Getter
+@RequiredArgsConstructor @Setter @Getter
 public class ExamTable {
 
+    @NotNull
     private ArrayList<String> head;
 
+    @NotNull
     private ArrayList<String>[] body;
 
 }

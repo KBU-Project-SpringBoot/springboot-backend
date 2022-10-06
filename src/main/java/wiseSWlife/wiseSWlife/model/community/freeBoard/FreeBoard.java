@@ -7,8 +7,6 @@ import lombok.Setter;
 import java.util.Date;
 
 @Data
-@Getter
-@Setter
 public class FreeBoard {
     /**
      * ==자유 게시판==

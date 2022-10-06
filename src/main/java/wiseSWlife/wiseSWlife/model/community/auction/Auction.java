@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.Date;
 
 @Data
-@Getter @Setter
 public class Auction {
 
     //    판매 번호
