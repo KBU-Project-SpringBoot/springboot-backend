@@ -51,9 +51,7 @@ public class Standard2017 implements Standard {
 
     @Override
     public GPAForm percentageGradationGPA(double myGPA){
-        String resultGPA = (myGPA > Double.parseDouble(totalGPA)) ? "공부를 열심히 하셨네요!" : "공부를 얼마나 안한거야...?";
-
-        GPAForm gpaForm = new GPAForm(Double.parseDouble(totalGPA), myGPA,resultGPA);
+        GPAForm gpaForm = new GPAForm(Double.parseDouble(totalGPA), myGPA);
 
         return gpaForm;
     }

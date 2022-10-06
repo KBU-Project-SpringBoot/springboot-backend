@@ -69,9 +69,6 @@ public class Exam {
             if(i.get(4).equals("합격")){
                 examMap.put(i.get(1).toString(),true);
             }
-            else{
-                examMap.put(i.get(1).toString(),false);
-            }
         }
         return examMap;
     }

@@ -3,11 +3,12 @@
 <head>
 
     <meta charset="utf-8">
-    <link href="../css/bootstrap.min.css" rel="stylesheet"
-          th:href="@{/css/bootstrap.min.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <hr class="my-4">
 <div class="container" style="max-width: 600px">
 
@@ -21,178 +22,530 @@
         </div>
     </div>
 
-    <h1>졸업고사</h1>
-    <div>
-        영어 : <span th:if="${examMap['영어'].toString() == 'true'}" th:text="합격"></span>
-              <span th:if="${examMap['영어'].toString() == 'false'}" th:text="불합격"></span>
-    </div>
-    <div>
-        성경 : <span th:if="${examMap['성경'].toString() == 'true'}" th:text="합격"></span>
-        <span th:if="${examMap['성경'].toString() == 'false'}" th:text="불합격"></span>
-    </div>
-    <div>
-        컴퓨터 : <span th:if="${examMap['컴퓨터'].toString() == 'true'}" th:text="합격"></span>
-        <span th:if="${examMap['컴퓨터'].toString() == 'false'}" th:text="불합격"></span>
-    </div>
-    <div>
-        컴퓨터2 : <span th:if="${examMap['컴퓨터2'].toString()} == 'false' and ${sessionForm.major} == '컴퓨터소프트웨어학과'" th:text="해당없음"></span>
-        <span th:if="${examMap['컴퓨터2'].toString()} == 'true' and ${sessionForm.major} != '컴퓨터소프트웨어학과'" th:text="합격"></span>
-        <span th:if="${examMap['컴퓨터2'].toString()} == 'false' and ${sessionForm.major} != '컴퓨터소프트웨어학과'" th:text="불합격"></span>
-    </div>
-
-    <br>
     <br>
 
-    <h1>졸업 총 학점</h1>
-    <div>
-        졸업학점 : <span th:text="|${creditForm.standardCredit} 학점|"></span>
-    </div>
-    <div>
-        이수학점 : <span th:text="|${creditForm.myCredit} 학점|"></span>
-    </div>
-    <div>
-        달성률 : <span th:text="|${creditForm.creditPercentage} %|"></span>
-    </div>
+    <div class="row row-cols-1 row-cols-md-1 mb-1 text-center" style="user-select: auto;">
+        <div class="col" style="user-select: auto;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                <div class="card-header py-3" style="user-select: auto;">
+                    <h4 class="my-0 fw-normal" style="user-select: auto;">졸업 총 학점</h4>
+                </div>
+                <div class="card-body" style="user-select: auto;">
+                    <div class="progress">
+                        <div
+                                class="progress-bar"
+                                role="progressbar"
+                                th:style="'width:' + ( ${creditForm.standardCredit} == 0  ? '0' : (${creditForm.myCredit * 1.0} / ${creditForm.standardCredit}) * 100.0 ) + '%;'"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                th:text="|${#numbers.formatInteger((creditForm.standardCredit == 0  ? '0' : (creditForm.myCredit * 1.0 / creditForm.standardCredit) * 100.0), 0)} %|">
+                        </div>
+                    </div>
+                    <div class="card-body" style="user-select: auto;">
+                        <div class="row">
+                            <div class="col">
+                                졸업학점
+                            </div>
+                            <div class="col">
+                                :
+                            </div>
+                            <div class="col">
+                                <span th:text="|${creditForm.standardCredit} 학점|"></span>
+                            </div>
+                        </div>
 
-    <br>
-    <br>
-
-    <h1>졸업 평균 평점</h1>
-    <div>
-        졸업평균평점 : <span th:text="|${gpaForm.standardGPA} 점|"></span>
-    </div>
-    <div>
-        내 평균평점 : <span th:text="|${gpaForm.myGPA} 점|"></span>
-    </div>
-    <div>
-        통과여부 : <span th:text="${gpaForm.passGPA}"></span>
-    </div>
-
-    <br>
-    <br>
-
-    <h1>기초 공통 필수</h1>
-    <div>
-        채플 : <span th:text="|${bcrForm.chapel}개의 수업이 남았습니다.|"></span>
-    </div>
-    <div>
-        전도훈련 : <span th:text="|${bcrForm.conduction}개의 수업이 남았습니다.|"></span>
-    </div>
-    <div>
-        성서적세계관 : <span th:text="|${bcrForm.bibleStudy}개의 수업이 남았습니다.|"></span>
-    </div>
-    <div>
-        밀알 : <span th:if="${bcrForm.wheatGrain.toString() == 'true'}" th:text="이수"></span>
-        <span th:if="${bcrForm.wheatGrain.toString() == 'false'}" th:text="미이수"></span>
-    </div>
-    <div>
-        이수 학점 : <span th:text="|${15 - bcrForm.bibleStudy - bcrForm.conduction - ((bcrForm.wheatGrain == 'true')? 1 : 0)}학점|"></span>
-    </div>
-    <div>
-        남은 학점 : <span th:text="|${bcrForm.bibleStudy + bcrForm.conduction + ((bcrForm.wheatGrain == 'true')? 1 : 0)}학점|"></span>
-    </div>
-    <br>
-    <br>
-
-    <h1>전공</h1>
-    <h2>기초 + 필수</h2>
-    <div>
-        미래설계상담 : <span th:text="|${8 - majorForm.futureDesign}개의 수업이 남았습니다.|"></span>
-    </div>
-    <div>
-        수강한 과목 : <th:block th:each="majorForms : ${majorForm.majorBeginAndRequirementArr}">
-        <span th:text="|${majorForms}, |"></span>
-    </th:block>
-    </div>
-    <div>
-        이수 학점 : <span th:text="|${majorForm.majorRequirement} 점|"></span>
-    </div>
-    <div>
-        잔여 학점 : <span th:if="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|${majorForm.totalMajorRequirement - majorForm.majorRequirement} 점|"></span>
-        <span th:unless="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|0 점|"></span>
+                        <div class="row">
+                            <div class="col">
+                                이수학점
+                            </div>
+                            <div class="col">
+                                :
+                            </div>
+                            <div class="col">
+                                <span th:text="|${creditForm.myCredit} 학점|"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <br>
 
-    <h2>선택</h2>
-    <div>
-        수강한 과목 : <th:block th:each="majorForms : ${majorForm.majorSelectArr}">
-        <span th:text="|${majorForms}, |"></span>
-    </th:block>
-    </div>
-    <div>
-        이수 학점 : <span th:text="|${majorForm.commonMajor - majorForm.majorRequirement} 점|"></span>
+    <div class="row row-cols-1 row-cols-md-2 mb-2 text-center" style="user-select: auto;">
+        <div class="col" style="user-select: auto;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                <div class="card-header py-3" style="user-select: auto;">
+                    <h4 class="my-0 fw-normal" style="user-select: auto;">졸업 평균 평점</h4>
+                </div>
+                <div class="card-body" style="user-select: auto;">
+                    <div class="row">
+                        <div class="col-6">
+                            졸업평균평점
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-4">
+                            <span th:text="|${gpaForm.standardGPA} 점|"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            내 평균평점
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-4">
+                            <span th:text="|${gpaForm.myGPA} 점|"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="user-select: auto;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                <div class="card-header py-3" style="user-select: auto;">
+                    <h4 class="my-0 fw-normal" style="user-select: auto;">영어
+                        <button type="button" class = "btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#englishModal">
+                            <i class="bi bi-exclamation-circle"></i>
+                        </button></h4></h4>
+                </div>
+                <div class="card-body" style="user-select: auto;">
+                    <div class="row">
+                        <div class="col-5">
+                            이수 학점
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:text="|${refinementForm.english} 점|"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            잔여 학점
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${refinementForm.totalEnglish - refinementForm.english > 0}" th:text="|${refinementForm.totalEnglish - refinementForm.english} 점|"></span>
+                            <span th:unless="${refinementForm.totalEnglish - refinementForm.english > 0}" th:text="|0 점|"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div class="row row-cols-1 row-cols-md-2 mb-2 text-center" style="user-select: auto;">
+        <div class="col" style="user-select: auto;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                <div class="card-header py-3" style="user-select: auto;">
+                    <h4 class="my-0 fw-normal" style="user-select: auto;">졸업고사</h4>
+                </div>
+                <div class="card-body" style="user-select: auto;">
+                    <div class="row">
+                        <div class="col-5">
+                            영어
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${examMap['영어'].toString() == 'true'}" th:text="합격"></span>
+                            <span th:if="${examMap['영어'].toString() == 'false'}" th:text="불합격"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            성경 :
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${examMap['성경'].toString() == 'true'}" th:text="합격"></span>
+                            <span th:if="${examMap['성경'].toString() == 'false'}" th:text="불합격"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            컴퓨터
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${examMap['컴퓨터'].toString() == 'true'}" th:text="합격"></span>
+                            <span th:if="${examMap['컴퓨터'].toString() == 'false'}" th:text="불합격"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            컴퓨터2
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${examMap['컴퓨터2'].toString()} == 'false' and ${sessionForm.major} == '컴퓨터소프트웨어학과'" th:text="해당없음"></span>
+                            <span th:if="${examMap['컴퓨터2'].toString()} == 'true' and ${sessionForm.major} != '컴퓨터소프트웨어학과'" th:text="합격"></span>
+                            <span th:if="${examMap['컴퓨터2'].toString()} == 'false' and ${sessionForm.major} != '컴퓨터소프트웨어학과'" th:text="불합격"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="user-select: auto;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                <div class="card-header py-3" style="user-select: auto;">
+                    <h4 class="my-0 fw-normal" style="user-select: auto;">기초 공통 필수</h4>
+                </div>
+                <div class="card-body" style="user-select: auto;">
+                    <div class="row">
+                        <div class="col-5">
+                            채플
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:text="|${bcrForm.chapel}번 미이수|"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            전도훈련
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:text="|${bcrForm.conduction}번 미이수|"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            성세
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:text="|${bcrForm.bibleStudy}번 미이수|"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            밀알
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${bcrForm.wheatGrain.toString() == 'true'}" th:text="이수"></span>
+                            <span th:if="${bcrForm.wheatGrain.toString() == 'false'}" th:text="미이수"></span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            대학생활과 자기개발
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${refinementForm.collegeLifeAndSelfDevelopment.toString() == 'true'}" th:text="이수"></span>
+                            <span th:if="${refinementForm.collegeLifeAndSelfDevelopment.toString() == 'false'}" th:text="미이수"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-1 mb-1 text-center" style="user-select: auto;">
+        <div class="col" style="user-select: auto;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                <div class="card-header py-3" style="user-select: auto;">
+                    <h4 class="my-0 fw-normal" style="user-select: auto;">전공</h4>
+                </div>
+                <div class="card-body" style="user-select: auto;">
+                    <div class="progress">
+                        <div
+                                class="progress-bar"
+                                role="progressbar"
+                                th:style="'width:' + ( ${majorForm.totalCommonMajor} == 0  ? '0' : (${majorForm.commonMajor * 1.0} / ${majorForm.totalCommonMajor}) * 100.0 ) + '%;'"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                th:text="|${#numbers.formatInteger((majorForm.totalCommonMajor == 0  ? '0' : (majorForm.commonMajor * 1.0 / majorForm.totalCommonMajor) * 100.0), 0)} %|">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row row-cols-1 row-cols-md-2 mb-2 text-center" style="user-select: auto;">
+                        <div class="col" style="user-select: auto;">
+                            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                                <div class="card-header py-3" style="user-select: auto;">
+                                    <h4 class="my-0 fw-normal" style="user-select: auto;">기초 + 필수
+                                        <button type="button" class = "btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#majorModal1">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                        </button>
+                                    </h4>
+                                </div>
+                                <div class="card-body" style="user-select: auto;">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            미설
+                                        </div>
+                                        <div class="col-2">
+                                            :
+                                        </div>
+                                        <div class="col-5">
+                                            <span th:text="|${8 - majorForm.futureDesign}번 미이수|"></span>                                   </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            이수학점
+                                        </div>
+                                        <div class="col-2">
+                                            :
+                                        </div>
+                                        <div class="col-5">
+                                            <span th:text="|${majorForm.majorRequirement} 점|"></span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            잔여 학점
+                                        </div>
+                                        <div class="col-2">
+                                            :
+                                        </div>
+                                        <div class="col-5">
+                                            <span th:if="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|${majorForm.totalMajorRequirement - majorForm.majorRequirement} 점|"></span>
+                                            <span th:unless="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|0 점|"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" style="user-select: auto;">
+                            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                                <div class="card-header py-3" style="user-select: auto;">
+                                    <h4 class="my-0 fw-normal" style="user-select: auto;">선택
+                                        <button type="button" class = "btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#majorModal2">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                        </button>
+                                    </h4>
+                                </div>
+                                <div class="card-body" style="user-select: auto;">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            이수 학점
+                                        </div>
+                                        <div class="col-2">
+                                            :
+                                        </div>
+                                        <div class="col-5">
+                                            <span th:text="|${majorForm.commonMajor - majorForm.majorRequirement} 점|"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>전공 합산</h3>
+                    <div>
+                        총 이수 학점 : <span th:text="|${majorForm.commonMajor} 점|"></span>
+                    </div>
+                    <div>
+                        잔여 학점 : <span th:if="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|${majorForm.totalCommonMajor - majorForm.commonMajor} 점|"></span>
+                        <span th:unless="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|0 점|"></span>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
 
-    <h2>전공 합산</h2>
-    <div>
-        총 이수 학점 : <span th:text="|${majorForm.commonMajor} 점|"></span>
-    </div>
-    <div>
-        잔여 학점 : <span th:if="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|${majorForm.totalCommonMajor - majorForm.commonMajor} 점|"></span>
-        <span th:unless="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|0 점|"></span>
+    <div class="row row-cols-1 row-cols-md-2 mb-2 text-center" style="user-select: auto;">
+        <div class="col" style="user-select: auto;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                <div class="card-header py-3" style="user-select: auto;">
+                    <h4 class="my-0 fw-normal" style="user-select: auto;">교양
+                        <button type="button" class = "btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#refinementModal">
+                            <i class="bi bi-exclamation-circle"></i>
+                        </button></h4>
+                </div>
+                <div class="card-body" style="user-select: auto;">
+                    <br>
+                    <div class="progress">
+                        <div
+                                class="progress-bar"
+                                role="progressbar"
+                                th:style="'width:' + ( ${refinementForm.totalRefinement} == 0  ? '0' : (${refinementForm.refinement * 1.0} / ${refinementForm.totalRefinement}) * 100.0 ) + '%;'"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                th:text="|${#numbers.formatInteger((refinementForm.totalRefinement == 0  ? '0' : (refinementForm.refinement * 1.0 / refinementForm.totalRefinement) * 100.0), 0)} %|">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-5">
+                            이수 학점
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:text="|${refinementForm.refinement} 점|"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            잔여 학점
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${refinementForm.totalRefinement - refinementForm.refinement > 0}" th:text="|${refinementForm.totalRefinement - refinementForm.refinement} 점|"></span>
+                            <span th:unless="${refinementForm.totalRefinement - refinementForm.refinement > 0}" th:text="|0 점|"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="user-select: auto;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="user-select: auto;">
+                <div class="card-header py-3" style="user-select: auto;">
+                    <h4 class="my-0 fw-normal" style="user-select: auto;">학술적 글쓰기</h4>
+                </div>
+                <div class="card-body" style="user-select: auto;">
+                    <br>
+                    <div class="progress">
+                        <div
+                                class="progress-bar"
+                                role="progressbar"
+                                th:style="'width:' + ( ${refinementForm.totalBasicClass} == 0  ? '0' : (${refinementForm.basicClass * 1.0} / ${refinementForm.totalBasicClass}) * 100.0 ) + '%;'"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                th:text="|${#numbers.formatInteger((refinementForm.totalBasicClass == 0  ? '0' : (refinementForm.basicClass * 1.0 / refinementForm.totalBasicClass) * 100.0), 0)} %|">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-5">
+                            이수 학점
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:text="|${refinementForm.basicClass} 점|"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            잔여 학점
+                        </div>
+                        <div class="col-2">
+                            :
+                        </div>
+                        <div class="col-5">
+                            <span th:if="${refinementForm.totalBasicClass - refinementForm.basicClass > 0}" th:text="|${refinementForm.totalBasicClass - refinementForm.basicClass} 점|"></span>
+                            <span th:unless="${refinementForm.totalBasicClass - refinementForm.basicClass > 0}" th:text= "|0 점|"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <br>
-    <br>
-
-    <h2>교양</h2>
-    <div>
-        수강한 과목 : <th:block th:each="refinementForms : ${refinementForm.refinementArr}">
-        <span th:text="|${refinementForms}, |"></span>
-    </th:block>
-    </div>
-    <div>
-        이수 학점 : <span th:text="|${refinementForm.refinement} 점|"></span>
-    </div>
-    <div>
-        잔여 학점 : <span th:if="${refinementForm.totalRefinement - refinementForm.refinement > 0}" th:text="|${refinementForm.totalRefinement - refinementForm.refinement} 점|"></span>
-        <span th:unless="${refinementForm.totalRefinement - refinementForm.refinement > 0}" th:text="|0 점|"></span>
-    </div>
-
-    <br>
-    <br>
-
-    <h2>영어</h2>
-    <div>
-        수강한 과목 : <th:block th:each="refinementForms : ${refinementForm.EnglishArr}">
-        <span th:text="|${refinementForms}, |"></span>
-    </th:block>
-    </div>
-    <div>
-        이수 학점 : <span th:text="|${refinementForm.english} 점|"></span>
-    </div>
-    <div>
-        잔여 학점 : <span th:if="${refinementForm.totalEnglish - refinementForm.english > 0}" th:text="|${refinementForm.totalEnglish - refinementForm.english} 점|"></span>
-        <span th:unless="${refinementForm.totalEnglish - refinementForm.english > 0}" th:text="|0 점|"></span>
-    </div>
+        <div class="modal fade" id="englishModal" tabindex="-1" aria-labelledby="englishModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="englishModalLabel">수강한 과목</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <th:block th:each="refinementForms : ${refinementForm.EnglishArr}">
+                            <p th:text="|${refinementForms}|"></p>
+                        </th:block>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-    <br>
-    <br>
+        <div class="modal fade" id="majorModal1" tabindex="-1" aria-labelledby="majorModalLabel1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="majorModalLabel1">수강한 과목</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <th:block th:each="majorForms : ${majorForm.majorBeginAndRequirementArr}">
+                            <p th:text="|${majorForms}|"></p>
+                        </th:block>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <h2>기초 교양 수업</h2>
-    <div>
-        이수 학점 : <span th:text="|${refinementForm.basicClass} 점|"></span>
-    </div>
-    <div>
-        잔여 학점 : <span th:if="${refinementForm.totalBasicClass - refinementForm.basicClass > 0}" th:text="|${refinementForm.totalBasicClass - refinementForm.basicClass} 점|"></span>
-        <span th:unless="${refinementForm.totalBasicClass - refinementForm.basicClass > 0}" th:text= "|0 점|"></span>
-    </div>
+        <div class="modal fade" id="majorModal2" tabindex="-1" aria-labelledby="majorModalLabel2" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="majorModalLabel2">수강한 과목</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <th:block th:each="majorForms : ${majorForm.majorSelectArr}">
+                            <p th:text="|${majorForms}|"></p>
+                        </th:block>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <br>
-    <br>
-
-    <h2>대학생활과 자기개발</h2>
-    <div>
-        대학생활과 자기개발 : <span th:if="${refinementForm.collegeLifeAndSelfDevelopment.toString() == 'true'}" th:text="이수"></span>
-        <span th:if="${refinementForm.collegeLifeAndSelfDevelopment.toString() == 'false'}" th:text="미이수"></span>
-    </div>
-
-    <br>
-    <br>
-
+        <div class="modal fade" id="refinementModal" tabindex="-1" aria-labelledby="refinementLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="refinementLabel">수강한 과목</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <th:block th:each="refinementForms : ${refinementForm.refinementArr}">
+                            <p th:text="|${refinementForms}|"></p>
+                        </th:block>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -208,4 +561,9 @@
 
 </div> <!-- /container -->
 </body>
+<script>
+    $(document).ready(function(){
+        $("[rel=tooltip]").tooltip({ placement: 'bottom'});
+    });
+</script>
 </html>

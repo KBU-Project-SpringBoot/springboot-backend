@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.Date;
 
 @Data
-@Getter @Setter
 public class FreeBoardComment {
     /**
      * ==댓글==

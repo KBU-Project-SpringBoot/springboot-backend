@@ -1,10 +1,10 @@
 package wiseSWlife.wiseSWlife.model.loginForm;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 
-@Data
+@Getter @Setter @AllArgsConstructor
 public class LoginForm {
 
     @NotEmpty

@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
-@Setter @Getter
+@AllArgsConstructor @Setter @Getter
 public class CreditForm {
     private int standardCredit;
 
