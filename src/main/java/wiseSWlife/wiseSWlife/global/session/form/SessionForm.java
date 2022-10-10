@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor
-@Data @Getter @Setter
+@Getter @Setter
 public class SessionForm {
 
     private String sid;
