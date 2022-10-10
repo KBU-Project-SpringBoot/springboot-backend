@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.scrapping;
+package wiseSWlife.wiseSWlife.service.graduation.scrapingImpl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

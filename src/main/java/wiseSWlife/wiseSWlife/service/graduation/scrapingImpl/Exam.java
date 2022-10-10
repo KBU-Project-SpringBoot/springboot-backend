@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.scrapping;
+package wiseSWlife.wiseSWlife.service.graduation.scrapingImpl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,15 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
+import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class Exam {
+public class Exam implements ExamScraping {
     @Value("${python.engine}")
     String pythonEngine;
 
@@ -24,7 +22,8 @@ public class Exam {
     @Value("${python.encoding}")
     String pythonEncoding;
 
-    public Map<String, Boolean> scrapping(String intCookie) throws IOException, InterruptedException {
+    @Override
+    public ExamTable scrapping(String intCookie) throws IOException, InterruptedException {
         File testFile = new File(pythonFile);
         FileWriter fw = new FileWriter(testFile);
         fw.write("import asyncio\n" + "\n");
@@ -52,24 +51,7 @@ public class Exam {
         Gson gson = builder1.create();
 
         ExamTable examTable = gson.fromJson(testLine,ExamTable.class);
-        Map<String, Boolean> examMap = examParsing(examTable);
 
-        return examMap;
-    }
-
-    private Map<String, Boolean> examParsing(ExamTable examTable) {
-        Map<String, Boolean> examMap = new HashMap<>();
-        String[] subjects = {"성경", "영어", "컴퓨터", "컴퓨터2"};
-
-        for(String i : subjects){
-            examMap.put(i, false);
-        }
-
-        for(ArrayList i:examTable.getBody()){
-            if(i.get(4).equals("합격")){
-                examMap.put(i.get(1).toString(),true);
-            }
-        }
-        return examMap;
+        return examTable;
     }
 }

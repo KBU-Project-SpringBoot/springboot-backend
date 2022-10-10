@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
+import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.model.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.ParsingBCR;
-import wiseSWlife.wiseSWlife.service.graduation.scrapping.Exam;
-import wiseSWlife.wiseSWlife.service.graduation.scrapping.TotalAcceptanceStatus;
+import wiseSWlife.wiseSWlife.service.graduation.convertScrapingInf.ConvertExamTable;
+import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.Exam;
+import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.TotalAcceptanceStatus;
 import wiseSWlife.wiseSWlife.service.graduation.standardImpl.Standard2017;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 @Slf4j
@@ -25,6 +26,7 @@ import java.util.Map;
 public class GraduationController {
 
     private final Exam exam;
+    private final ConvertExamTable convertExamTable;
     private final TotalAcceptanceStatus totalAcceptanceStatus;
     private final Standard2017 standard2017;
     private final ParsingBCR parsingBCR;
@@ -38,12 +40,16 @@ public class GraduationController {
         }
 
         String intCookie = sessionForm.getIntCookie();
-        Map<String, Boolean> examMap = exam.scrapping(intCookie);
-        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatus.scrapping(intCookie);
-
         String sid = sessionForm.getSid().substring(0,4);
-        System.out.println("너는 허허 : " + totalAcceptanceStatusTable);
 
+        //졸업 시험 테이블 추출
+        ExamTable examTable = exam.scrapping(intCookie);
+        Map<String, Boolean> examMap = convertExamTable.convert(examTable);
+
+        model.addAttribute("examMap", examMap);
+
+        //전체이수 현황 테이블 추출
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatus.scrapping(intCookie);
 
         BCRForm bcrForm = parsingBCR.getStudy(totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
@@ -61,7 +67,7 @@ public class GraduationController {
             model.addAttribute("gpaForm", gpaForm);
         }
 
-        model.addAttribute("examMap", examMap);
+
         model.addAttribute("sessionForm", sessionForm);
         return "graduate/graduation";
     }
