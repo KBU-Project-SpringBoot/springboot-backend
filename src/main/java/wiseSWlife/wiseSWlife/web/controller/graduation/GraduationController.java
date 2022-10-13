@@ -15,9 +15,12 @@ import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.ParsingBC
 import wiseSWlife.wiseSWlife.service.graduation.convertScrapingInf.ConvertExamTable;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.Exam;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.TotalAcceptanceStatus;
-import wiseSWlife.wiseSWlife.service.graduation.standardImpl.Standard2017;
+import wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard;
+import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperFactory;
+import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperValue;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -25,10 +28,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class GraduationController {
 
+    //private final GraduationCondition graduationCondition;
     private final Exam exam;
     private final ConvertExamTable convertExamTable;
     private final TotalAcceptanceStatus totalAcceptanceStatus;
-    private final Standard2017 standard2017;
+    private final Standard standard;
     private final ParsingBCR parsingBCR;
 
     @GetMapping("/graduation")
@@ -40,7 +44,8 @@ public class GraduationController {
         }
 
         String intCookie = sessionForm.getIntCookie();
-        String sid = sessionForm.getSid().substring(0,4);
+        String sid = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
+        standard.getCondition(sid);
 
         //졸업 시험 테이블 추출
         ExamTable examTable = exam.scrapping(intCookie);
@@ -48,24 +53,25 @@ public class GraduationController {
 
         model.addAttribute("examMap", examMap);
 
+
+
         //전체이수 현황 테이블 추출
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatus.scrapping(intCookie);
 
         BCRForm bcrForm = parsingBCR.getStudy(totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
 
-        MajorForm majorForm = standard2017.checkMajor(totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
+        MajorForm majorForm = standard.checkMajor(totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
         model.addAttribute("majorForm", majorForm);
 
-        RefinementForm refinementForm = standard2017.checkRefinement(totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        RefinementForm refinementForm = standard.checkRefinement(totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("refinementForm", refinementForm);
 
-        if(sid.equals("2017")){
-            CreditForm creditForm = standard2017.percentageGraduationCredit(Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
-            model.addAttribute("creditForm", creditForm);
-            GPAForm gpaForm = standard2017.percentageGradationGPA(Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
-            model.addAttribute("gpaForm", gpaForm);
-        }
+        CreditForm creditForm = standard.percentageGraduationCredit(Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+        model.addAttribute("creditForm", creditForm);
+        GPAForm gpaForm = standard.percentageGradationGPA(Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+        model.addAttribute("gpaForm", gpaForm);
+
 
 
         model.addAttribute("sessionForm", sessionForm);
