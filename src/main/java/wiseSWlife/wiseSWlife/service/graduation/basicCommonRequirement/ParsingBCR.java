@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
-@PropertySource("graduation.properties")
 public class ParsingBCR {
 
     public BCRForm getStudy(ArrayList<String>[] myBasicCommonRequirement, ArrayList<String>[] myRefinementRequirement){

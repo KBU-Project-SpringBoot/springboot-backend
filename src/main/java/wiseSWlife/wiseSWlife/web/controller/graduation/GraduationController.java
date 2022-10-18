@@ -16,11 +16,8 @@ import wiseSWlife.wiseSWlife.service.graduation.convertScrapingInf.ConvertExamTa
 import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.Exam;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.TotalAcceptanceStatus;
 import wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard;
-import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperFactory;
-import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperValue;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -46,6 +43,8 @@ public class GraduationController {
         String intCookie = sessionForm.getIntCookie();
         String sid = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
         standard.getCondition(sid);
+
+        System.out.println("너는 뭐야" + sid);
 
         //졸업 시험 테이블 추출
         ExamTable examTable = exam.scrapping(intCookie);

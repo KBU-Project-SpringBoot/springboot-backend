@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum GraduationCondition implements EnumMapperType{
+    컴16( 140,1.5,24,66,12,6,15),
     컴17( 140, 1.5, 24, 66, 12, 6, 15),
     컴18( 140, 1.5, 27, 51, 12, 6, 15),
     컴19( 130, 1.5, 27, 51, 6, 6, 15),

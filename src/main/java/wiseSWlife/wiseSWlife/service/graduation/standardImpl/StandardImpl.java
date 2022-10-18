@@ -1,7 +1,6 @@
 package wiseSWlife.wiseSWlife.service.graduation.standardImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
@@ -12,11 +11,11 @@ import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
 @RequiredArgsConstructor
-@PropertySource("graduation.properties")
 public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard {
 
     private final EnumMapperFactory enumMapperFactory;
@@ -26,8 +25,12 @@ public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.st
     @Override
     public void getCondition(String sid){
         List<EnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-        int index = list.indexOf(sid) + 1;
-        condition = list.get(index);
+        for(EnumMapperValue i : list){
+            if(Objects.equals(i.getCode(), sid)){
+                condition = i;
+                break;
+            }
+        }
     }
 
     @Override
@@ -61,9 +64,11 @@ public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.st
             myMajorBeginAndRequirementArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
         }
 
-        for(ArrayList<String> i :myMajorSelect){
-            myMajorSelectCnt += Integer.parseInt(i.get(1));
-            myMajorSelectArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
+        if(myMajorSelect != null){
+            for(ArrayList<String> i :myMajorSelect){
+                myMajorSelectCnt += Integer.parseInt(i.get(1));
+                myMajorSelectArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
+            }
         }
 
         for(ArrayList<String> i : myMajorRequirement){

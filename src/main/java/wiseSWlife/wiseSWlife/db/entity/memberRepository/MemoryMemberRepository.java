@@ -1,5 +1,6 @@
 package wiseSWlife.wiseSWlife.db.entity.memberRepository;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import wiseSWlife.wiseSWlife.model.member.Member;
@@ -8,6 +9,7 @@ import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+//@Primary
 @Repository
 public class MemoryMemberRepository implements MemberRepository {
     private static Map<String, Member> store = new ConcurrentHashMap<>();
