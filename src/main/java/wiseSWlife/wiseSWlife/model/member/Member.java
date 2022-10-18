@@ -2,6 +2,7 @@ package wiseSWlife.wiseSWlife.model.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Setter;
  * intCookie : 인트라넷 쿠키값
  */
 @Getter @Setter @AllArgsConstructor
+@NoArgsConstructor
 public class Member {
 
     private String sid;

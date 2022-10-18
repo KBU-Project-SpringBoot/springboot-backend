@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 
@@ -38,7 +39,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult,
                         HttpServletRequest request,
-                        @RequestParam(defaultValue = "/") String redirectURL) throws IOException, InterruptedException {
+                        @RequestParam(defaultValue = "/") String redirectURL) throws IOException, InterruptedException, SQLException {
         if(bindingResult.hasErrors()){
             return "login/loginForm";
         }
