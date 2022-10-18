@@ -1,57 +1,48 @@
 package wiseSWlife.wiseSWlife.service.graduation.standardImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.RefinementForm;
-import wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard;
+import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperFactory;
+import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperValue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
 @PropertySource("graduation.properties")
-public class Standard2017 implements Standard {
+public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard {
 
-    @Value("${totalCredit.2017}")
-    String totalCredit;//졸업학점
+    private final EnumMapperFactory enumMapperFactory;
 
-    @Value("${totalGPA.2017}")
-    String totalGPA;//졸업기준 평균평점
+    EnumMapperValue condition = null;
 
-    @Value("${totalMajorRequirement.2017}")
-    String totalMajorRequirement;//전공필수 총학점
-
-    @Value("${totalCommonMajor.2017}")
-    String totalCommonMajor;//기본전공 총학점
-
-    @Value("${totalEnglish.2017}")
-    String totalEnglish;//영어 총학점
-
-    @Value("${totalBasicClass.2017}")
-    String totalBasicClass;//학글 같은 기초수업 총학점
-
-    @Value("${totalRefinement.2017}")
-    String totalRefinement;//교양선택 총학점
+    @Override
+    public void getCondition(String sid){
+        List<EnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
+        int index = list.indexOf(sid) + 1;
+        condition = list.get(index);
+    }
 
     @Override
     public CreditForm percentageGraduationCredit(int myCredit){
-        double creditPercentage = (double) myCredit / Integer.parseInt(totalCredit) * 100.0;
+        double creditPercentage = (double) myCredit / condition.getTotalCredit() * 100.0;
         String formatingPercent = String.format("%.2f",creditPercentage);
 
-        CreditForm creditForm = new CreditForm(Integer.parseInt(totalCredit),myCredit,formatingPercent);
+        CreditForm creditForm = new CreditForm(condition.getTotalCredit(),myCredit,formatingPercent);
 
         return creditForm;
     }
 
     @Override
     public GPAForm percentageGradationGPA(double myGPA){
-        GPAForm gpaForm = new GPAForm(Double.parseDouble(totalGPA), myGPA);
+        GPAForm gpaForm = new GPAForm(condition.getTotalGPA(), myGPA);
 
         return gpaForm;
     }
@@ -84,7 +75,7 @@ public class Standard2017 implements Standard {
             }
         }
 
-        MajorForm majorForm = new MajorForm(Integer.parseInt(totalMajorRequirement), myMajorBeginAndRequirementArr, myMajorBeginCnt + myMajorRequirementCnt, Integer.parseInt(totalCommonMajor), myMajorSelectArr, myMajorBeginCnt + myMajorRequirementCnt + myMajorSelectCnt , futureDesignCnt);
+        MajorForm majorForm = new MajorForm(condition.getTotalMajorRequirement(), myMajorBeginAndRequirementArr, myMajorBeginCnt + myMajorRequirementCnt, condition.getTotalCommonMajor(), myMajorSelectArr, myMajorBeginCnt + myMajorRequirementCnt + myMajorSelectCnt , futureDesignCnt);
 
         return majorForm;
     }
@@ -114,7 +105,7 @@ public class Standard2017 implements Standard {
             }
         }
 
-        RefinementForm refinementForm = new RefinementForm(Integer.parseInt(totalRefinement), myRefinementArr, myRefinementCnt, Integer.parseInt(totalEnglish), myEnglishArr, myEnglishCnt, Integer.parseInt(totalBasicClass), myBasicClassCnt, myCollegeLifeAndSelfDevelopment);
+        RefinementForm refinementForm = new RefinementForm(condition.getTotalRefinement(), myRefinementArr, myRefinementCnt, condition.getTotalEnglish(), myEnglishArr, myEnglishCnt, condition.getTotalBasicClass(), myBasicClassCnt, myCollegeLifeAndSelfDevelopment);
 
         return refinementForm;
     }
