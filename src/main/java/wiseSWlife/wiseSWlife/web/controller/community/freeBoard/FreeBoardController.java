@@ -159,7 +159,7 @@ public class FreeBoardController {
         }
 
 
-        freeBoardCommentRepository.save(new FreeBoardComment(sessionForm.getSid(), freeBoardSeq, commentForm.getFreeBoardCommentNickName(), new Date(), commentForm.getFreeBoardComment()));
+        freeBoardCommentRepository.save(new FreeBoardComment(sessionForm.getSid(), freeBoardSeq, commentForm.getFreeBoardCommentNickName(), commentForm.getFreeBoardComment()));
         return "redirect:/community/freeBoard/" + freeBoardSeq;
     }
 

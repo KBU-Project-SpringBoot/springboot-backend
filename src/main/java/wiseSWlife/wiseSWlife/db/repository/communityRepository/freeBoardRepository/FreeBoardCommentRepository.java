@@ -23,10 +23,14 @@ public interface FreeBoardCommentRepository {
     FreeBoardComment updateFreeBoardComment(Long freeBoardCommentSeq, FreeBoardComment updatedFreeBoardComment);
 
     // 관리번호로 댓글 삭제 (D)
-    void removeFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardSeq);
+    default void removeFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardCommentSeq) {
+
+    }
 
     // 게시판 관리번호로 연관된 모든 댓글 삭제 (D)
-    void removeAllFreeBoardCommentByFreeBoardSeq(Long freeBoardSeq);
+    default void removeAllFreeBoardCommentByFreeBoardSeq(Long freeBoardSeq) {
+
+    }
 
 
 }
