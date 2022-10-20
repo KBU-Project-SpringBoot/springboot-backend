@@ -11,8 +11,8 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 @Slf4j
-@Primary
-@Repository
+//@Primary
+//@Repository
 @RequiredArgsConstructor
 public class JdbcImgRepositoryImpl implements ImgRepository {
 

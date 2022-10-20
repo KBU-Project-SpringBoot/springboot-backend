@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@Primary
-@Repository
+//@Primary
+//@Repository
 @RequiredArgsConstructor
 public class JdbcFreeBoardRepositoryImpl implements FreeBoardRepository {
 

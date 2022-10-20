@@ -24,11 +24,11 @@ public class Auction {
     //    상품 이미지 관리 번호
     private String imgUrl;
     //    판매 시간
-    private Date date;
+    private String date;
     //    판매완료 여부
     private boolean soldOut;
 
-    public Auction(String seller,String sellerSid, String productName, int price,String imgUrl ,String text, Date date) {
+    public Auction(String seller,String sellerSid, String productName, int price,String imgUrl ,String text, String date) {
         this.seller = seller;
         this.productName = productName;
         this.price = price;
