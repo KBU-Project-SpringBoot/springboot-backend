@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-//@Primary
-//@Repository
+@Primary
+@Repository
 @RequiredArgsConstructor
 public class JdbcFreeBoardCommentRepositoryImpl implements FreeBoardCommentRepository {
 
@@ -38,8 +38,8 @@ public class JdbcFreeBoardCommentRepositoryImpl implements FreeBoardCommentRepos
             pstmt.setString(2,freeBoardComment.getFreeBoardComment());
             pstmt.setLong(3,freeBoardComment.getFreeBoardSeq());
             pstmt.setString(4,freeBoardComment.getFreeBoardCommentSid());
-            rs = pstmt.executeQuery();
-
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 freeBoardComment.setFreeBoardSeq(rs.getLong(1));
                 return freeBoardComment;
@@ -68,11 +68,12 @@ public class JdbcFreeBoardCommentRepositoryImpl implements FreeBoardCommentRepos
 
             pstmt.setLong(1, freeBoardSeq);
             rs = pstmt.executeQuery();
-            if (rs.next()) {
+            while(rs.next()) {
                 FreeBoardComment freeBoardComment = new FreeBoardComment(rs.getString("student_id"), rs.getLong("freeboard_sequence"), rs.getString("freeboard_comment_nickname"), rs.getString("freeboard_comment"));
                 freeBoardComment.setFreeBoardCommentSeq(rs.getLong("freeboard_comment_sequence"));
                 commentList.add(freeBoardComment);
             }
+            log.info("commentList = {}",commentList);
             return commentList;
 
 
@@ -175,7 +176,7 @@ public class JdbcFreeBoardCommentRepositoryImpl implements FreeBoardCommentRepos
 
     @Override
     public void removeFreeBoardCommentByFreeBoardCommentSeq(Long freeBoardCommentSeq) {
-        String sql = "delete from Freeboard_TB where freeboard_comment_sequence =?";
+        String sql = "delete from Freeboard_comment_TB where freeboard_comment_sequence =?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;

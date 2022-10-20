@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-//@Primary
-//@Repository
+@Primary
+@Repository
 @RequiredArgsConstructor
 public class JdbcAuctionBoardRepositoryImpl implements AuctionBoardRepository {
 
@@ -27,7 +27,7 @@ public class JdbcAuctionBoardRepositoryImpl implements AuctionBoardRepository {
     private final ImgRepository imgRepository;
     @Override
     public Auction save(Auction auction) {
-        String sql = "insert into Auction_TB (student_id, auction_product_name, auction_price, auction_text, auction_date, image_sequence, seller) values(?, ?, ? ,?, ?, ?, ?, ?)";
+        String sql = "insert into Auction_TB (student_id, auction_product_name, auction_price, auction_text, auction_date, image_sequence, seller) values(?, ?, ? ,?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -43,10 +43,10 @@ public class JdbcAuctionBoardRepositoryImpl implements AuctionBoardRepository {
             pstmt.setString(5, String.valueOf(auction.getDate()));
             pstmt.setLong(6,imgRepository.findImgByUUID(auction.getImgUrl()).getManageSeq());
             pstmt.setString(7,auction.getSeller());
-            rs = pstmt.executeQuery();
-
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
-                auction.setAuctionSeq(rs.getLong("auction_sequence"));
+                auction.setAuctionSeq(rs.getLong(1));
             }
 
         }catch (Exception e){
@@ -199,6 +199,8 @@ public class JdbcAuctionBoardRepositoryImpl implements AuctionBoardRepository {
             pstmt.setString(8,auction.getSeller());
             pstmt.setLong(9,auction.getAuctionSeq());
             pstmt.executeUpdate();
+
+            log.info("ehla??");
 
 
         }catch (Exception e){

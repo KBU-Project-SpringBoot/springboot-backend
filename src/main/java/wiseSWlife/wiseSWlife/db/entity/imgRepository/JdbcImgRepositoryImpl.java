@@ -11,8 +11,8 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 @Slf4j
-//@Primary
-//@Repository
+@Primary
+@Repository
 @RequiredArgsConstructor
 public class JdbcImgRepositoryImpl implements ImgRepository {
 
@@ -33,8 +33,8 @@ public class JdbcImgRepositoryImpl implements ImgRepository {
 
             pstmt.setString(1, imgItem.getUploadImgName());
             pstmt.setString(2, imgItem.getStoreImgName());
-
-            rs = pstmt.executeQuery();
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
 
             if(rs.next()){
                 imgItem.setManageSeq(rs.getLong(1));

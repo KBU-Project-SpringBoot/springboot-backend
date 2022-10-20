@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-//@Primary
-//@Repository
+@Primary
+@Repository
 @RequiredArgsConstructor
 public class JdbcFreeBoardRepositoryImpl implements FreeBoardRepository {
 
@@ -39,10 +39,10 @@ public class JdbcFreeBoardRepositoryImpl implements FreeBoardRepository {
             pstmt.setString(3, String.valueOf(freeBoard.getDate()));
             pstmt.setString(4,freeBoard.getFreeBoardTitle());
             pstmt.setString(5,freeBoard.getFreeBoardText());
-
-            rs = pstmt.executeQuery();
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
-                freeBoard.setFreeBoardSeq(rs.getLong("freeboard_sequence"));
+                freeBoard.setFreeBoardSeq(rs.getLong(1));
                 return freeBoard;
             }
 
@@ -152,6 +152,7 @@ public class JdbcFreeBoardRepositoryImpl implements FreeBoardRepository {
         try{
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
+            log.info("date = {}",updatedFreeBoard.getDate());
             pstmt.setString(1,updatedFreeBoard.getFreeBoardSid());
             pstmt.setString(2,updatedFreeBoard.getFreeBoardNickName());
             pstmt.setString(3, String.valueOf(updatedFreeBoard.getDate()));
