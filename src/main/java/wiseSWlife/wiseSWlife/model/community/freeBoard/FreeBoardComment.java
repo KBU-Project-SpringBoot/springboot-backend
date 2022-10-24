@@ -30,7 +30,7 @@ public class FreeBoardComment {
 
 
 
-    public FreeBoardComment(String freeBoardCommentSid, Long freeBoardSeq, String freeBoardCommentNickName, Date date, String freeBoardComment) {
+    public FreeBoardComment(String freeBoardCommentSid, Long freeBoardSeq, String freeBoardCommentNickName, String freeBoardComment) {
         this.freeBoardCommentSid = freeBoardCommentSid;
         this.freeBoardCommentNickName = freeBoardCommentNickName;
         this.freeBoardSeq = freeBoardSeq;

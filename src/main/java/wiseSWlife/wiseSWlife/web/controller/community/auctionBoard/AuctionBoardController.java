@@ -55,9 +55,9 @@ public class AuctionBoardController {
         //post success logic
         if(!sellForm.getImg().isEmpty()){
             ImgItem imgItem = imgService.saveImg(sellForm.getImg());
-            auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), sellForm.getPrice(),imgRepository.findImgBySeq(imgItem.getManageSeq()).getStoreImgName(), sellForm.getText(), new Date()));
+            auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), sellForm.getPrice(),imgRepository.findImgBySeq(imgItem.getManageSeq()).getStoreImgName(), sellForm.getText(), new Date().toString()));
         }else{
-            auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), sellForm.getPrice(),null, sellForm.getText(), new Date()));
+            auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), sellForm.getPrice(),null, sellForm.getText(), new Date().toString()));
         }
 
         return "redirect:/community/auctionBoard";
@@ -118,7 +118,7 @@ public class AuctionBoardController {
             auction.setPrice(updatedAuction.getPrice());
             auction.setText(updatedAuction.getText());
             auction.setSeller(updatedAuction.getSeller());
-            auction.setDate(new Date());
+            auction.setDate(new Date().toString());
 
         }
         return "redirect:/community/auctionBoard/" + auctionSeq;
