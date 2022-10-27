@@ -39,12 +39,17 @@ public class GraduationController {
         if(sessionForm.getIntCookie().isEmpty()){
             return "redirect:/login";
         }
+        if(sessionForm.getSid().substring(4, 7).equals("070")){
+            model.addAttribute("exceptionMsg", "편입생은 서비스를 준비중입니다...");
+            model.addAttribute("exceptionUri", "/");
+            return "home/home";
+        }
 
         String intCookie = sessionForm.getIntCookie();
         String sid = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
         standard.getCondition(sid);
 
-        System.out.println("너는 뭐야" + sid);
+        //System.out.println("너는 뭐야" + sid);
 
         //졸업 시험 테이블 추출
         ExamTable examTable = exam.scrapping(intCookie);
