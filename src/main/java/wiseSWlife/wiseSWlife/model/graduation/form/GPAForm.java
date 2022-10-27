@@ -1,13 +1,10 @@
 package wiseSWlife.wiseSWlife.model.graduation.form;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor @Setter @Getter
 public class GPAForm {
-    private double standardGPA;
-
-    private double myGPA;
+    private double gpa;
 }

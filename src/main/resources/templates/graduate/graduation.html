@@ -35,10 +35,10 @@
                         <div
                                 class="progress-bar"
                                 role="progressbar"
-                                th:style="'width:' + ( ${creditForm.standardCredit} == 0  ? '0' : (${creditForm.myCredit * 1.0} / ${creditForm.standardCredit}) * 100.0 ) + '%;'"
+                                th:style="'width:' + ( ${vo.totalCredit} == 0  ? '0' : (${creditForm.credit * 1.0} / ${vo.totalCredit}) * 100.0 ) + '%;'"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
-                                th:text="|${#numbers.formatInteger((creditForm.standardCredit == 0  ? '0' : (creditForm.myCredit * 1.0 / creditForm.standardCredit) * 100.0), 0)} %|">
+                                th:text="|${#numbers.formatInteger((vo.totalCredit == 0  ? '0' : (creditForm.credit * 1.0 / vo.totalCredit) * 100.0), 0)} %|">
                         </div>
                     </div>
                     <div class="card-body" style="user-select: auto;">
@@ -50,7 +50,7 @@
                                 :
                             </div>
                             <div class="col">
-                                <span th:text="|${creditForm.standardCredit} 학점|"></span>
+                                <span th:text="|${vo.totalCredit} 학점|"></span>
                             </div>
                         </div>
 
@@ -62,7 +62,7 @@
                                 :
                             </div>
                             <div class="col">
-                                <span th:text="|${creditForm.myCredit} 학점|"></span>
+                                <span th:text="|${creditForm.credit} 학점|"></span>
                             </div>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                             :
                         </div>
                         <div class="col-4">
-                            <span th:text="|${gpaForm.standardGPA} 점|"></span>
+                            <span th:text="|${vo.totalGPA} 점|"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -98,7 +98,7 @@
                             :
                         </div>
                         <div class="col-4">
-                            <span th:text="|${gpaForm.myGPA} 점|"></span>
+                            <span th:text="|${gpaForm.gpa} 점|"></span>
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:text="|${refinementForm.english} 점|"></span>
+                            <span th:text="|${refinementForm.englishCredit} 점|"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -132,8 +132,8 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:if="${refinementForm.totalEnglish - refinementForm.english > 0}" th:text="|${refinementForm.totalEnglish - refinementForm.english} 점|"></span>
-                            <span th:unless="${refinementForm.totalEnglish - refinementForm.english > 0}" th:text="|0 점|"></span>
+                            <span th:if="${vo.totalEnglish - refinementForm.englishCredit > 0}" th:text="|${vo.totalEnglish - refinementForm.englishCredit} 점|"></span>
+                            <span th:unless="${vo.totalEnglish - refinementForm.englishCredit > 0}" th:text="|0 점|"></span>
                         </div>
                     </div>
                 </div>
@@ -280,10 +280,10 @@
                         <div
                                 class="progress-bar"
                                 role="progressbar"
-                                th:style="'width:' + ( ${majorForm.totalCommonMajor} == 0  ? '0' : (${majorForm.commonMajor * 1.0} / ${majorForm.totalCommonMajor}) * 100.0 ) + '%;'"
+                                th:style="'width:' + ( ${vo.totalCommonMajor} == 0  ? '0' : (${majorForm.commonMajor * 1.0} / ${vo.totalCommonMajor}) * 100.0 ) + '%;'"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
-                                th:text="|${#numbers.formatInteger((majorForm.totalCommonMajor == 0  ? '0' : (majorForm.commonMajor * 1.0 / majorForm.totalCommonMajor) * 100.0), 0)} %|">
+                                th:text="|${#numbers.formatInteger((vo.totalCommonMajor == 0  ? '0' : (majorForm.commonMajor * 1.0 / vo.totalCommonMajor) * 100.0), 0)} %|">
                         </div>
                     </div>
                     <br>
@@ -317,7 +317,7 @@
                                             :
                                         </div>
                                         <div class="col-5">
-                                            <span th:text="|${majorForm.majorRequirement} 점|"></span></div>
+                                            <span th:text="|${majorForm.majorRequirementCredit} 점|"></span></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-5">
@@ -327,8 +327,8 @@
                                             :
                                         </div>
                                         <div class="col-5">
-                                            <span th:if="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|${majorForm.totalMajorRequirement - majorForm.majorRequirement} 점|"></span>
-                                            <span th:unless="${majorForm.totalMajorRequirement - majorForm.majorRequirement > 0}" th:text="|0 점|"></span>
+                                            <span th:if="${vo.totalMajorRequirement - majorForm.majorRequirementCredit > 0}" th:text="|${vo.totalMajorRequirement - majorForm.majorRequirement} 점|"></span>
+                                            <span th:unless="${vo.totalMajorRequirement - majorForm.majorRequirementCredit > 0}" th:text="|0 점|"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -352,7 +352,7 @@
                                             :
                                         </div>
                                         <div class="col-5">
-                                            <span th:text="|${majorForm.commonMajor - majorForm.majorRequirement} 점|"></span>
+                                            <span th:text="|${majorForm.commonMajor - majorForm.majorRequirementCredit} 점|"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -364,8 +364,8 @@
                         총 이수 학점 : <span th:text="|${majorForm.commonMajor} 점|"></span>
                     </div>
                     <div>
-                        잔여 학점 : <span th:if="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|${majorForm.totalCommonMajor - majorForm.commonMajor} 점|"></span>
-                        <span th:unless="${majorForm.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|0 점|"></span>
+                        잔여 학점 : <span th:if="${vo.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|${vo.totalCommonMajor - majorForm.commonMajor} 점|"></span>
+                        <span th:unless="${vo.totalCommonMajor - majorForm.commonMajor > 0}" th:text="|0 점|"></span>
                     </div>
                     <br>
                 </div>
@@ -389,10 +389,10 @@
                         <div
                                 class="progress-bar"
                                 role="progressbar"
-                                th:style="'width:' + ( ${refinementForm.totalRefinement} == 0  ? '0' : (${refinementForm.refinement * 1.0} / ${refinementForm.totalRefinement}) * 100.0 ) + '%;'"
+                                th:style="'width:' + ( ${vo.totalRefinement} == 0  ? '0' : (${refinementForm.refinementCredit * 1.0} / ${vo.totalRefinement}) * 100.0 ) + '%;'"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
-                                th:text="|${#numbers.formatInteger((refinementForm.totalRefinement == 0  ? '0' : (refinementForm.refinement * 1.0 / refinementForm.totalRefinement) * 100.0), 0)} %|">
+                                th:text="|${#numbers.formatInteger((vo.totalRefinement == 0  ? '0' : (refinementForm.refinementCredit * 1.0 / vo.totalRefinement) * 100.0), 0)} %|">
                         </div>
                     </div>
                     <br>
@@ -405,7 +405,7 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:text="|${refinementForm.refinement} 점|"></span>
+                            <span th:text="|${refinementForm.refinementCredit} 점|"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -416,8 +416,8 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:if="${refinementForm.totalRefinement - refinementForm.refinement > 0}" th:text="|${refinementForm.totalRefinement - refinementForm.refinement} 점|"></span>
-                            <span th:unless="${refinementForm.totalRefinement - refinementForm.refinement > 0}" th:text="|0 점|"></span>
+                            <span th:if="${vo.totalRefinement - refinementForm.refinementCredit > 0}" th:text="|${vo.totalRefinement - refinementForm.refinementCredit} 점|"></span>
+                            <span th:unless="${vo.totalRefinement - refinementForm.refinementCredit > 0}" th:text="|0 점|"></span>
                         </div>
                     </div>
                 </div>
@@ -434,10 +434,10 @@
                         <div
                                 class="progress-bar"
                                 role="progressbar"
-                                th:style="'width:' + ( ${refinementForm.totalBasicClass} == 0  ? '0' : (${refinementForm.basicClass * 1.0} / ${refinementForm.totalBasicClass}) * 100.0 ) + '%;'"
+                                th:style="'width:' + ( ${vo.totalBasicClass} == 0  ? '0' : (${refinementForm.basicClassCredit * 1.0} / ${vo.totalBasicClass}) * 100.0 ) + '%;'"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
-                                th:text="|${#numbers.formatInteger((refinementForm.totalBasicClass == 0  ? '0' : (refinementForm.basicClass * 1.0 / refinementForm.totalBasicClass) * 100.0), 0)} %|">
+                                th:text="|${#numbers.formatInteger((vo.totalBasicClass == 0  ? '0' : (refinementForm.basicClassCredit * 1.0 / vo.totalBasicClass) * 100.0), 0)} %|">
                         </div>
                     </div>
                     <br>
@@ -450,7 +450,7 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:text="|${refinementForm.basicClass} 점|"></span>
+                            <span th:text="|${refinementForm.basicClassCredit} 점|"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -461,8 +461,8 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:if="${refinementForm.totalBasicClass - refinementForm.basicClass > 0}" th:text="|${refinementForm.totalBasicClass - refinementForm.basicClass} 점|"></span>
-                            <span th:unless="${refinementForm.totalBasicClass - refinementForm.basicClass > 0}" th:text= "|0 점|"></span>
+                            <span th:if="${vo.totalBasicClass - refinementForm.basicClassCredit > 0}" th:text="|${vo.totalBasicClass - refinementForm.basicClassCredit} 점|"></span>
+                            <span th:unless="${vo.totalBasicClass - refinementForm.basicClassCredit > 0}" th:text= "|0 점|"></span>
                         </div>
                     </div>
                 </div>

@@ -9,13 +9,12 @@ import java.util.ArrayList;
 
 public interface Standard {
 
-    CreditForm percentageGraduationCredit(int myCredit);
+    CreditForm checkCredit(int myCredit);
 
-    GPAForm percentageGradationGPA(double myGPA);
+    GPAForm checkGPA(double myGPA);
 
     MajorForm checkMajor(ArrayList<String>[] myMajorBegin, ArrayList<String>[] myMajorSelect, ArrayList<String>[] myMajorRequirement);
 
     RefinementForm checkRefinement(ArrayList<String>[] myRefinementSelect, ArrayList<String>[] myRefinementRequirement);
 
-    void getCondition(String sid);
 }

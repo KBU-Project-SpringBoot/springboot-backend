@@ -18,34 +18,17 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard {
 
-    private final EnumMapperFactory enumMapperFactory;
-
-    EnumMapperValue condition = null;
 
     @Override
-    public void getCondition(String sid){
-        List<EnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-        for(EnumMapperValue i : list){
-            if(Objects.equals(i.getCode(), sid)){
-                condition = i;
-                break;
-            }
-        }
-    }
-
-    @Override
-    public CreditForm percentageGraduationCredit(int myCredit){
-        double creditPercentage = (double) myCredit / condition.getTotalCredit() * 100.0;
-        String formatingPercent = String.format("%.2f",creditPercentage);
-
-        CreditForm creditForm = new CreditForm(condition.getTotalCredit(),myCredit,formatingPercent);
+    public CreditForm checkCredit(int myCredit){
+        CreditForm creditForm = new CreditForm(myCredit);
 
         return creditForm;
     }
 
     @Override
-    public GPAForm percentageGradationGPA(double myGPA){
-        GPAForm gpaForm = new GPAForm(condition.getTotalGPA(), myGPA);
+    public GPAForm checkGPA(double myGPA){
+        GPAForm gpaForm = new GPAForm(myGPA);
 
         return gpaForm;
     }
@@ -80,7 +63,7 @@ public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.st
             }
         }
 
-        MajorForm majorForm = new MajorForm(condition.getTotalMajorRequirement(), myMajorBeginAndRequirementArr, myMajorBeginCnt + myMajorRequirementCnt, condition.getTotalCommonMajor(), myMajorSelectArr, myMajorBeginCnt + myMajorRequirementCnt + myMajorSelectCnt , futureDesignCnt);
+        MajorForm majorForm = new MajorForm(myMajorBeginAndRequirementArr, myMajorBeginCnt + myMajorRequirementCnt, myMajorSelectArr, myMajorBeginCnt + myMajorRequirementCnt + myMajorSelectCnt , futureDesignCnt);
 
         return majorForm;
     }
@@ -110,7 +93,7 @@ public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.st
             }
         }
 
-        RefinementForm refinementForm = new RefinementForm(condition.getTotalRefinement(), myRefinementArr, myRefinementCnt, condition.getTotalEnglish(), myEnglishArr, myEnglishCnt, condition.getTotalBasicClass(), myBasicClassCnt, myCollegeLifeAndSelfDevelopment);
+        RefinementForm refinementForm = new RefinementForm(myRefinementArr, myRefinementCnt, myEnglishArr, myEnglishCnt, myBasicClassCnt, myCollegeLifeAndSelfDevelopment);
 
         return refinementForm;
     }
