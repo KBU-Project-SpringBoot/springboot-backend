@@ -1,5 +1,6 @@
 package wiseSWlife.wiseSWlife.web.controller.community.freeBoard;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ public class FreeBoardController {
     public String freeBoard(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY, required = false) SessionForm sessionForm,
                             Model model) {
         List<FreeBoard> allFreeBoard = freeBoardRepository.findAllFreeBoard();
+        System.out.println(allFreeBoard);
         model.addAttribute("freeBoards", allFreeBoard);
         model.addAttribute("sessionForm", sessionForm);
 
