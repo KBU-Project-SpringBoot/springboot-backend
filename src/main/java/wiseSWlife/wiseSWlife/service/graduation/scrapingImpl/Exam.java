@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;

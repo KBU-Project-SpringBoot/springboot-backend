@@ -69,7 +69,7 @@ public class JdbcFreeBoardRepositoryImpl implements FreeBoardRepository {
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
-            if(rs.next()){
+            while(rs.next()){
                 FreeBoard freeBoard = new FreeBoard(rs.getString("student_id"), rs.getString("student_nickname"), rs.getString("freeboard_title"), rs.getString("freeboard_text"));
                 freeBoard.setFreeBoardSeq(rs.getLong("freeboard_sequence"));
                 freeBoardList.add(freeBoard);
