@@ -2,17 +2,14 @@ package wiseSWlife.wiseSWlife.service.login.loginServiceImpl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
 import wiseSWlife.wiseSWlife.model.member.Member;
-import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
 
 import java.io.*;
 
 @Service
-@RequiredArgsConstructor
 public class SimpleLoginService implements LoginService {
     @Value("${python.engine}")
     String pythonEngine;
@@ -22,8 +19,6 @@ public class SimpleLoginService implements LoginService {
 
     @Value("${python.encoding}")
     String pythonEncoding;
-
-    private final MemberRepository memberRepository;
 
     @Override
     public Member login(String loginId, String password) throws IOException, InterruptedException {

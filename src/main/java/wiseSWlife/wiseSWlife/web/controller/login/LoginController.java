@@ -12,10 +12,10 @@ import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.model.intranet.Intranet;
-import wiseSWlife.wiseSWlife.service.login.loginServiceImpl.SimpleLoginService;
 import wiseSWlife.wiseSWlife.model.member.Member;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
 import wiseSWlife.wiseSWlife.model.loginForm.LoginForm;
+import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,7 +31,7 @@ import java.util.Optional;
 public class LoginController {
 
     private final MemberRepository memberRepository;
-    private final SimpleLoginService simpleLoginService;
+    private final LoginService loginService;
     private final IntranetRepository intranetRepository;
 
     @GetMapping("/login")
@@ -47,7 +47,7 @@ public class LoginController {
             return "login/loginForm";
         }
 
-        Member loginMember = simpleLoginService.login(form.getLoginId(), form.getPassword());
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
 
         if (loginMember == null) {
             log.info("Login Fail \n info [id = {}] [pw = {}] ",form.getLoginId(), form.getPassword());
