@@ -12,9 +12,8 @@ import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.model.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.ParsingBCR;
-import wiseSWlife.wiseSWlife.service.graduation.convertScrapingInf.ConvertExamTable;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.Exam;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.TotalAcceptanceStatus;
+import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 import wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard;
 import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperFactory;
 import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperValue;
@@ -29,8 +28,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class GraduationController {
 
-    private final Exam exam;
-    private final ConvertExamTable convertExamTable;
+    private final ExamScraping examScraping;
     private final TotalAcceptanceStatus totalAcceptanceStatus;
     private final Standard standard;
     private final ParsingBCR parsingBCR;
@@ -47,7 +45,6 @@ public class GraduationController {
 
         String intCookie = sessionForm.getIntCookie();
         String sid = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
-        //standard.getCondition(sid);
 
         EnumMapperValue condition = null;
 
@@ -62,8 +59,8 @@ public class GraduationController {
         model.addAttribute("vo", condition);
 
         //졸업 시험 테이블 추출
-        ExamTable examTable = exam.scrapping(intCookie);
-        Map<String, Boolean> examMap = convertExamTable.convert(examTable);
+        ExamTable examTable = examScraping.scraping(intCookie);
+        Map<String, Boolean> examMap = examScraping.convert(examTable);
 
         model.addAttribute("examMap", examMap);
 
