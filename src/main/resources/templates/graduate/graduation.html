@@ -156,8 +156,8 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:if="${examMap['영어'].toString() == 'true'}" th:text="합격"></span>
-                            <span th:if="${examMap['영어'].toString() == 'false'}" th:text="불합격"></span>
+                            <span th:if="${examForm.english.toString() == 'true'}" th:text="합격"></span>
+                            <span th:if="${examForm.english.toString() == 'false'}" th:text="불합격"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -168,8 +168,8 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:if="${examMap['성경'].toString() == 'true'}" th:text="합격"></span>
-                            <span th:if="${examMap['성경'].toString() == 'false'}" th:text="불합격"></span>
+                            <span th:if="${examForm.bible.toString() == 'true'}" th:text="합격"></span>
+                            <span th:if="${examForm.bible.toString() == 'false'}" th:text="불합격"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -180,8 +180,8 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:if="${examMap['컴퓨터'].toString() == 'true'}" th:text="합격"></span>
-                            <span th:if="${examMap['컴퓨터'].toString() == 'false'}" th:text="불합격"></span>
+                            <span th:if="${examForm.computer.toString() == 'true'}" th:text="합격"></span>
+                            <span th:if="${examForm.computer.toString() == 'false'}" th:text="불합격"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -192,9 +192,9 @@
                             :
                         </div>
                         <div class="col-5">
-                            <span th:if="${examMap['컴퓨터2'].toString()} == 'false' and ${sessionForm.major} == '컴퓨터소프트웨어학과'" th:text="해당없음"></span>
-                            <span th:if="${examMap['컴퓨터2'].toString()} == 'true' and ${sessionForm.major} != '컴퓨터소프트웨어학과'" th:text="합격"></span>
-                            <span th:if="${examMap['컴퓨터2'].toString()} == 'false' and ${sessionForm.major} != '컴퓨터소프트웨어학과'" th:text="불합격"></span>
+                            <span th:if="${examForm.computer2.toString()} == 'false' and ${sessionForm.major} == '컴퓨터소프트웨어학과'" th:text="해당없음"></span>
+                            <span th:if="${examForm.computer.toString()} == 'true' and ${sessionForm.major} != '컴퓨터소프트웨어학과'" th:text="합격"></span>
+                            <span th:if="${examForm.computer.toString()} == 'false' and ${sessionForm.major} != '컴퓨터소프트웨어학과'" th:text="불합격"></span>
                         </div>
                     </div>
                 </div>

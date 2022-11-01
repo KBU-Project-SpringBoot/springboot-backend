@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 @AllArgsConstructor @Getter @Setter
 public class MajorForm {
+    private String sid;
+
     private ArrayList<String> majorBeginAndRequirementArr;//기초, 필수 전공명 배열
 
     private int majorRequirementCredit;//내 전공필수 학점

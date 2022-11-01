@@ -44,13 +44,14 @@ public class GraduationController {
         }
 
         String intCookie = sessionForm.getIntCookie();
-        String sid = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
+        String sid = sessionForm.getSid();
+        String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
         EnumMapperValue condition = null;
 
         List<EnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
         for(EnumMapperValue i : list){
-            if(Objects.equals(i.getCode(), sid)){
+            if(Objects.equals(i.getCode(), groupName)){
                 condition = i;
                 break;
             }
@@ -60,27 +61,27 @@ public class GraduationController {
 
         //졸업 시험 테이블 추출
         ExamTable examTable = examScraping.scraping(intCookie);
-        Map<String, Boolean> examMap = examScraping.convert(examTable);
+        ExamForm examForm = examScraping.convert(sid, examTable);//key : 시험이름, value : 통과여부
 
-        model.addAttribute("examMap", examMap);
+        model.addAttribute("examForm", examForm);
 
 
 
         //전체이수 현황 테이블 추출
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatus.scrapping(intCookie);
 
-        BCRForm bcrForm = parsingBCR.getStudy(totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        BCRForm bcrForm = parsingBCR.getStudy(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
 
-        MajorForm majorForm = standard.checkMajor(totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
+        MajorForm majorForm = standard.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
         model.addAttribute("majorForm", majorForm);
 
-        RefinementForm refinementForm = standard.checkRefinement(totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        RefinementForm refinementForm = standard.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("refinementForm", refinementForm);
 
-        CreditForm creditForm = standard.checkCredit(Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+        CreditForm creditForm = standard.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
         model.addAttribute("creditForm", creditForm);
-        GPAForm gpaForm = standard.checkGPA(Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+        GPAForm gpaForm = standard.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
         model.addAttribute("gpaForm", gpaForm);
 
 

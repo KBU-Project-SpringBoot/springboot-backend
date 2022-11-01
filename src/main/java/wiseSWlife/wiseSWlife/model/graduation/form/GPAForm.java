@@ -6,5 +6,7 @@ import lombok.Setter;
 
 @AllArgsConstructor @Setter @Getter
 public class GPAForm {
+    private String sid;
+
     private double gpa;
 }

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 @AllArgsConstructor @Getter @Setter
 public class RefinementForm {
+    private String sid;
+
     private ArrayList<String> refinementArr;//교양명 배열
 
     private int refinementCredit;//내 교양 학점

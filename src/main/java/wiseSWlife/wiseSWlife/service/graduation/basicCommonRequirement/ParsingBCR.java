@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class ParsingBCR {
 
-    public BCRForm getStudy(ArrayList<String>[] myBasicCommonRequirement, ArrayList<String>[] myRefinementRequirement){
+    public BCRForm getStudy(String sid, ArrayList<String>[] myBasicCommonRequirement, ArrayList<String>[] myRefinementRequirement){
         int chapel = 8;//채플
         int conduction = 8;//전도훈련
         Boolean wheatGrain = false;//밀알훈련
@@ -37,7 +37,7 @@ public class ParsingBCR {
             }
         }
 
-        BCRForm bcrForm = new BCRForm(chapel, conduction, wheatGrain, bibleStudy);
+        BCRForm bcrForm = new BCRForm(sid, chapel, conduction, wheatGrain, bibleStudy);
 
         return bcrForm;
     }
