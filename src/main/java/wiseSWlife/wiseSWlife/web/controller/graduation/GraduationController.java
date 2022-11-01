@@ -11,16 +11,15 @@ import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.model.graduation.form.*;
-import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.ParsingBCR;
+import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.TotalAcceptanceStatus;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
-import wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard;
-import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperFactory;
-import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperValue;
+import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
+import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
+import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -30,8 +29,8 @@ public class GraduationController {
 
     private final ExamScraping examScraping;
     private final TotalAcceptanceStatus totalAcceptanceStatus;
-    private final Standard standard;
-    private final ParsingBCR parsingBCR;
+    private final Condition condition;
+    private final BasicCommonRequirement basicCommonRequirement;
     private final EnumMapperFactory enumMapperFactory;
 
 
@@ -47,10 +46,10 @@ public class GraduationController {
         String sid = sessionForm.getSid();
         String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
-        EnumMapperValue condition = null;
+        GraduationConditionEnumMapperValue condition = null;
 
-        List<EnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-        for(EnumMapperValue i : list){
+        List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
+        for(GraduationConditionEnumMapperValue i : list){
             if(Objects.equals(i.getCode(), groupName)){
                 condition = i;
                 break;
@@ -65,23 +64,21 @@ public class GraduationController {
 
         model.addAttribute("examForm", examForm);
 
-
-
         //전체이수 현황 테이블 추출
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatus.scrapping(intCookie);
 
-        BCRForm bcrForm = parsingBCR.getStudy(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
 
-        MajorForm majorForm = standard.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
+        MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
         model.addAttribute("majorForm", majorForm);
 
-        RefinementForm refinementForm = standard.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("refinementForm", refinementForm);
 
-        CreditForm creditForm = standard.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+        CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
         model.addAttribute("creditForm", creditForm);
-        GPAForm gpaForm = standard.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+        GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
         model.addAttribute("gpaForm", gpaForm);
 
 

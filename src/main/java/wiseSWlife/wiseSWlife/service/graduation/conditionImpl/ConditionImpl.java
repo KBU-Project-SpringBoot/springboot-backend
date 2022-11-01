@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.standardImpl;
+package wiseSWlife.wiseSWlife.service.graduation.conditionImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,7 @@ import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.RefinementForm;
+import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
-public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard {
+public class ConditionImpl implements Condition {
 
 
     @Override

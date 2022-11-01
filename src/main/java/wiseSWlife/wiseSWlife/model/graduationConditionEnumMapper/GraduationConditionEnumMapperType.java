@@ -1,6 +1,6 @@
-package wiseSWlife.wiseSWlife.service.graduation.vo;
+package wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper;
 
-public interface EnumMapperType {
+public interface GraduationConditionEnumMapperType {
 
     String getCode();
     int getTotalCredit();

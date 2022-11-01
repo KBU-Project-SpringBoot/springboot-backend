@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.standardInterface;
+package wiseSWlife.wiseSWlife.service.graduation.conditionInf;
 
 import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
@@ -7,7 +7,7 @@ import wiseSWlife.wiseSWlife.model.graduation.form.RefinementForm;
 
 import java.util.ArrayList;
 
-public interface Standard {
+public interface Condition {
 
     CreditForm checkCredit(String sid, int myCredit);
 
