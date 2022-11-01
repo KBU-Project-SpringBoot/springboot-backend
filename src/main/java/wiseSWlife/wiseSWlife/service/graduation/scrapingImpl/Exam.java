@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
+import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 
 import java.io.*;
@@ -59,7 +60,7 @@ public class Exam implements ExamScraping {
     }
 
     @Override
-    public Map<String, Boolean> convert(ExamTable table) {
+    public ExamForm convert(String sid, ExamTable table) {
         Map<String, Boolean> examMap = new HashMap<>();
         String[] subjects = {"성경", "영어", "컴퓨터", "컴퓨터2"};
 
@@ -72,6 +73,9 @@ public class Exam implements ExamScraping {
                 examMap.put(i.get(1).toString(),true);
             }
         }
-        return examMap;
+
+        ExamForm examForm = new ExamForm(sid, examMap.get("성경"), examMap.get("영어"), examMap.get("컴퓨터"), examMap.get("컴퓨터2"));
+
+        return examForm;
     }
 }
