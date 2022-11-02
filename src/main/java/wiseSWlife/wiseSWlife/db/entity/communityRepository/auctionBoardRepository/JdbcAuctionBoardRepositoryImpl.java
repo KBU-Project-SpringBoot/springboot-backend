@@ -72,7 +72,7 @@ public class JdbcAuctionBoardRepositoryImpl implements AuctionBoardRepository {
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 Auction auction = new Auction(
                         rs.getString("seller"),
                         rs.getString("student_id"),
