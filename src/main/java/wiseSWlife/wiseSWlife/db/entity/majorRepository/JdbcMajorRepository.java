@@ -40,9 +40,9 @@ public class JdbcMajorRepository implements MajorRepository {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, majorForm.getSid());
-            pstmt.setString(2, majorForm.getMajorBeginAndRequirementArr().toString());
+            pstmt.setString(2, majorForm.getMajorBeginAndRequirementArr().toString().substring(1, majorForm.getMajorBeginAndRequirementArr().toString().length()-1));
             pstmt.setInt(3, majorForm.getMajorRequirementCredit());
-            pstmt.setString(4, majorForm.getMajorSelectArr().toString());
+            pstmt.setString(4, majorForm.getMajorSelectArr().toString().substring(1,majorForm.getMajorSelectArr().toString().length()-1));
             pstmt.setInt(5, majorForm.getCommonMajor());
             pstmt.setInt(6, majorForm.getFutureDesign());
 
@@ -69,9 +69,9 @@ public class JdbcMajorRepository implements MajorRepository {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, majorForm.getSid());
-            pstmt.setString(2, majorForm.getMajorBeginAndRequirementArr().toString());
+            pstmt.setString(2, majorForm.getMajorBeginAndRequirementArr().toString().substring(1, majorForm.getMajorBeginAndRequirementArr().toString().length()-1));
             pstmt.setInt(3, majorForm.getMajorRequirementCredit());
-            pstmt.setString(4, majorForm.getMajorSelectArr().toString());
+            pstmt.setString(4, majorForm.getMajorSelectArr().toString().substring(1, majorForm.getMajorSelectArr().toString().length()-1));
             pstmt.setInt(5, majorForm.getCommonMajor());
             pstmt.setInt(6, majorForm.getFutureDesign());
             pstmt.executeUpdate();

@@ -7,19 +7,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
+import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.model.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingImpl.TotalAcceptanceStatus;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
 import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
 import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
+import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,16 +32,17 @@ import java.util.Optional;
 public class GraduationController {
 
     private final ExamScraping examScraping;
-    private final TotalAcceptanceStatus totalAcceptanceStatus;
+    private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
     private final Condition condition;
     private final BasicCommonRequirement basicCommonRequirement;
     private final EnumMapperFactory enumMapperFactory;
     private final ExamRepository examRepository;
+    private final MajorRepository majorRepository;
 
 
     @GetMapping("/graduation")
     public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY,required = false)SessionForm sessionForm,
-                             Model model) throws IOException, InterruptedException {
+                             Model model) throws IOException, InterruptedException, SQLException {
 
         if(sessionForm.getIntCookie().isEmpty()){
             return "redirect:/login";
@@ -78,14 +81,22 @@ public class GraduationController {
             model.addAttribute("examForm", examBySid.get());
         }
 
+        Optional<MajorForm> majorBySid = majorRepository.findMajorBySid(sid);
+        if(majorBySid.isEmpty()){
+            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
+            MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
+
+            majorRepository.save(majorForm);
+            model.addAttribute("majorForm", majorForm);
+        }else{
+            model.addAttribute("majorForm", majorBySid.get());
+        }
+
         //전체이수 현황 테이블 추출
-        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatus.scrapping(intCookie);
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
 
         BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
-
-        MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
-        model.addAttribute("majorForm", majorForm);
 
         RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("refinementForm", refinementForm);
