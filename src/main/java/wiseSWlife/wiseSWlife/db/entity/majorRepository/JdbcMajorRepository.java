@@ -11,6 +11,7 @@ import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Slf4j
@@ -23,19 +24,25 @@ public class JdbcMajorRepository implements MajorRepository {
 
     @Override
     public MajorForm save(MajorForm majorForm) {
-        String sql = "insert into Major_TB (student_id, major_begin_and_requirement_arr, major_requirement_credit, major_select_arr, common_major, future_design) values(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into Major_TB (student_id, major_begin_and_requirement_arr, major_requirement_credit, major_select_arr, common_major, future_design) values(?, ?, ?, ?, ?, ?)";
+
 
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
+        //Object[] data = majorForm.getMajorBeginAndRequirementArr().toArray(new Object[majorForm.getMajorBeginAndRequirementArr().size()]);
+        //Array sqlArray = getConnection().createArrayOf("VARCHAR", new Object[]{"1", "2","3"});
+
+        //Object[] data2 = majorForm.getMajorSelectArr().toArray(new Object[majorForm.getMajorSelectArr().size()]);
+        //Array sqlArray2 = getConnection().createArrayOf("VARCHAR", new Object[]{"1", "2","3"});
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, majorForm.getSid());
-            pstmt.setArray(2, (Array) majorForm.getMajorBeginAndRequirementArr());
+            pstmt.setString(2, majorForm.getMajorBeginAndRequirementArr().toString());
             pstmt.setInt(3, majorForm.getMajorRequirementCredit());
-            pstmt.setArray(4, (Array) majorForm.getMajorSelectArr());
+            pstmt.setString(4, majorForm.getMajorSelectArr().toString());
             pstmt.setInt(5, majorForm.getCommonMajor());
             pstmt.setInt(6, majorForm.getFutureDesign());
 
@@ -62,9 +69,9 @@ public class JdbcMajorRepository implements MajorRepository {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, majorForm.getSid());
-            pstmt.setArray(2, (Array) majorForm.getMajorBeginAndRequirementArr());
+            pstmt.setString(2, majorForm.getMajorBeginAndRequirementArr().toString());
             pstmt.setInt(3, majorForm.getMajorRequirementCredit());
-            pstmt.setArray(4, (Array) majorForm.getMajorSelectArr());
+            pstmt.setString(4, majorForm.getMajorSelectArr().toString());
             pstmt.setInt(5, majorForm.getCommonMajor());
             pstmt.setInt(6, majorForm.getFutureDesign());
             pstmt.executeUpdate();
@@ -94,9 +101,9 @@ public class JdbcMajorRepository implements MajorRepository {
             if(rs.next()){
                 MajorForm majorForm = new MajorForm();
                 majorForm.setSid(rs.getString("student_id"));
-                majorForm.setMajorBeginAndRequirementArr((ArrayList<String>) rs.getArray("major_begin_and_requirement_arr"));
+                majorForm.setMajorBeginAndRequirementArr(new ArrayList<>(Arrays.asList(rs.getString("major_begin_and_requirement_arr").split(", "))));
                 majorForm.setMajorRequirementCredit(rs.getInt("major_requirement_credit"));
-                majorForm.setMajorSelectArr((ArrayList<String>) rs.getArray("major_select_arr"));
+                majorForm.setMajorSelectArr(new ArrayList<>(Arrays.asList(rs.getString("major_select_arr").split(", "))));
                 majorForm.setCommonMajor(rs.getInt("common_major"));
                 majorForm.setFutureDesign(rs.getInt("future_design"));
                 return Optional.of(majorForm);
