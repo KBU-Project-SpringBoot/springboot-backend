@@ -13,6 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -74,6 +76,38 @@ public class JdbcExamRepository implements ExamRepository {
         }
 
         return examForm;
+    }
+
+    @Override
+    public List<ExamForm> findAll() {
+        String sql = "select * from Exam_TB";
+        List<ExamForm> examFormList = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                ExamForm examForm = new ExamForm(
+                        rs.getString("student_id"),
+                        rs.getBoolean("bible"),
+                        rs.getBoolean("english"),
+                        rs.getBoolean("computer"),
+                        rs.getBoolean("computer2")
+                );
+                examFormList.add(examForm);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            close(conn, pstmt, rs);
+        }
+        return examFormList;
     }
 
 

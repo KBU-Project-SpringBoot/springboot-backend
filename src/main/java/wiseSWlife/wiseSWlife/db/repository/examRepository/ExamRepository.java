@@ -2,7 +2,7 @@ package wiseSWlife.wiseSWlife.db.repository.examRepository;
 
 import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
 
-import java.util.Map;
+import java.util.List;
 
 public interface ExamRepository {
 
@@ -19,5 +19,6 @@ public interface ExamRepository {
     /**
      * 졸업시험 전체를 조회하는 기능
      */
+    List<ExamForm> findAll();
 
 }
