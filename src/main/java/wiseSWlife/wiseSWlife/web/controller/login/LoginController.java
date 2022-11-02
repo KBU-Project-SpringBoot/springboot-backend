@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.service.login.loginServiceImpl.SimpleLoginService;
+import wiseSWlife.wiseSWlife.model.intranet.Intranet;
 import wiseSWlife.wiseSWlife.model.member.Member;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
 import wiseSWlife.wiseSWlife.model.loginForm.LoginForm;
+import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,7 +31,8 @@ import java.util.Optional;
 public class LoginController {
 
     private final MemberRepository memberRepository;
-    private final SimpleLoginService simpleLoginService;
+    private final LoginService loginService;
+    private final IntranetRepository intranetRepository;
 
     @GetMapping("/login")
     public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
@@ -44,7 +47,7 @@ public class LoginController {
             return "login/loginForm";
         }
 
-        Member loginMember = simpleLoginService.login(form.getLoginId(), form.getPassword());
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
 
         if (loginMember == null) {
             log.info("Login Fail \n info [id = {}] [pw = {}] ",form.getLoginId(), form.getPassword());
@@ -60,6 +63,14 @@ public class LoginController {
             memberRepository.save(loginMember);
         }
         memberRepository.update(loginMember);
+
+        Intranet loginIntranet = new Intranet(loginMember.getSid(), form.getLoginId(), form.getPassword());
+
+        Optional<Intranet> byIntranetId = intranetRepository.findByIntranetId(form.getLoginId());
+        if(byIntranetId.isEmpty()){
+            intranetRepository.save(loginIntranet);
+        }
+        intranetRepository.update(loginIntranet);
 
         HttpSession session = request.getSession();
         SessionForm sessionForm = new SessionForm(loginMember.getSid(),loginMember.getName(), loginMember.getMajor(), loginMember.getIntCookie());

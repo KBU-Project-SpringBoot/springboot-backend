@@ -1,17 +1,17 @@
-package wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement;
+package wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.form.BCRForm;
+import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 
 import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
-public class ParsingBCR {
+public class BasicCommonRequirementImpl implements BasicCommonRequirement {
 
-    public BCRForm getStudy(ArrayList<String>[] myBasicCommonRequirement, ArrayList<String>[] myRefinementRequirement){
+    public BCRForm parse(String sid, ArrayList<String>[] myBasicCommonRequirement, ArrayList<String>[] myRefinementRequirement){
         int chapel = 8;//채플
         int conduction = 8;//전도훈련
         Boolean wheatGrain = false;//밀알훈련
@@ -37,7 +37,7 @@ public class ParsingBCR {
             }
         }
 
-        BCRForm bcrForm = new BCRForm(chapel, conduction, wheatGrain, bibleStudy);
+        BCRForm bcrForm = new BCRForm(sid, chapel, conduction, wheatGrain, bibleStudy);
 
         return bcrForm;
     }

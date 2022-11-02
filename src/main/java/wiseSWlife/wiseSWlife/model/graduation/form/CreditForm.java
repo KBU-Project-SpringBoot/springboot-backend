@@ -6,9 +6,7 @@ import lombok.Setter;
 
 @AllArgsConstructor @Setter @Getter
 public class CreditForm {
-    private int standardCredit;
+    private String sid;
 
-    private int myCredit;
-
-    private String creditPercentage;
+    private int credit;
 }

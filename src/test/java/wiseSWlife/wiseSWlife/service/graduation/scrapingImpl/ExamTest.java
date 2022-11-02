@@ -1,11 +1,10 @@
-package wiseSWlife.wiseSWlife.service.graduation.scraping;
+package wiseSWlife.wiseSWlife.service.graduation.scrapingImpl;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import wiseSWlife.wiseSWlife.db.entity.memberRepository.MemoryMemberRepository;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
 import wiseSWlife.wiseSWlife.model.member.Member;
-import wiseSWlife.wiseSWlife.service.graduation.scrapping.Exam;
 import wiseSWlife.wiseSWlife.service.login.loginServiceImpl.SimpleLoginService;
 
 import java.io.IOException;
@@ -14,8 +13,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExamTest {
-    MemberRepository memberRepository = new MemoryMemberRepository();
-    SimpleLoginService simpleLoginService = new SimpleLoginService(memberRepository);
+    SimpleLoginService simpleLoginService = new SimpleLoginService();
 
     @DisplayName("로그인 여부")
     @Test
@@ -38,7 +36,7 @@ public class ExamTest {
         Exam exam = new Exam();
 
         //when
-        Map<String, Boolean> testMap = exam.scrapping(member.getIntCookie());
+        Map<String, Boolean> testMap = (Map<String, Boolean>) exam.scraping(member.getIntCookie());
 
         //then
         assertThat(testMap.get("성경")).isFalse();

@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
+import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +28,7 @@ public class Exam implements ExamScraping {
     String pythonEncoding;
 
     @Override
-    public ExamTable scrapping(String intCookie) throws IOException, InterruptedException {
+    public ExamTable scraping(String intCookie) throws IOException, InterruptedException {
         File testFile = new File(pythonFile);
         FileWriter fw = new FileWriter(testFile);
         fw.write("import asyncio\n" + "\n");
@@ -54,5 +58,25 @@ public class Exam implements ExamScraping {
         ExamTable examTable = gson.fromJson(testLine,ExamTable.class);
 
         return examTable;
+    }
+
+    @Override
+    public ExamForm convert(String sid, ExamTable table) {
+        Map<String, Boolean> examMap = new HashMap<>();
+        String[] subjects = {"성경", "영어", "컴퓨터", "컴퓨터2"};
+
+        for(String i : subjects){
+            examMap.put(i, false);
+        }
+
+        for(ArrayList i:table.getBody()){
+            if(i.get(4).equals("합격")){
+                examMap.put(i.get(1).toString(),true);
+            }
+        }
+
+        ExamForm examForm = new ExamForm(sid, examMap.get("성경"), examMap.get("영어"), examMap.get("컴퓨터"), examMap.get("컴퓨터2"));
+
+        return examForm;
     }
 }

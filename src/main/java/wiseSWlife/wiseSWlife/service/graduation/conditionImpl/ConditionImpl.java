@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.standardImpl;
+package wiseSWlife.wiseSWlife.service.graduation.conditionImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,52 +6,33 @@ import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.RefinementForm;
-import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperFactory;
-import wiseSWlife.wiseSWlife.service.graduation.vo.EnumMapperValue;
+import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+
 
 
 @Service
 @RequiredArgsConstructor
-public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.standardInterface.Standard {
+public class ConditionImpl implements Condition {
 
-    private final EnumMapperFactory enumMapperFactory;
-
-    EnumMapperValue condition = null;
 
     @Override
-    public void getCondition(String sid){
-        List<EnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-        for(EnumMapperValue i : list){
-            if(Objects.equals(i.getCode(), sid)){
-                condition = i;
-                break;
-            }
-        }
-    }
-
-    @Override
-    public CreditForm percentageGraduationCredit(int myCredit){
-        double creditPercentage = (double) myCredit / condition.getTotalCredit() * 100.0;
-        String formatingPercent = String.format("%.2f",creditPercentage);
-
-        CreditForm creditForm = new CreditForm(condition.getTotalCredit(),myCredit,formatingPercent);
+    public CreditForm checkCredit(String sid, int myCredit){
+        CreditForm creditForm = new CreditForm(sid, myCredit);
 
         return creditForm;
     }
 
     @Override
-    public GPAForm percentageGradationGPA(double myGPA){
-        GPAForm gpaForm = new GPAForm(condition.getTotalGPA(), myGPA);
+    public GPAForm checkGPA(String sid, double myGPA){
+        GPAForm gpaForm = new GPAForm(sid, myGPA);
 
         return gpaForm;
     }
 
     @Override
-    public MajorForm checkMajor(ArrayList<String>[] myMajorBegin, ArrayList<String>[] myMajorSelect, ArrayList<String>[] myMajorRequirement){
+    public MajorForm checkMajor(String sid, ArrayList<String>[] myMajorBegin, ArrayList<String>[] myMajorSelect, ArrayList<String>[] myMajorRequirement){
         int myMajorBeginCnt = 0;
         int myMajorSelectCnt = 0;
         int myMajorRequirementCnt = 0;
@@ -80,13 +61,13 @@ public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.st
             }
         }
 
-        MajorForm majorForm = new MajorForm(condition.getTotalMajorRequirement(), myMajorBeginAndRequirementArr, myMajorBeginCnt + myMajorRequirementCnt, condition.getTotalCommonMajor(), myMajorSelectArr, myMajorBeginCnt + myMajorRequirementCnt + myMajorSelectCnt , futureDesignCnt);
+        MajorForm majorForm = new MajorForm(sid, myMajorBeginAndRequirementArr, myMajorBeginCnt + myMajorRequirementCnt, myMajorSelectArr, myMajorBeginCnt + myMajorRequirementCnt + myMajorSelectCnt , futureDesignCnt);
 
         return majorForm;
     }
 
     @Override
-    public RefinementForm checkRefinement(ArrayList<String>[] myRefinementSelect, ArrayList<String>[] myRefinementRequirement){
+    public RefinementForm checkRefinement(String sid, ArrayList<String>[] myRefinementSelect, ArrayList<String>[] myRefinementRequirement){
         int myRefinementCnt = 0;
         ArrayList<String> myRefinementArr = new ArrayList<>();
         int myEnglishCnt = 0;
@@ -110,7 +91,7 @@ public class StandardImpl implements wiseSWlife.wiseSWlife.service.graduation.st
             }
         }
 
-        RefinementForm refinementForm = new RefinementForm(condition.getTotalRefinement(), myRefinementArr, myRefinementCnt, condition.getTotalEnglish(), myEnglishArr, myEnglishCnt, condition.getTotalBasicClass(), myBasicClassCnt, myCollegeLifeAndSelfDevelopment);
+        RefinementForm refinementForm = new RefinementForm(sid, myRefinementArr, myRefinementCnt, myEnglishArr, myEnglishCnt, myBasicClassCnt, myCollegeLifeAndSelfDevelopment);
 
         return refinementForm;
     }

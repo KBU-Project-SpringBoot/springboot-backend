@@ -6,6 +6,8 @@ import lombok.Setter;
 
 @Getter @Setter @AllArgsConstructor
 public class BCRForm {
+    private String sid;
+
     private int chapel;
 
     private int conduction;

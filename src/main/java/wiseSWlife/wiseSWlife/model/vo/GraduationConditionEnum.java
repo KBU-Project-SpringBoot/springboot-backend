@@ -1,8 +1,9 @@
-package wiseSWlife.wiseSWlife.service.graduation.vo;
+package wiseSWlife.wiseSWlife.model.vo;
 
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperType;
 
 /**
  * sid : 학년과 학번의 조합
@@ -16,7 +17,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum GraduationCondition implements EnumMapperType{
+public enum GraduationConditionEnum implements GraduationConditionEnumMapperType {
     성16(140, 1.5, 20, 66, 12, 6, 15),
     성17(140, 1.5, 20, 66, 12, 6, 15),
     성18(140, 1.5, 27, 66, 12, 6, 15),
