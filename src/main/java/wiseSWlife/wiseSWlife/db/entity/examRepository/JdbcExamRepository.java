@@ -24,7 +24,29 @@ public class JdbcExamRepository implements ExamRepository {
 
     @Override
     public ExamForm save(ExamForm examForm) {
-        return null;
+        String sql = "insert into Exam_TB (student_id, bible, english, computer, computer2) values(?, ?, ?, ?, ?)";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, examForm.getSid());
+            pstmt.setBoolean(2, examForm.getBible());
+            pstmt.setBoolean(3, examForm.getEnglish());
+            pstmt.setBoolean(4, examForm.getComputer());
+            pstmt.setBoolean(5, examForm.getComputer2());
+            pstmt.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            close(conn, pstmt, rs);
+        }
+
+        return examForm;
     }
 
     @Override
