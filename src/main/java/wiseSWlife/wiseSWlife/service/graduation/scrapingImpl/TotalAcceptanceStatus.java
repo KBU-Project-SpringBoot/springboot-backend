@@ -6,12 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
+import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
 
 import java.io.*;
 
 @Service
 @RequiredArgsConstructor
-public class TotalAcceptanceStatus {
+public class TotalAcceptanceStatus implements TotalAcceptanceStatusScraping {
     @Value("${python.engine}")
     String pythonEngine;
 
