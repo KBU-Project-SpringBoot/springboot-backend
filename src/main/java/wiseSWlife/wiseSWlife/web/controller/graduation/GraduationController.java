@@ -69,14 +69,13 @@ public class GraduationController {
 
         //졸업 시험 테이블 추출
         Optional<ExamForm> examBySid = examRepository.findExamBySid(sid);
-
         if(examBySid.isEmpty()){
             ExamTable examTable = examScraping.scraping(intCookie);
             ExamForm examForm = examScraping.convert(sid, examTable);//key : 시험이름, value : 통과여부
             examRepository.save(examForm);
             model.addAttribute("examForm", examForm);
         }else{
-            model.addAttribute("examForm", examBySid);
+            model.addAttribute("examForm", examBySid.get());
         }
 
         //전체이수 현황 테이블 추출
