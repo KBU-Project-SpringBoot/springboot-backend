@@ -44,6 +44,11 @@ public class GraduationController {
         if(sessionForm.getIntCookie().isEmpty()){
             return "redirect:/login";
         }
+        if(sessionForm.getSid().substring(4, 7).equals("070")){
+            model.addAttribute("exceptionMsg", "편입생은 서비스를 준비중입니다...");
+            model.addAttribute("exceptionUri", "/");
+            return "home/home";
+        }
 
         String intCookie = sessionForm.getIntCookie();
         String sid = sessionForm.getSid();

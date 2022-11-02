@@ -11,6 +11,7 @@ import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.auctionBoardRepository.AuctionBoardRepository;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardCommentRepository;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardRepository;
+import java.io.IOException;
 
 @Slf4j
 @Controller
@@ -19,7 +20,6 @@ public class myPageController {
 
     private final FreeBoardRepository freeBoardRepository;
     private final FreeBoardCommentRepository freeBoardCommentRepository;
-
     private final AuctionBoardRepository auctionBoardRepository;
 
 
@@ -49,6 +49,14 @@ public class myPageController {
         model.addAttribute("sessionForm", sessionForm);
         model.addAttribute("freeBoardComments", freeBoardCommentRepository.findAllFreeBoardCommentBySid(sessionForm.getSid()));
         return "myPage/myComment/myComment";
+    }
+
+    @GetMapping("/myPage/myProfile")
+    public String profile(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY,required = false)
+                          SessionForm sessionForm, Model model) throws IOException, InterruptedException {
+
+        model.addAttribute("sessionForm", sessionForm);
+        return "myPage/myProfile/myProfile";
     }
 
 }

@@ -55,7 +55,7 @@ public class JdbcMemberRepository implements MemberRepository  {
     @Override
     public Member update(Member member) {
 
-        String sql = "update Student_TB set student_id = ?, student_name = ?, student_major = ?";
+        String sql = "update Student_TB set student_name = ?, student_major = ? where student_id =?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -65,10 +65,10 @@ public class JdbcMemberRepository implements MemberRepository  {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1, member.getSid());
-            pstmt.setString(2, member.getName());
-            pstmt.setString(3, member.getMajor());
 
+            pstmt.setString(1, member.getName());
+            pstmt.setString(2, member.getMajor());
+            pstmt.setString(3, member.getSid());
             pstmt.executeUpdate();
 
         } catch (Exception e){

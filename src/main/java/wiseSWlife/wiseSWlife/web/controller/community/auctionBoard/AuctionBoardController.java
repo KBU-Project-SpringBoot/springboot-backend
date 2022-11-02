@@ -17,6 +17,7 @@ import wiseSWlife.wiseSWlife.service.img.imgServiceInf.ImgService;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -55,7 +56,10 @@ public class AuctionBoardController {
         //post success logic
         if(!sellForm.getImg().isEmpty()){
             ImgItem imgItem = imgService.saveImg(sellForm.getImg());
-            auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), sellForm.getPrice(),imgRepository.findImgBySeq(imgItem.getManageSeq()).getStoreImgName(), sellForm.getText(), new Date().toString()));
+            Date from = new Date();
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String date = transFormat.format(from);
+            auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), sellForm.getPrice(),imgRepository.findImgBySeq(imgItem.getManageSeq()).getStoreImgName(), sellForm.getText(), date));
         }else{
             auctionBoardRepository.save(new Auction(sellForm.getSeller(),sessionForm.getSid(), sellForm.getProductName(), sellForm.getPrice(),null, sellForm.getText(), new Date().toString()));
         }
