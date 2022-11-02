@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
@@ -21,6 +22,7 @@ import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationCondi
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -32,6 +34,7 @@ public class GraduationController {
     private final Condition condition;
     private final BasicCommonRequirement basicCommonRequirement;
     private final EnumMapperFactory enumMapperFactory;
+    private final ExamRepository examRepository;
 
 
     @GetMapping("/graduation")
@@ -46,6 +49,7 @@ public class GraduationController {
         String sid = sessionForm.getSid();
         String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
+
         GraduationConditionEnumMapperValue condition = null;
 
         List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
@@ -59,10 +63,16 @@ public class GraduationController {
         model.addAttribute("vo", condition);
 
         //졸업 시험 테이블 추출
-        ExamTable examTable = examScraping.scraping(intCookie);
-        ExamForm examForm = examScraping.convert(sid, examTable);//key : 시험이름, value : 통과여부
+        Optional<ExamForm> examBySid = examRepository.findExamBySid(sid);
 
-        model.addAttribute("examForm", examForm);
+        if(examBySid.isEmpty()){
+            ExamTable examTable = examScraping.scraping(intCookie);
+            ExamForm examForm = examScraping.convert(sid, examTable);//key : 시험이름, value : 통과여부
+            examRepository.save(examForm);
+            model.addAttribute("examForm", examForm);
+        }else{
+            model.addAttribute("examForm", examBySid);
+        }
 
         //전체이수 현황 테이블 추출
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatus.scrapping(intCookie);
