@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -108,6 +109,39 @@ public class JdbcExamRepository implements ExamRepository {
             close(conn, pstmt, rs);
         }
         return examFormList;
+    }
+
+    @Override
+    public Optional<ExamForm> findExamBySid(String sid) {
+        String sql = "select * from Exam_TB where student_id = ?";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, sid);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                ExamForm examForm = new ExamForm();
+                examForm.setSid(rs.getString("student_id"));
+                examForm.setBible(rs.getBoolean("bible"));
+                examForm.setEnglish(rs.getBoolean("english"));
+                examForm.setComputer(rs.getBoolean("computer"));
+                examForm.setComputer2(rs.getBoolean("computer2"));
+                return Optional.of(examForm);
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            close(conn, pstmt, rs);
+        }
+
+        return Optional.empty();
     }
 
 
