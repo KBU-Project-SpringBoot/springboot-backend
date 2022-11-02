@@ -1,12 +1,12 @@
-package wiseSWlife.wiseSWlife.db.entity.memberRepository;
+package wiseSWlife.wiseSWlife.db.entity.examRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
-import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
-import wiseSWlife.wiseSWlife.model.member.Member;
+import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
+import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,17 +18,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@Primary
 @Repository
+@Primary
 @RequiredArgsConstructor
-public class JdbcMemberRepository implements MemberRepository  {
+public class JdbcExamRepository implements ExamRepository {
 
     private final DataSource dataSource;
 
     @Override
-    public Member save(Member member){
-
-        String sql = "insert into Student_TB values(?, ?, ?)";
+    public ExamForm save(ExamForm examForm) {
+        String sql = "insert into Exam_TB (student_id, bible, english, computer, computer2) values(?, ?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -37,11 +36,11 @@ public class JdbcMemberRepository implements MemberRepository  {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-
-            pstmt.setString(1, member.getSid());
-            pstmt.setString(2, member.getName());
-            pstmt.setString(3, member.getMajor());
-
+            pstmt.setString(1, examForm.getSid());
+            pstmt.setBoolean(2, examForm.getBible());
+            pstmt.setBoolean(3, examForm.getEnglish());
+            pstmt.setBoolean(4, examForm.getComputer());
+            pstmt.setBoolean(5, examForm.getComputer2());
             pstmt.executeUpdate();
 
         }catch (Exception e){
@@ -49,13 +48,13 @@ public class JdbcMemberRepository implements MemberRepository  {
         }finally {
             close(conn, pstmt, rs);
         }
-        return member;
+
+        return examForm;
     }
 
     @Override
-    public Member update(Member member) {
-
-        String sql = "update Student_TB set student_name = ?, student_major = ? where student_id =?";
+    public ExamForm update(ExamForm examForm) {
+        String sql = "update Exam_TB set student_id = ?, bible = ?, english = ?, computer = ?, computer2 = ? where student_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -64,11 +63,11 @@ public class JdbcMemberRepository implements MemberRepository  {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-
-
-            pstmt.setString(1, member.getName());
-            pstmt.setString(2, member.getMajor());
-            pstmt.setString(3, member.getSid());
+            pstmt.setString(1, examForm.getSid());
+            pstmt.setBoolean(2, examForm.getBible());
+            pstmt.setBoolean(3, examForm.getEnglish());
+            pstmt.setBoolean(4, examForm.getComputer());
+            pstmt.setBoolean(5, examForm.getComputer2());
             pstmt.executeUpdate();
 
         } catch (Exception e){
@@ -77,12 +76,44 @@ public class JdbcMemberRepository implements MemberRepository  {
             close(conn, pstmt, rs);
         }
 
-        return member;
+        return examForm;
     }
 
     @Override
-    public Optional<Member> findBySid(String sid) {
-        String sql = "select * from Student_TB where student_id =?";
+    public List<ExamForm> findAll() {
+        String sql = "select * from Exam_TB";
+        List<ExamForm> examFormList = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                ExamForm examForm = new ExamForm(
+                        rs.getString("student_id"),
+                        rs.getBoolean("bible"),
+                        rs.getBoolean("english"),
+                        rs.getBoolean("computer"),
+                        rs.getBoolean("computer2")
+                );
+                examFormList.add(examForm);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            close(conn, pstmt, rs);
+        }
+        return examFormList;
+    }
+
+    @Override
+    public Optional<ExamForm> findExamBySid(String sid) {
+        String sql = "select * from Exam_TB where student_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -95,11 +126,13 @@ public class JdbcMemberRepository implements MemberRepository  {
             rs = pstmt.executeQuery();
 
             if(rs.next()){
-                Member member = new Member();
-                member.setSid(rs.getString("student_id"));
-                member.setName(rs.getString("student_name"));
-                member.setMajor(rs.getString("student_major"));
-                return Optional.of(member);
+                ExamForm examForm = new ExamForm();
+                examForm.setSid(rs.getString("student_id"));
+                examForm.setBible(rs.getBoolean("bible"));
+                examForm.setEnglish(rs.getBoolean("english"));
+                examForm.setComputer(rs.getBoolean("computer"));
+                examForm.setComputer2(rs.getBoolean("computer2"));
+                return Optional.of(examForm);
             }
 
         } catch (Exception e){
@@ -107,40 +140,10 @@ public class JdbcMemberRepository implements MemberRepository  {
         } finally {
             close(conn, pstmt, rs);
         }
+
         return Optional.empty();
     }
 
-    @Override
-    public List<Member> findAll() {
-        String sql = "select * from Student_TB";
-
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = getConnection();
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-
-            List<Member> members = new ArrayList<>();
-
-            while (rs.next()){
-                Member member = new Member();
-                member.setSid(rs.getString("student_id"));
-                member.setName(rs.getString("student_name"));
-                member.setMajor(rs.getString("student_major"));
-                members.add(member);
-            }
-            return members;
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            close(conn, pstmt, rs);
-        }
-        return null;
-    }
 
     // DB connect
     private Connection getConnection() {
