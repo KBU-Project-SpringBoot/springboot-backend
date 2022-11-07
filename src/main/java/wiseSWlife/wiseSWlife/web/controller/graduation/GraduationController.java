@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
+import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
@@ -40,6 +41,7 @@ public class GraduationController {
     private final ExamRepository examRepository;
     private final MajorRepository majorRepository;
     private final RefinementRepo refinementRepo;
+    private final TotalCreditRepository totalCreditRepository;
 
     @GetMapping("/graduation")
     public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY,required = false)SessionForm sessionForm,
@@ -102,14 +104,20 @@ public class GraduationController {
             model.addAttribute("refinementForm", refinementForm);
         }
 
+        Optional<CreditForm> totalCreditBySid = totalCreditRepository.findTotalCreditBySid(sid);
+        if(totalCreditBySid.isEmpty()){
+            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
+            CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+
+            totalCreditRepository.save(creditForm);
+            model.addAttribute("creditForm", creditForm);
+        }
+
         //전체이수 현황 테이블 추출
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
 
         BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
-
-        CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
-        model.addAttribute("creditForm", creditForm);
 
         GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
         model.addAttribute("gpaForm", gpaForm);
