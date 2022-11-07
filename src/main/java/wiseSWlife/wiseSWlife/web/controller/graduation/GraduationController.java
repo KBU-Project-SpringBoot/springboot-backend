@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
+import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
@@ -38,7 +39,7 @@ public class GraduationController {
     private final EnumMapperFactory enumMapperFactory;
     private final ExamRepository examRepository;
     private final MajorRepository majorRepository;
-
+    private final RefinementRepo refinementRepo;
 
     @GetMapping("/graduation")
     public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY,required = false)SessionForm sessionForm,
@@ -92,21 +93,26 @@ public class GraduationController {
             model.addAttribute("majorForm", majorBySid.get());
         }
 
+        Optional<RefinementForm> refinementBySid = refinementRepo.findRefinementBySid(sid);
+        if(refinementBySid.isEmpty()){
+            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
+            RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+
+            refinementRepo.save(refinementForm);
+            model.addAttribute("refinementForm", refinementForm);
+        }
+
         //전체이수 현황 테이블 추출
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
 
         BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
 
-        RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
-        model.addAttribute("refinementForm", refinementForm);
-
         CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
         model.addAttribute("creditForm", creditForm);
+
         GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
         model.addAttribute("gpaForm", gpaForm);
-
-
 
         model.addAttribute("sessionForm", sessionForm);
         return "graduate/graduation";
