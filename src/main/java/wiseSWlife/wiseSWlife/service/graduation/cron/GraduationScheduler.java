@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
+import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
+import wiseSWlife.wiseSWlife.model.graduation.form.RefinementForm;
 import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
 import wiseSWlife.wiseSWlife.model.intranet.Intranet;
 import wiseSWlife.wiseSWlife.model.member.Member;
@@ -40,6 +42,7 @@ public class GraduationScheduler {
     private final ExamRepository examRepository;
     private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
     private final MajorRepository majorRepository;
+    private final RefinementRepo refinementRepo;
 
     /**
      * 1학기 성적 확인 일정
@@ -92,6 +95,9 @@ public class GraduationScheduler {
 
             MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
             majorRepository.update(majorForm);
+
+            RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+            refinementRepo.update(refinementForm);
         }
 
 
