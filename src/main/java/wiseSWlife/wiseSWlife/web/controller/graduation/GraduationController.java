@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
@@ -44,6 +45,7 @@ public class GraduationController {
     private final RefinementRepo refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
     private final GPARepository gpaRepository;
+    private final BCRRepository bcrRepository;
 
     @GetMapping("/graduation")
     public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY,required = false)SessionForm sessionForm,
@@ -130,12 +132,16 @@ public class GraduationController {
             model.addAttribute("gpaForm", gpaBySid.get());
         }
 
-        //전체이수 현황 테이블 추출
-        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
+        Optional<BCRForm> bcrBySid = bcrRepository.findBCRBySid(sid);
+        if(bcrBySid.isEmpty()){
+            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
+            BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
 
-        BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
-        model.addAttribute("bcrForm", bcrForm);
-
+            bcrRepository.save(bcrForm);
+            model.addAttribute("bcrForm", bcrForm);
+        }else{
+            model.addAttribute("gpaForm", bcrBySid.get());
+        }
 
         model.addAttribute("sessionForm", sessionForm);
         return "graduate/graduation";

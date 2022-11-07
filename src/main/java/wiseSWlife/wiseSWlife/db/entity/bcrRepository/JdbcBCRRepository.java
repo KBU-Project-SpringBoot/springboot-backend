@@ -1,12 +1,12 @@
-package wiseSWlife.wiseSWlife.db.entity.gpaRepository;
+package wiseSWlife.wiseSWlife.db.entity.bcrRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
-import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
-import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
+import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
+import wiseSWlife.wiseSWlife.model.graduation.form.BCRForm;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -19,13 +19,13 @@ import java.util.Optional;
 @Repository
 @Primary
 @RequiredArgsConstructor
-public class JdbcGPARepository implements GPARepository {
+public class JdbcBCRRepository implements BCRRepository {
 
     private final DataSource dataSource;
 
     @Override
-    public GPAForm save(GPAForm gpaForm) {
-        String sql = "insert into GPA_TB (student_id, gpa) values(?, ?)";
+    public BCRForm save(BCRForm bcrForm) {
+        String sql = "insert into Basic_Common_Requirement_TB (student_id, chapel, conduction, wheat_grain, bible_study) values(?, ?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -34,8 +34,11 @@ public class JdbcGPARepository implements GPARepository {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, gpaForm.getSid());
-            pstmt.setDouble(2, gpaForm.getGpa());
+            pstmt.setString(1, bcrForm.getSid());
+            pstmt.setInt(2,bcrForm.getChapel());
+            pstmt.setInt(3,bcrForm.getConduction());
+            pstmt.setBoolean(4,bcrForm.getWheatGrain());
+            pstmt.setInt(5,bcrForm.getBibleStudy());
 
             pstmt.executeUpdate();
 
@@ -45,12 +48,12 @@ public class JdbcGPARepository implements GPARepository {
             close(conn, pstmt, rs);
         }
 
-        return gpaForm;
+        return bcrForm;
     }
 
     @Override
-    public GPAForm update(GPAForm gpaForm) {
-        String sql = "update GPA_TB set student_id = ?, gpa = ? where student_id = ?";
+    public BCRForm update(BCRForm bcrForm) {
+        String sql = "update Basic_Common_Requirement_TB set student_id = ?, chapel = ?, conduction = ?, wheat_grain = ?, bible_study = ? where student_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -59,8 +62,11 @@ public class JdbcGPARepository implements GPARepository {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, gpaForm.getSid());
-            pstmt.setDouble(2, gpaForm.getGpa());
+            pstmt.setString(1, bcrForm.getSid());
+            pstmt.setInt(2,bcrForm.getChapel());
+            pstmt.setInt(3,bcrForm.getConduction());
+            pstmt.setBoolean(4,bcrForm.getWheatGrain());
+            pstmt.setInt(5,bcrForm.getBibleStudy());
             pstmt.executeUpdate();
 
         } catch (Exception e){
@@ -68,12 +74,12 @@ public class JdbcGPARepository implements GPARepository {
         } finally {
             close(conn, pstmt, rs);
         }
-        return gpaForm;
+        return bcrForm;
     }
 
     @Override
-    public Optional<GPAForm> findGPABySid(String sid) {
-        String sql = "select * from GPA_TB where student_id = ?";
+    public Optional<BCRForm> findBCRBySid(String sid) {
+        String sql = "select * from Basic_Common_Requirement_TB where student_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -86,10 +92,13 @@ public class JdbcGPARepository implements GPARepository {
             rs = pstmt.executeQuery();
 
             if(rs.next()){
-                GPAForm gpaForm = new GPAForm();
-                gpaForm.setSid(rs.getString("student_id"));
-                gpaForm.setGpa(rs.getDouble("gpa"));
-                return Optional.of(gpaForm);
+                BCRForm bcrForm = new BCRForm();
+                bcrForm.setSid(rs.getString("student_id"));
+                bcrForm.setChapel(rs.getInt("chapel"));
+                bcrForm.setConduction(rs.getInt("conduction"));
+                bcrForm.setWheatGrain(rs.getBoolean("wheat_grain"));
+                bcrForm.setBibleStudy(rs.getInt("bible_study"));
+                return Optional.of(bcrForm);
             }
 
         } catch (Exception e){

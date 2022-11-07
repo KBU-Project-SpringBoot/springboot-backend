@@ -3,6 +3,7 @@ package wiseSWlife.wiseSWlife.service.graduation.cron;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
@@ -16,6 +17,7 @@ import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationCondi
 import wiseSWlife.wiseSWlife.model.intranet.Intranet;
 import wiseSWlife.wiseSWlife.model.member.Member;
 import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
+import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
@@ -37,6 +39,7 @@ public class GraduationScheduler {
     private final IntranetRepository intranetRepository;
     private final LoginService loginService;
     private final EnumMapperFactory enumMapperFactory;
+    private final BasicCommonRequirement basicCommonRequirement;
     private final Condition condition;
     private final ExamScraping examScraping;
     private final ExamRepository examRepository;
@@ -45,6 +48,7 @@ public class GraduationScheduler {
     private final RefinementRepo refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
     private final GPARepository gpaRepository;
+    private final BCRRepository bcrRepository;
 
     /**
      * 1학기 성적 확인 일정
@@ -106,6 +110,9 @@ public class GraduationScheduler {
 
             GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
             gpaRepository.update(gpaForm);
+
+            BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+            bcrRepository.update(bcrForm);
         }
 
     }
