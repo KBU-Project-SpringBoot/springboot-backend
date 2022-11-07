@@ -7,8 +7,10 @@ import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
+import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
+import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
 import wiseSWlife.wiseSWlife.model.graduation.form.RefinementForm;
@@ -43,6 +45,7 @@ public class GraduationScheduler {
     private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
     private final MajorRepository majorRepository;
     private final RefinementRepo refinementRepo;
+    private final TotalCreditRepository totalCreditRepository;
 
     /**
      * 1학기 성적 확인 일정
@@ -98,6 +101,9 @@ public class GraduationScheduler {
 
             RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
             refinementRepo.update(refinementForm);
+
+            CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+            totalCreditRepository.update(creditForm);
         }
 
 
