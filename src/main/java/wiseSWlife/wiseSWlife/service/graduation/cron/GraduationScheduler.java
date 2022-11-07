@@ -4,16 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
+import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
 import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
-import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
-import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
-import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
-import wiseSWlife.wiseSWlife.model.graduation.form.RefinementForm;
+import wiseSWlife.wiseSWlife.model.graduation.form.*;
 import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
 import wiseSWlife.wiseSWlife.model.intranet.Intranet;
 import wiseSWlife.wiseSWlife.model.member.Member;
@@ -46,6 +44,7 @@ public class GraduationScheduler {
     private final MajorRepository majorRepository;
     private final RefinementRepo refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
+    private final GPARepository gpaRepository;
 
     /**
      * 1학기 성적 확인 일정
@@ -104,8 +103,10 @@ public class GraduationScheduler {
 
             CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
             totalCreditRepository.update(creditForm);
-        }
 
+            GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+            gpaRepository.update(gpaForm);
+        }
 
     }
 

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
+import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
 import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
@@ -42,6 +43,7 @@ public class GraduationController {
     private final MajorRepository majorRepository;
     private final RefinementRepo refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
+    private final GPARepository gpaRepository;
 
     @GetMapping("/graduation")
     public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY,required = false)SessionForm sessionForm,
@@ -102,6 +104,8 @@ public class GraduationController {
 
             refinementRepo.save(refinementForm);
             model.addAttribute("refinementForm", refinementForm);
+        }else{
+            model.addAttribute("refinementForm", refinementBySid.get());
         }
 
         Optional<CreditForm> totalCreditBySid = totalCreditRepository.findTotalCreditBySid(sid);
@@ -111,6 +115,19 @@ public class GraduationController {
 
             totalCreditRepository.save(creditForm);
             model.addAttribute("creditForm", creditForm);
+        }else{
+            model.addAttribute("creditForm", totalCreditBySid.get());
+        }
+
+        Optional<GPAForm> gpaBySid = gpaRepository.findGPABySid(sid);
+        if(gpaBySid.isEmpty()){
+            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
+            GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+
+            gpaRepository.save(gpaForm);
+            model.addAttribute("gpaForm", gpaForm);
+        }else{
+            model.addAttribute("gpaForm", gpaBySid.get());
         }
 
         //전체이수 현황 테이블 추출
@@ -119,8 +136,6 @@ public class GraduationController {
         BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("bcrForm", bcrForm);
 
-        GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
-        model.addAttribute("gpaForm", gpaForm);
 
         model.addAttribute("sessionForm", sessionForm);
         return "graduate/graduation";
