@@ -3,11 +3,13 @@ package wiseSWlife.wiseSWlife.model.graduation.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 
 @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor
 public class RefinementForm {
     private String sid;
 

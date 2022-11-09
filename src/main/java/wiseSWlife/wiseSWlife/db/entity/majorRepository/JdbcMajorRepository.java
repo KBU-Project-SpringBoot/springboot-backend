@@ -26,7 +26,6 @@ public class JdbcMajorRepository implements MajorRepository {
     public MajorForm save(MajorForm majorForm) {
         String sql = "insert into Major_TB (student_id, major_begin_and_requirement_arr, major_requirement_credit, major_select_arr, common_major, future_design) values(?, ?, ?, ?, ?, ?)";
 
-
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

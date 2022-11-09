@@ -3,17 +3,21 @@ package wiseSWlife.wiseSWlife.service.graduation.cron;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
+import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
+import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
+import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
-import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
-import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
+import wiseSWlife.wiseSWlife.model.graduation.form.*;
 import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
 import wiseSWlife.wiseSWlife.model.intranet.Intranet;
 import wiseSWlife.wiseSWlife.model.member.Member;
 import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
+import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
@@ -35,11 +39,16 @@ public class GraduationScheduler {
     private final IntranetRepository intranetRepository;
     private final LoginService loginService;
     private final EnumMapperFactory enumMapperFactory;
+    private final BasicCommonRequirement basicCommonRequirement;
     private final Condition condition;
     private final ExamScraping examScraping;
     private final ExamRepository examRepository;
     private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
     private final MajorRepository majorRepository;
+    private final RefinementRepo refinementRepo;
+    private final TotalCreditRepository totalCreditRepository;
+    private final GPARepository gpaRepository;
+    private final BCRRepository bcrRepository;
 
     /**
      * 1학기 성적 확인 일정
@@ -92,8 +101,19 @@ public class GraduationScheduler {
 
             MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
             majorRepository.update(majorForm);
-        }
 
+            RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+            refinementRepo.update(refinementForm);
+
+            CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+            totalCreditRepository.update(creditForm);
+
+            GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+            gpaRepository.update(gpaForm);
+
+            BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+            bcrRepository.update(bcrForm);
+        }
 
     }
 
