@@ -34,26 +34,31 @@
 <br>
 
 - 메인 화면
+
 ![image](https://user-images.githubusercontent.com/84673536/219850175-4ba0c6a3-7a3d-4038-9f4c-816eea7cdeff.png)
 
 
 - 로그인
+
 ![image](https://user-images.githubusercontent.com/84673536/219850178-0d336db4-d296-49e9-9de8-c4eda99e40c0.png)
 
 
 - 자유 게시판
+
 ![image](https://user-images.githubusercontent.com/84673536/219850180-db791621-cc55-4e9b-ad7f-ed98d967349d.png)
 
 
 - 중고 거래 게시판
+
 ![image](https://user-images.githubusercontent.com/84673536/219850182-05220bf2-485f-4d42-92e5-428599e83f87.png)
 
 
 - 마이페이지
-![image](https://user-images.githubusercontent.com/84673536/219850519-43255d56-d728-42a2-b6df-6648e317ac32.png)
 
+![image](https://user-images.githubusercontent.com/84673536/219850615-f8c8343b-25fe-4a99-919d-49cb73876afc.png)
 
 - 졸업요건확인
-![image](https://user-images.githubusercontent.com/84673536/219850524-df57c1bb-0031-420b-a63f-88f7e0ec706d.png)
+
+![image](https://user-images.githubusercontent.com/84673536/219850603-a1a1b480-8f95-4845-a95d-384d302fd6b4.png)
 
 
