@@ -50,10 +50,10 @@
 
 
 - 마이페이지
-![image](https://user-images.githubusercontent.com/84673536/219850248-f851deb6-9a5e-4102-a29d-8cca5b472a73.png)
+![image](https://user-images.githubusercontent.com/84673536/219850519-43255d56-d728-42a2-b6df-6648e317ac32.png)
 
 
 - 졸업요건확인
-![image](https://user-images.githubusercontent.com/84673536/219850256-2a2ec4eb-a77f-4fd0-8d6c-9d24b8219917.png)
+![image](https://user-images.githubusercontent.com/84673536/219850524-df57c1bb-0031-420b-a63f-88f7e0ec706d.png)
 
 
