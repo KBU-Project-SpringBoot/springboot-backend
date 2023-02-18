@@ -11,6 +11,7 @@
 - **주요 기술**
   - BibleBot-scraper
   - MultipartFile
+  - scheduling
   - Rest API
   - Intranet Sesstion
   
