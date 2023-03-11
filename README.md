@@ -20,7 +20,7 @@
 
 ## 시스템 아키텍처
 
-![image](https://user-images.githubusercontent.com/84673536/219849711-eb73857f-158a-4c5f-a50e-f4c59457530f.png)
+![image](https://user-images.githubusercontent.com/84673536/224469971-93f6591d-0af9-4c9c-bf03-65a5e3992866.png)
 
 ## ERD
 
