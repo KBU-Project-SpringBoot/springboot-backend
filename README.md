@@ -28,7 +28,7 @@
 
 ## 개발 환경
 
-![image](https://user-images.githubusercontent.com/84673536/219849939-1ef24d23-77f5-4a73-8701-1293dba181ef.png)
+![image](https://user-images.githubusercontent.com/84673536/224469946-8a3701f6-fc57-4be7-b57a-a02eecf0fa6f.png)
 
 
 # 실행 화면
