@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
-import wiseSWlife.wiseSWlife.model.member.Member;
+import wiseSWlife.wiseSWlife.dto.member.Member;
 
 import java.io.*;
 

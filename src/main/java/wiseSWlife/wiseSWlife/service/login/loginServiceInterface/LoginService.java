@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.service.login.loginServiceInterface;
 
-import wiseSWlife.wiseSWlife.model.member.Member;
+import wiseSWlife.wiseSWlife.dto.member.Member;
 
 import java.io.IOException;
 

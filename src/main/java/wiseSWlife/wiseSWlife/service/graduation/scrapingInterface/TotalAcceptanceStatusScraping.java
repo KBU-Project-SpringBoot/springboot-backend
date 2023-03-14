@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.service.graduation.scrapingInterface;
 
-import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
+import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 
 import java.io.IOException;
 

@@ -1,7 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.bcrRepository;
 
-import wiseSWlife.wiseSWlife.model.graduation.form.BCRForm;
-import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
+import wiseSWlife.wiseSWlife.dto.graduation.form.BCRForm;
 
 import java.util.Optional;
 

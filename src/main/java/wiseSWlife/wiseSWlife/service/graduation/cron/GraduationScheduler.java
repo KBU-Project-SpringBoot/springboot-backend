@@ -8,14 +8,14 @@ import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
-import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
+import wiseSWlife.wiseSWlife.db.repository.refinementRepository.RefinementRepository;
 import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
-import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
-import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
-import wiseSWlife.wiseSWlife.model.graduation.form.*;
-import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
-import wiseSWlife.wiseSWlife.model.intranet.Intranet;
-import wiseSWlife.wiseSWlife.model.member.Member;
+import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
+import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
+import wiseSWlife.wiseSWlife.dto.graduation.form.*;
+import wiseSWlife.wiseSWlife.dto.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
+import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
+import wiseSWlife.wiseSWlife.dto.member.Member;
 import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
@@ -45,7 +45,7 @@ public class GraduationScheduler {
     private final ExamRepository examRepository;
     private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
     private final MajorRepository majorRepository;
-    private final RefinementRepo refinementRepo;
+    private final RefinementRepository refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
     private final GPARepository gpaRepository;
     private final BCRRepository bcrRepository;
@@ -53,38 +53,36 @@ public class GraduationScheduler {
     /**
      * 1학기 성적 확인 일정
      * 22년도 1학기 최종 성적 발표일시(2022년 7월 15일(금))
-     *
+     * <p>
      * 시험 스크래핑 작업
-     *
+     * <p>
      * 1. Login_TB의 모든 ID, PW를 가져온다.
-     *
+     * <p>
      * 2. ID, PW의 반복문
-     *
-     *      2-1. Login scraping 수행(loginForm 추출)
-     *      2-2. Exam scraping 수행
-     *      2-3. Exam_TB에 저장
+     * <p>
+     * 2-1. Login scraping 수행(loginForm 추출)
+     * 2-2. Exam scraping 수행
+     * 2-3. Exam_TB에 저장
      */
     @Scheduled(cron = "0 0 0 15 7 ?")
     public void test() throws IOException, InterruptedException {
-        System.out.println("현재 시간은 " + new Date());
-
         List<Intranet> intranets = intranetRepository.findAll();
 
-        for(Intranet user : intranets){
+        for (Intranet user : intranets) {
             Member loginMember = loginService.login(user.getIntranetId(), user.getIntranetPw());
 
-            if(loginMember.getSid().substring(4,7).equals("070")){
+            if (loginMember.getSid().startsWith("070", 4)) {
                 continue;
             }
             String intCookie = loginMember.getIntCookie();
             String sid = loginMember.getSid();
-            String groupName = loginMember.getMajor().charAt(0) + loginMember.getSid().substring(2,4);
+            String groupName = loginMember.getMajor().charAt(0) + loginMember.getSid().substring(2, 4);
 
             GraduationConditionEnumMapperValue condition = null;
 
             List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-            for(GraduationConditionEnumMapperValue i : list){
-                if(Objects.equals(i.getCode(), groupName)){
+            for (GraduationConditionEnumMapperValue i : list) {
+                if (Objects.equals(i.getCode(), groupName)) {
                     condition = i;
                     break;
                 }
@@ -93,7 +91,6 @@ public class GraduationScheduler {
             //졸업 시험 테이블 추출
             ExamTable examTable = examScraping.scraping(intCookie);
             ExamForm examForm = examScraping.convert(sid, examTable);
-
             examRepository.update(examForm);
 
             //전체 이수 현황 테이블 추출
@@ -101,16 +98,12 @@ public class GraduationScheduler {
 
             MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
             majorRepository.update(majorForm);
-
             RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
             refinementRepo.update(refinementForm);
-
             CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
             totalCreditRepository.update(creditForm);
-
             GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
             gpaRepository.update(gpaForm);
-
             BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
             bcrRepository.update(bcrForm);
         }
@@ -118,11 +111,10 @@ public class GraduationScheduler {
     }
 
 
-
     //2학기 성적 확인 일정
     //21년도 2학기 최종 성적 발표일시(2022년 1월 7일(금))
     @Scheduled(cron = "0 0 0 7 1 ?")
-    public void test2(){
+    public void test2() {
         System.out.println("현재 시간은 " + new Date());
     }
 }

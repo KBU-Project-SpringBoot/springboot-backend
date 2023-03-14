@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.gpaRepository;
 
-import wiseSWlife.wiseSWlife.model.graduation.form.GPAForm;
+import wiseSWlife.wiseSWlife.dto.graduation.form.GPAForm;
 
 import java.util.Optional;
 

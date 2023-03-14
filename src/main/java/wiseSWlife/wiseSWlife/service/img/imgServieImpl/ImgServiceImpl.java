@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import wiseSWlife.wiseSWlife.db.repository.imgRepository.ImgRepository;
-import wiseSWlife.wiseSWlife.model.img.ImgItem;
+import wiseSWlife.wiseSWlife.dto.img.ImgItem;
 import wiseSWlife.wiseSWlife.service.img.imgServiceInf.ImgService;
 
 import java.io.File;

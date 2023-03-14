@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository;
 
-import wiseSWlife.wiseSWlife.model.community.freeBoard.FreeBoard;
+import wiseSWlife.wiseSWlife.dto.community.freeBoard.FreeBoard;
 
 import java.util.List;
 import java.util.Optional;

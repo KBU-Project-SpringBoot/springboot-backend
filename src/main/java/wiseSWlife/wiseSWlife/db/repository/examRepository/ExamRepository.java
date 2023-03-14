@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.examRepository;
 
-import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
+import wiseSWlife.wiseSWlife.dto.graduation.form.ExamForm;
 
 import java.util.List;
 import java.util.Optional;

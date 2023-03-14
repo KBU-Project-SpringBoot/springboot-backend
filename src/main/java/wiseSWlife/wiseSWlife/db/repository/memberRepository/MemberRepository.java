@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.memberRepository;
 
-import wiseSWlife.wiseSWlife.model.member.Member;
+import wiseSWlife.wiseSWlife.dto.member.Member;
 
 import java.sql.SQLException;
 import java.util.List;

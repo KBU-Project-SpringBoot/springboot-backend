@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import wiseSWlife.wiseSWlife.db.repository.imgRepository.ImgRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.model.community.auction.Auction;
+import wiseSWlife.wiseSWlife.dto.community.auction.Auction;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.auctionBoardRepository.AuctionBoardRepository;
-import wiseSWlife.wiseSWlife.model.community.auction.form.AuctionSellForm;
-import wiseSWlife.wiseSWlife.model.img.ImgItem;
+import wiseSWlife.wiseSWlife.dto.community.auction.form.AuctionSellForm;
+import wiseSWlife.wiseSWlife.dto.img.ImgItem;
 import wiseSWlife.wiseSWlife.service.img.imgServiceInf.ImgService;
 
 import javax.validation.Valid;

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.model.intranet.Intranet;
-import wiseSWlife.wiseSWlife.model.member.Member;
+import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
+import wiseSWlife.wiseSWlife.dto.member.Member;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
-import wiseSWlife.wiseSWlife.model.loginForm.LoginForm;
+import wiseSWlife.wiseSWlife.dto.loginForm.LoginForm;
 import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
 
 import javax.servlet.http.HttpServletRequest;

@@ -2,8 +2,8 @@ package wiseSWlife.wiseSWlife.service.enumMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperType;
-import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
+import wiseSWlife.wiseSWlife.dto.graduationConditionEnumMapper.GraduationConditionEnumMapperType;
+import wiseSWlife.wiseSWlife.dto.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
 
 import java.util.Arrays;
 import java.util.List;
