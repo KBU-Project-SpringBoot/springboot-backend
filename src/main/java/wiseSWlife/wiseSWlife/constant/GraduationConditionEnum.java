@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.dto.vo;
+package wiseSWlife.wiseSWlife.vo;
 
 
 import lombok.Getter;
