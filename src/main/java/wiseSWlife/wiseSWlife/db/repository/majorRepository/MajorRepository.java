@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.majorRepository;
 
-import wiseSWlife.wiseSWlife.model.graduation.form.MajorForm;
+import wiseSWlife.wiseSWlife.dto.graduation.form.MajorForm;
 
 import java.util.Optional;
 

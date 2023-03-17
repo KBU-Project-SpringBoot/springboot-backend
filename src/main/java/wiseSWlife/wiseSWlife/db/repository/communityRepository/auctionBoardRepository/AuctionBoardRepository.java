@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.communityRepository.auctionBoardRepository;
 
-import wiseSWlife.wiseSWlife.model.community.auction.Auction;
+import wiseSWlife.wiseSWlife.dto.community.auction.Auction;
 
 import java.util.List;
 import java.util.Optional;

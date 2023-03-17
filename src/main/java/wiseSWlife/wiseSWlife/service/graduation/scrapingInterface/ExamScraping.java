@@ -1,10 +1,9 @@
 package wiseSWlife.wiseSWlife.service.graduation.scrapingInterface;
 
-import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
-import wiseSWlife.wiseSWlife.model.graduation.form.ExamForm;
+import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
+import wiseSWlife.wiseSWlife.dto.graduation.form.ExamForm;
 
 import java.io.IOException;
-import java.util.Map;
 
 public interface ExamScraping {
 

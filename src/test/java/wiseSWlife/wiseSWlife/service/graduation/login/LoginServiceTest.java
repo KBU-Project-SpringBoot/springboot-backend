@@ -2,16 +2,16 @@ package wiseSWlife.wiseSWlife.service.graduation.login;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import wiseSWlife.wiseSWlife.db.entity.memberRepository.MemoryMemberRepository;
+import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemoryMemberRepositoryImpl;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
-import wiseSWlife.wiseSWlife.model.member.Member;
+import wiseSWlife.wiseSWlife.dto.member.Member;
 import wiseSWlife.wiseSWlife.service.login.loginServiceImpl.SimpleLoginService;
 
 import static org.assertj.core.api.Assertions.*;
 import java.io.IOException;
 
 public class LoginServiceTest {
-    MemberRepository memberRepository = new MemoryMemberRepository();
+    MemberRepository memberRepository = new MemoryMemberRepositoryImpl();
     SimpleLoginService simpleLoginService = new SimpleLoginService(memberRepository);
 
     @DisplayName("로그인 여부")

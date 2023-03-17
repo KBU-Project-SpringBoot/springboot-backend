@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
-import wiseSWlife.wiseSWlife.model.member.Member;
+import wiseSWlife.wiseSWlife.dto.member.Member;
 
 import java.io.*;
 
@@ -47,24 +47,15 @@ public class SimpleLoginService implements LoginService {
             System.out.println("서브 프로세스가 비정상 종료되었습니다.");
         }
 
-        String testLine = br.readLine();//파이썬에서 나온 객체모양 문자열
-        //System.out.println(testLine);//데이터 유형 : 로그인 성공시 ->{세션, 학번, 이름, 학과}
-                                                         //실패시 null
-
-        if(testLine == null){
-            return null;
+        String loginApiResponse = br.readLine();//파이썬에서 나온 객체모양 문자열
+        if(loginApiResponse == null){
+            throw new NullPointerException("Login 정보가 없습니다.");
         }
 
-        GsonBuilder builder1 = new GsonBuilder();
-        builder1.setPrettyPrinting();
-        Gson gson = builder1.create();
-        Member member = gson.fromJson(testLine,Member.class);
-
-//        System.out.println("너는 누구니"+member);//member 객체
-//
-//        testLine = gson.toJson(member);//json으로 변경
-//        System.out.println("얘는 뭐지"+testLine);//json형
-
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        Member member = gson.fromJson(loginApiResponse,Member.class);
 
         return member;
 

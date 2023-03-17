@@ -10,23 +10,22 @@ import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
 import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
-import wiseSWlife.wiseSWlife.db.repository.refinementRepo.RefinementRepo;
+import wiseSWlife.wiseSWlife.db.repository.refinementRepository.RefinementRepository;
 import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.model.graduation.ExamTable;
-import wiseSWlife.wiseSWlife.model.graduation.TotalAcceptanceStatusTable;
-import wiseSWlife.wiseSWlife.model.graduation.form.*;
+import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
+import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
+import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
-import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
-import wiseSWlife.wiseSWlife.model.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
+//import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
+import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,10 +38,10 @@ public class GraduationController {
     private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
     private final Condition condition;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final EnumMapperFactory enumMapperFactory;
+//    private final EnumMapperFactory enumMapperFactory;
     private final ExamRepository examRepository;
     private final MajorRepository majorRepository;
-    private final RefinementRepo refinementRepo;
+    private final RefinementRepository refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
     private final GPARepository gpaRepository;
     private final BCRRepository bcrRepository;
@@ -64,18 +63,21 @@ public class GraduationController {
         String sid = sessionForm.getSid();
         String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
+        GraduationConditionEnum condition = null;
 
-        GraduationConditionEnumMapperValue condition = null;
+        //List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
+//        for(GraduationConditionEnum graduationConditionEnum : GraduationConditionEnum.values()){
+//            if(Objects.equals(graduationConditionEnum.getCode(), groupName)){
+//                condition = graduationConditionEnum;
+//                break;
+//            }
+//        }
 
-        List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-        for(GraduationConditionEnumMapperValue i : list){
-            if(Objects.equals(i.getCode(), groupName)){
-                condition = i;
-                break;
-            }
-        }
+        condition = GraduationConditionEnum.valueOf(groupName);
+
         //졸업요건표
         model.addAttribute("vo", condition);
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
 
         //졸업 시험 테이블 추출
         Optional<ExamForm> examBySid = examRepository.findExamBySid(sid);
@@ -90,7 +92,6 @@ public class GraduationController {
 
         Optional<MajorForm> majorBySid = majorRepository.findMajorBySid(sid);
         if(majorBySid.isEmpty()){
-            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
             MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
 
             majorRepository.save(majorForm);
@@ -101,7 +102,6 @@ public class GraduationController {
 
         Optional<RefinementForm> refinementBySid = refinementRepo.findRefinementBySid(sid);
         if(refinementBySid.isEmpty()){
-            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
             RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
 
             refinementRepo.save(refinementForm);
@@ -112,7 +112,6 @@ public class GraduationController {
 
         Optional<CreditForm> totalCreditBySid = totalCreditRepository.findTotalCreditBySid(sid);
         if(totalCreditBySid.isEmpty()){
-            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
             CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
 
             totalCreditRepository.save(creditForm);
@@ -123,7 +122,6 @@ public class GraduationController {
 
         Optional<GPAForm> gpaBySid = gpaRepository.findGPABySid(sid);
         if(gpaBySid.isEmpty()){
-            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
             GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
 
             gpaRepository.save(gpaForm);
@@ -134,13 +132,12 @@ public class GraduationController {
 
         Optional<BCRForm> bcrBySid = bcrRepository.findBCRBySid(sid);
         if(bcrBySid.isEmpty()){
-            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
             BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
 
             bcrRepository.save(bcrForm);
             model.addAttribute("bcrForm", bcrForm);
         }else{
-            model.addAttribute("gpaForm", bcrBySid.get());
+            model.addAttribute("bcrForm", bcrBySid.get());
         }
 
         model.addAttribute("sessionForm", sessionForm);

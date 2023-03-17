@@ -1,7 +1,7 @@
 package wiseSWlife.wiseSWlife.db.repository.faqCenterRepository;
 
 
-import wiseSWlife.wiseSWlife.model.faqCenter.Question;
+import wiseSWlife.wiseSWlife.dto.faqCenter.Question;
 
 import java.util.List;
 import java.util.Optional;

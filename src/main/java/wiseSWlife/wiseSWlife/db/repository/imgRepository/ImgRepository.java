@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.imgRepository;
 
-import wiseSWlife.wiseSWlife.model.img.ImgItem;
+import wiseSWlife.wiseSWlife.dto.img.ImgItem;
 
 public interface ImgRepository {
 

@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf;
 
-import wiseSWlife.wiseSWlife.model.graduation.form.BCRForm;
+import wiseSWlife.wiseSWlife.dto.graduation.form.BCRForm;
 
 import java.util.ArrayList;
 

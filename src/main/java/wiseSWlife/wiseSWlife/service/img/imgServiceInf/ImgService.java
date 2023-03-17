@@ -1,9 +1,8 @@
 package wiseSWlife.wiseSWlife.service.img.imgServiceInf;
 
 import org.springframework.web.multipart.MultipartFile;
-import wiseSWlife.wiseSWlife.model.img.ImgItem;
+import wiseSWlife.wiseSWlife.dto.img.ImgItem;
 
-import java.io.File;
 import java.io.IOException;
 
 public interface ImgService {

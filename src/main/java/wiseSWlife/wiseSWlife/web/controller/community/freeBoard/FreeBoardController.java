@@ -1,6 +1,5 @@
 package wiseSWlife.wiseSWlife.web.controller.community.freeBoard;
 
-import com.sun.tools.jconsole.JConsoleContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -9,12 +8,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.model.community.freeBoard.FreeBoard;
-import wiseSWlife.wiseSWlife.model.community.freeBoard.FreeBoardComment;
+import wiseSWlife.wiseSWlife.dto.community.freeBoard.FreeBoard;
+import wiseSWlife.wiseSWlife.dto.community.freeBoard.FreeBoardComment;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardCommentRepository;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardRepository;
-import wiseSWlife.wiseSWlife.model.community.freeBoard.form.FreeBoardCommentForm;
-import wiseSWlife.wiseSWlife.model.community.freeBoard.form.FreeBoardPostForm;
+import wiseSWlife.wiseSWlife.dto.community.freeBoard.form.FreeBoardCommentForm;
+import wiseSWlife.wiseSWlife.dto.community.freeBoard.form.FreeBoardPostForm;
 
 import javax.validation.Valid;
 import java.util.Date;

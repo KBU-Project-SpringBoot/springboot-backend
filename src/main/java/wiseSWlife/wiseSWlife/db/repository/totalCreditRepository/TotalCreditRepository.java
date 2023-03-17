@@ -1,6 +1,6 @@
 package wiseSWlife.wiseSWlife.db.repository.totalCreditRepository;
 
-import wiseSWlife.wiseSWlife.model.graduation.form.CreditForm;
+import wiseSWlife.wiseSWlife.dto.graduation.form.CreditForm;
 
 import java.util.Optional;
 
