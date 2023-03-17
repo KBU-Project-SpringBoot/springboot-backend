@@ -29,10 +29,7 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
-
-    private final MemberRepository memberRepository;
     private final LoginService loginService;
-    private final IntranetRepository intranetRepository;
 
     @GetMapping("/login")
     public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
@@ -49,25 +46,11 @@ public class LoginController {
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
 
         if (loginMember == null) {
-            log.info("Login Fail \n info [id = {}] [pw = {}] ",form.getLoginId(), form.getPassword());
+            log.warn("Login Fail \n info [id = {}] [pw = {}] ",form.getLoginId(), form.getPassword());
             bindingResult.reject("loginFail", "You entered the wrong id pw");
-            log.info("Login Fail bindingResult = {}", bindingResult);
+            log.warn("Login Fail bindingResult = {}", bindingResult);
             return "login/loginForm";
         }
-
-        // login Success logic
-        Optional<Member> bySid = memberRepository.findBySid(loginMember.getSid());
-        if(bySid.isEmpty()){
-            memberRepository.save(loginMember);
-        }
-        memberRepository.update(loginMember);
-
-        Intranet loginIntranet = new Intranet(loginMember.getSid(), form.getLoginId(), form.getPassword());
-        Optional<Intranet> byIntranetId = intranetRepository.findByIntranetId(form.getLoginId());
-        if(byIntranetId.isEmpty()){
-            intranetRepository.save(loginIntranet);
-        }
-        intranetRepository.update(loginIntranet);
 
         HttpSession session = request.getSession();
         SessionForm sessionForm = new SessionForm(loginMember.getSid(),loginMember.getName(), loginMember.getMajor(), loginMember.getIntCookie());

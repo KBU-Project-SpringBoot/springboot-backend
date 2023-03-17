@@ -2,16 +2,22 @@ package wiseSWlife.wiseSWlife.service.login;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
+import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
 import wiseSWlife.wiseSWlife.dto.member.Member;
 
 import java.io.*;
+import java.sql.SQLException;
+import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class SimpleLoginService implements LoginService {
     @Value("${python.engine}")
     String pythonEngine;
@@ -22,8 +28,25 @@ public class SimpleLoginService implements LoginService {
     @Value("${python.encoding}")
     String pythonEncoding;
 
+    private final MemberRepository memberRepository;
+    private final IntranetRepository intranetRepository;
+
     @Override
-    public Member login(String loginId, String password) throws IOException, InterruptedException {
+    public Member login(String loginId, String password) throws IOException, InterruptedException, SQLException {
+        String loginApiResponse = getLoginApiResponse(loginId, password);
+        
+        if(loginApiResponse == null){
+            throw new NullPointerException("Login 정보가 없습니다.");
+        }
+
+        Member member = convertStringToMember(loginApiResponse);
+        saveMember(member);
+        saveIntranet(member, loginId, password);
+
+        return member;
+    }
+
+    private String getLoginApiResponse(String loginId, String password) throws IOException, InterruptedException {
         File testFile = new File(pythonFile);
         FileWriter fw = new FileWriter(testFile);
         fw.write("import asyncio\n" + "\n");
@@ -50,17 +73,31 @@ public class SimpleLoginService implements LoginService {
         }
 
         String loginApiResponse = br.readLine();//파이썬에서 나온 객체모양 문자열
-        if(loginApiResponse == null){
-            throw new NullPointerException("Login 정보가 없습니다.");
-        }
+        return loginApiResponse;
+    }
 
+    private Member convertStringToMember(String loginApiResponse) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
         Member member = gson.fromJson(loginApiResponse,Member.class);
-
         return member;
+    }
 
+    private void saveMember(Member member) throws SQLException {
+        Optional<Member> bySid = memberRepository.findBySid(member.getSid());
+        if(bySid.isEmpty()){
+            memberRepository.save(member);
+        }
+        memberRepository.update(member);
+    }
 
+    private void saveIntranet(Member member, String loginId, String password) {
+        Intranet loginIntranet = new Intranet(member.getSid(), loginId, password);
+        Optional<Intranet> byIntranetId = intranetRepository.findByIntranetId(loginId);
+        if(byIntranetId.isEmpty()){
+            intranetRepository.save(loginIntranet);
+        }
+        intranetRepository.update(loginIntranet);
     }
 }
