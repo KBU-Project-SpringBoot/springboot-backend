@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class LoginServiceTest {
     MemberRepository memberRepository = new MemoryMemberRepositoryImpl();
-    SimpleLoginService simpleLoginService = new SimpleLoginService(memberRepository);
+    SimpleLoginService simpleLoginService = new SimpleLoginService();
 
     @DisplayName("로그인 여부")
     @Test

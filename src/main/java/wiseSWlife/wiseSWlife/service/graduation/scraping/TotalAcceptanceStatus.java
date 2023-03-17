@@ -3,6 +3,7 @@ package wiseSWlife.wiseSWlife.service.graduation.scraping;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
@@ -12,6 +13,7 @@ import java.io.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TotalAcceptanceStatus implements TotalAcceptanceStatusScraping {
     @Value("${python.engine}")
     String pythonEngine;
@@ -41,17 +43,15 @@ public class TotalAcceptanceStatus implements TotalAcceptanceStatusScraping {
         int exitVal = process.waitFor();//자식 프로세스가 종료될 때까지 기다림
         BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), pythonEncoding)); // 서브 프로세스가 출력하는 내용을 받기 위해
         if(exitVal != 0) {//비정상적으로 종료시
-            System.out.println("서브 프로세스가 비정상 종료되었습니다.");
+            log.warn("서브 프로세스가 비정상 종료되었습니다.");
         }
 
-        String testLine = br.readLine();
-        System.out.println(testLine);
+        String totalAcceptStatusApiResponse = br.readLine();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
 
-        GsonBuilder builder1 = new GsonBuilder();
-        builder1.setPrettyPrinting();
-        Gson gson = builder1.create();
-
-        TotalAcceptanceStatusTable totalAcceptanceStatusTable = gson.fromJson(testLine, TotalAcceptanceStatusTable.class);
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = gson.fromJson(totalAcceptStatusApiResponse, TotalAcceptanceStatusTable.class);
 
 
         return totalAcceptanceStatusTable;
