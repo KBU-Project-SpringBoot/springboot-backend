@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.conditionImpl;
+package wiseSWlife.wiseSWlife.service.graduation.condition;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,6 @@ import wiseSWlife.wiseSWlife.dto.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.dto.graduation.form.GPAForm;
 import wiseSWlife.wiseSWlife.dto.graduation.form.MajorForm;
 import wiseSWlife.wiseSWlife.dto.graduation.form.RefinementForm;
-import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
 
 import java.util.ArrayList;
 

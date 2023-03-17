@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.img.imgServieImpl;
+package wiseSWlife.wiseSWlife.service.img;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import wiseSWlife.wiseSWlife.db.repository.imgRepository.ImgRepository;
 import wiseSWlife.wiseSWlife.dto.img.ImgItem;
-import wiseSWlife.wiseSWlife.service.img.imgServiceInf.ImgService;
+import wiseSWlife.wiseSWlife.service.img.ImgService;
 
 import java.io.File;
 import java.io.IOException;

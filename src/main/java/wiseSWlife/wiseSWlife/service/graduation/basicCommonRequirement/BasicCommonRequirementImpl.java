@@ -1,9 +1,8 @@
-package wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementImpl;
+package wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.dto.graduation.form.BCRForm;
-import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 
 import java.util.ArrayList;
 

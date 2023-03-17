@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemoryMemberRepositoryImpl;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
 import wiseSWlife.wiseSWlife.dto.member.Member;
-import wiseSWlife.wiseSWlife.service.login.loginServiceImpl.SimpleLoginService;
+import wiseSWlife.wiseSWlife.service.login.SimpleLoginService;
 
 import static org.assertj.core.api.Assertions.*;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.img.imgServiceInf;
+package wiseSWlife.wiseSWlife.service.img;
 
 import org.springframework.web.multipart.MultipartFile;
 import wiseSWlife.wiseSWlife.dto.img.ImgItem;

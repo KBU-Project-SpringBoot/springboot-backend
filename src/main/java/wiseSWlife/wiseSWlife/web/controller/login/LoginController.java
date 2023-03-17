@@ -15,7 +15,7 @@ import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
 import wiseSWlife.wiseSWlife.dto.member.Member;
 import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
 import wiseSWlife.wiseSWlife.dto.loginForm.LoginForm;
-import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
+import wiseSWlife.wiseSWlife.service.login.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

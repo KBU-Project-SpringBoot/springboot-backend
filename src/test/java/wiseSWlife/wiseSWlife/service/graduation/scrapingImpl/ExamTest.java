@@ -3,7 +3,8 @@ package wiseSWlife.wiseSWlife.service.graduation.scrapingImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import wiseSWlife.wiseSWlife.dto.member.Member;
-import wiseSWlife.wiseSWlife.service.login.loginServiceImpl.SimpleLoginService;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.Exam;
+import wiseSWlife.wiseSWlife.service.login.SimpleLoginService;
 
 import java.io.IOException;
 import java.util.Map;

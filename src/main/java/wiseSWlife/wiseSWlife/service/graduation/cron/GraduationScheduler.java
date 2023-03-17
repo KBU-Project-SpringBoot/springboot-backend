@@ -15,12 +15,11 @@ import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
 import wiseSWlife.wiseSWlife.dto.member.Member;
-//import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
-import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
-import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
-import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
+import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
+import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
+import wiseSWlife.wiseSWlife.service.login.LoginService;
 
 import java.io.IOException;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.conditionInf;
+package wiseSWlife.wiseSWlife.service.graduation.condition;
 
 import wiseSWlife.wiseSWlife.dto.graduation.form.CreditForm;
 import wiseSWlife.wiseSWlife.dto.graduation.form.GPAForm;

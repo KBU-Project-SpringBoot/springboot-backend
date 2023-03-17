@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.login.loginServiceInterface;
+package wiseSWlife.wiseSWlife.service.login;
 
 import wiseSWlife.wiseSWlife.dto.member.Member;
 

@@ -17,16 +17,15 @@ import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
-import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
-import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
+import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
+import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
 //import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
 import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j

@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.scrapingImpl;
+package wiseSWlife.wiseSWlife.service.graduation.scraping;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.scrapingInterface;
+package wiseSWlife.wiseSWlife.service.graduation.scraping;
 
 import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.ExamForm;

@@ -1,10 +1,9 @@
-package wiseSWlife.wiseSWlife.service.login.loginServiceImpl;
+package wiseSWlife.wiseSWlife.service.login;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
 import wiseSWlife.wiseSWlife.dto.member.Member;
 
 import java.io.*;

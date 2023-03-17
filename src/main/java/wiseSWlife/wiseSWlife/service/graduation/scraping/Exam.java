@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.scrapingImpl;
+package wiseSWlife.wiseSWlife.service.graduation.scraping;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.ExamForm;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
 
 import java.io.*;
 import java.util.ArrayList;
