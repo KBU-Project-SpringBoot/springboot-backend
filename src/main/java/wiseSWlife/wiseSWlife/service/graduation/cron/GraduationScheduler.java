@@ -13,10 +13,9 @@ import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepo
 import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
-import wiseSWlife.wiseSWlife.dto.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
 import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
 import wiseSWlife.wiseSWlife.dto.member.Member;
-import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
+//import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
@@ -26,7 +25,6 @@ import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 성적 발표일 자정에 성적과 졸업평가를 스크래핑하여 데이터베이스에 저장하는 코드
@@ -38,7 +36,7 @@ public class GraduationScheduler {
 
     private final IntranetRepository intranetRepository;
     private final LoginService loginService;
-    private final EnumMapperFactory enumMapperFactory;
+//    private final EnumMapperFactory enumMapperFactory;
     private final BasicCommonRequirement basicCommonRequirement;
     private final Condition condition;
     private final ExamScraping examScraping;
@@ -76,17 +74,17 @@ public class GraduationScheduler {
             }
             String intCookie = loginMember.getIntCookie();
             String sid = loginMember.getSid();
-            String groupName = loginMember.getMajor().charAt(0) + loginMember.getSid().substring(2, 4);
+//            String groupName = loginMember.getMajor().charAt(0) + loginMember.getSid().substring(2, 4);
+//
+//            GraduationConditionEnumMapperValue condition = null;
 
-            GraduationConditionEnumMapperValue condition = null;
-
-            List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-            for (GraduationConditionEnumMapperValue i : list) {
-                if (Objects.equals(i.getCode(), groupName)) {
-                    condition = i;
-                    break;
-                }
-            }
+            //List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
+//            for (GraduationConditionEnum i : GraduationConditionEnum.values()) {
+//                if (Objects.equals(i.getCode(), groupName)) {
+//                    condition = i;
+//                    break;
+//                }
+//            }
 
             //졸업 시험 테이블 추출
             ExamTable examTable = examScraping.scraping(intCookie);

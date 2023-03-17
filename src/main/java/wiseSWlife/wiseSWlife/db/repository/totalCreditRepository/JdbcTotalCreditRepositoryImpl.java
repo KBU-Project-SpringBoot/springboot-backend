@@ -24,7 +24,7 @@ public class JdbcTotalCreditRepositoryImpl implements TotalCreditRepository {
 
     @Override
     public CreditForm save(CreditForm creditForm) {
-        String sql = "insert into Total_Credit_TB (student_id, total_credit) values(?, ?)";
+        String sql = "insert into Total_Credit_TB (student_id, credit) values(?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -87,7 +87,7 @@ public class JdbcTotalCreditRepositoryImpl implements TotalCreditRepository {
             if(rs.next()){
                 CreditForm creditForm = new CreditForm();
                 creditForm.setSid(rs.getString("student_id"));
-                creditForm.setCredit(rs.getInt("total_credit"));
+                creditForm.setCredit(rs.getInt("credit"));
                 return Optional.of(creditForm);
             }
 

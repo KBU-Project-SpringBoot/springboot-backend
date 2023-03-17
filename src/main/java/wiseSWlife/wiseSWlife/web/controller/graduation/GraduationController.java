@@ -20,13 +20,12 @@ import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
 import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
-import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
-import wiseSWlife.wiseSWlife.dto.graduationConditionEnumMapper.GraduationConditionEnumMapperValue;
+//import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
 import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
+import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,7 +38,7 @@ public class GraduationController {
     private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
     private final Condition condition;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final EnumMapperFactory enumMapperFactory;
+//    private final EnumMapperFactory enumMapperFactory;
     private final ExamRepository examRepository;
     private final MajorRepository majorRepository;
     private final RefinementRepository refinementRepo;
@@ -64,15 +63,18 @@ public class GraduationController {
         String sid = sessionForm.getSid();
         String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
-        GraduationConditionEnumMapperValue condition = null;
+        GraduationConditionEnum condition = null;
 
-        List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-        for(GraduationConditionEnumMapperValue i : list){
-            if(Objects.equals(i.getCode(), groupName)){
-                condition = i;
-                break;
-            }
-        }
+        //List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
+//        for(GraduationConditionEnum graduationConditionEnum : GraduationConditionEnum.values()){
+//            if(Objects.equals(graduationConditionEnum.getCode(), groupName)){
+//                condition = graduationConditionEnum;
+//                break;
+//            }
+//        }
+
+        condition = GraduationConditionEnum.valueOf(groupName);
+
         //졸업요건표
         model.addAttribute("vo", condition);
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
@@ -135,7 +137,7 @@ public class GraduationController {
             bcrRepository.save(bcrForm);
             model.addAttribute("bcrForm", bcrForm);
         }else{
-            model.addAttribute("gpaForm", bcrBySid.get());
+            model.addAttribute("bcrForm", bcrBySid.get());
         }
 
         model.addAttribute("sessionForm", sessionForm);

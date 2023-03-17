@@ -26,7 +26,7 @@ public class JdbcRefinementRepositoryImpl implements RefinementRepository {
 
     @Override
     public RefinementForm save(RefinementForm refinementForm) {
-        String sql = "insert into Major_TB (student_id, refinement_arr, refinement_credit, english_arr, english_credit, basic_class_credit, college_life_and_self_development) values(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into Refinement_TB (student_id, refinement_arr, refinement_credit, english_arr, english_credit, basic_class_credit, college_life_and_self_development) values(?, ?, ?, ?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;

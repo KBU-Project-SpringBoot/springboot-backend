@@ -52,7 +52,7 @@ public class JdbcIntranetRepositoryImpl implements IntranetRepository {
     @Override
     public Intranet update(Intranet intranet) {
 
-        String sql = "update Login_TB set student_id = ?, intranet_id = ?, intranet_pw = ?";
+        String sql = "update Login_TB set intranet_id = ?, intranet_pw = ? where student_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -62,9 +62,9 @@ public class JdbcIntranetRepositoryImpl implements IntranetRepository {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1, intranet.getSid());
-            pstmt.setString(2, intranet.getIntranetId());
-            pstmt.setString(3, intranet.getIntranetPw());
+            pstmt.setString(1, intranet.getIntranetId());
+            pstmt.setString(2, intranet.getIntranetPw());
+            pstmt.setString(3, intranet.getSid());
 
             pstmt.executeUpdate();
 

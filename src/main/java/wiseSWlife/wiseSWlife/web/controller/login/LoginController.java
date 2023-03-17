@@ -46,7 +46,6 @@ public class LoginController {
         if(bindingResult.hasErrors()){
             return "login/loginForm";
         }
-
         Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
 
         if (loginMember == null) {
@@ -56,7 +55,6 @@ public class LoginController {
             return "login/loginForm";
         }
 
-
         // login Success logic
         Optional<Member> bySid = memberRepository.findBySid(loginMember.getSid());
         if(bySid.isEmpty()){
@@ -65,7 +63,6 @@ public class LoginController {
         memberRepository.update(loginMember);
 
         Intranet loginIntranet = new Intranet(loginMember.getSid(), form.getLoginId(), form.getPassword());
-
         Optional<Intranet> byIntranetId = intranetRepository.findByIntranetId(form.getLoginId());
         if(byIntranetId.isEmpty()){
             intranetRepository.save(loginIntranet);

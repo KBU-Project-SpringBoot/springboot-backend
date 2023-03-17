@@ -3,11 +3,11 @@
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Component;
 //import wiseSWlife.wiseSWlife.db.repository.imgRepository.ImgRepository;
-//import wiseSWlife.wiseSWlife.model.community.auction.Auction;
-//import wiseSWlife.wiseSWlife.model.community.freeBoard.FreeBoard;
-//import wiseSWlife.wiseSWlife.model.community.freeBoard.FreeBoardComment;
-//import wiseSWlife.wiseSWlife.model.img.ImgItem;
-//import wiseSWlife.wiseSWlife.model.member.Member;
+//import wiseSWlife.wiseSWlife.dto.community.auction.Auction;
+//import wiseSWlife.wiseSWlife.dto.community.freeBoard.FreeBoard;
+//import wiseSWlife.wiseSWlife.dto.community.freeBoard.FreeBoardComment;
+//import wiseSWlife.wiseSWlife.dto.img.ImgItem;
+//import wiseSWlife.wiseSWlife.dto.member.Member;
 //import wiseSWlife.wiseSWlife.db.repository.communityRepository.auctionBoardRepository.AuctionBoardRepository;
 //import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardCommentRepository;
 //import wiseSWlife.wiseSWlife.db.repository.communityRepository.freeBoardRepository.FreeBoardRepository;
