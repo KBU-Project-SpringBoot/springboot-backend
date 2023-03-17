@@ -63,17 +63,7 @@ public class GraduationController {
         String sid = sessionForm.getSid();
         String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
-        GraduationConditionEnum graduationConditionEnum = null;
-
-        //List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
-//        for(GraduationConditionEnum graduationConditionEnum : GraduationConditionEnum.values()){
-//            if(Objects.equals(graduationConditionEnum.getCode(), groupName)){
-//                condition = graduationConditionEnum;
-//                break;
-//            }
-//        }
-
-        graduationConditionEnum = GraduationConditionEnum.valueOf(groupName);
+        GraduationConditionEnum graduationConditionEnum = GraduationConditionEnum.valueOf(groupName);
 
         //졸업요건표
         model.addAttribute("graduationConditionEnum", graduationConditionEnum);
