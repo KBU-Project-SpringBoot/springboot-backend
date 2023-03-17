@@ -63,7 +63,7 @@ public class GraduationController {
         String sid = sessionForm.getSid();
         String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
-        GraduationConditionEnum condition = null;
+        GraduationConditionEnum graduationConditionEnum = null;
 
         //List<GraduationConditionEnumMapperValue> list = enumMapperFactory.get("GraduationCondition");
 //        for(GraduationConditionEnum graduationConditionEnum : GraduationConditionEnum.values()){
@@ -73,10 +73,10 @@ public class GraduationController {
 //            }
 //        }
 
-        condition = GraduationConditionEnum.valueOf(groupName);
+        graduationConditionEnum = GraduationConditionEnum.valueOf(groupName);
 
         //졸업요건표
-        model.addAttribute("vo", condition);
+        model.addAttribute("graduationConditionEnum", graduationConditionEnum);
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
 
         //졸업 시험 테이블 추출
