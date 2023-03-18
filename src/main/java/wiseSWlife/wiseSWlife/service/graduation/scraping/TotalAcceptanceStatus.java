@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
-import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
 
 import java.io.*;
 

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import wiseSWlife.wiseSWlife.db.repository.imgRepository.ImgRepository;
 import wiseSWlife.wiseSWlife.dto.img.ImgItem;
-import wiseSWlife.wiseSWlife.service.img.ImgService;
 
 import java.io.File;
 import java.io.IOException;

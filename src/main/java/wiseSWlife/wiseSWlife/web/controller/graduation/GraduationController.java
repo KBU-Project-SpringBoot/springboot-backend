@@ -20,7 +20,6 @@ import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
 import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
-//import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
 import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
 import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 
@@ -37,7 +36,6 @@ public class GraduationController {
     private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
     private final Condition condition;
     private final BasicCommonRequirement basicCommonRequirement;
-//    private final EnumMapperFactory enumMapperFactory;
     private final ExamRepository examRepository;
     private final MajorRepository majorRepository;
     private final RefinementRepository refinementRepo;

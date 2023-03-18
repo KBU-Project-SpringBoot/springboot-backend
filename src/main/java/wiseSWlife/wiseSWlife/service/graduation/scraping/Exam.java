@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.ExamForm;
-import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;

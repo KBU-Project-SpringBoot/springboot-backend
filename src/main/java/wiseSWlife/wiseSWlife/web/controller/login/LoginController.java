@@ -8,12 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
 import wiseSWlife.wiseSWlife.dto.member.Member;
-import wiseSWlife.wiseSWlife.db.repository.memberRepository.MemberRepository;
 import wiseSWlife.wiseSWlife.dto.loginForm.LoginForm;
 import wiseSWlife.wiseSWlife.service.login.LoginService;
 
@@ -22,7 +19,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Optional;
 
 
 @Slf4j
