@@ -13,7 +13,7 @@ import wiseSWlife.wiseSWlife.dto.community.auction.Auction;
 import wiseSWlife.wiseSWlife.db.repository.communityRepository.auctionBoardRepository.AuctionBoardRepository;
 import wiseSWlife.wiseSWlife.dto.community.auction.form.AuctionSellForm;
 import wiseSWlife.wiseSWlife.dto.img.ImgItem;
-import wiseSWlife.wiseSWlife.service.img.imgServiceInf.ImgService;
+import wiseSWlife.wiseSWlife.service.img.ImgService;
 
 import javax.validation.Valid;
 import java.io.IOException;

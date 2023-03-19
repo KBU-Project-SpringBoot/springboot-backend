@@ -3,7 +3,6 @@ package wiseSWlife.wiseSWlife.constant;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import wiseSWlife.wiseSWlife.dto.graduationConditionEnumMapper.GraduationConditionEnumMapperType;
 
 /**
  * sid : 학년과 학번의 조합
@@ -17,7 +16,7 @@ import wiseSWlife.wiseSWlife.dto.graduationConditionEnumMapper.GraduationConditi
  */
 @Getter
 @RequiredArgsConstructor
-public enum GraduationConditionEnum implements GraduationConditionEnumMapperType {
+public enum GraduationConditionEnum{
     성16(140, 1.5, 20, 66, 12, 6, 15),
     성17(140, 1.5, 20, 66, 12, 6, 15),
     성18(140, 1.5, 27, 66, 12, 6, 15),
@@ -65,12 +64,4 @@ public enum GraduationConditionEnum implements GraduationConditionEnumMapperType
     private final int totalEnglish;
     private final int totalBasicClass;
     private final int totalRefinement;
-
-
-    @Override
-    public String getCode() {
-        return name();
-    }
-
-
 }

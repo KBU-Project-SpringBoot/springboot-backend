@@ -15,14 +15,14 @@ import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
 import wiseSWlife.wiseSWlife.dto.member.Member;
-//import wiseSWlife.wiseSWlife.service.enumMapper.EnumMapperFactory;
-import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf.BasicCommonRequirement;
-import wiseSWlife.wiseSWlife.service.graduation.conditionInf.Condition;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.ExamScraping;
-import wiseSWlife.wiseSWlife.service.graduation.scrapingInterface.TotalAcceptanceStatusScraping;
-import wiseSWlife.wiseSWlife.service.login.loginServiceInterface.LoginService;
+import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
+import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
+import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
+import wiseSWlife.wiseSWlife.service.login.LoginService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +36,6 @@ public class GraduationScheduler {
 
     private final IntranetRepository intranetRepository;
     private final LoginService loginService;
-//    private final EnumMapperFactory enumMapperFactory;
     private final BasicCommonRequirement basicCommonRequirement;
     private final Condition condition;
     private final ExamScraping examScraping;
@@ -63,7 +62,7 @@ public class GraduationScheduler {
      * 2-3. Exam_TB에 저장
      */
     @Scheduled(cron = "0 0 0 15 7 ?")
-    public void test() throws IOException, InterruptedException {
+    public void test() throws IOException, InterruptedException, SQLException {
         List<Intranet> intranets = intranetRepository.findAll();
 
         for (Intranet user : intranets) {

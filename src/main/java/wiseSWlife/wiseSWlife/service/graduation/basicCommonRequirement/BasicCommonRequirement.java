@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirementInf;
+package wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement;
 
 import wiseSWlife.wiseSWlife.dto.graduation.form.BCRForm;
 
