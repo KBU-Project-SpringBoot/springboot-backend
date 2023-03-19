@@ -18,13 +18,12 @@ import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
-import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
+import wiseSWlife.wiseSWlife.service.graduation.exam.Exam;
 import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
-import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
+import wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatus;
 import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Optional;
 
 @Slf4j
@@ -32,8 +31,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GraduationController {
 
-    private final ExamScraping examScraping;
-    private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
+    private final Exam examScraping;
+    private final TotalAcceptanceStatus totalAcceptanceStatusScraping;
     private final Condition condition;
     private final BasicCommonRequirement basicCommonRequirement;
     private final ExamRepository examRepository;
@@ -45,11 +44,12 @@ public class GraduationController {
 
     @GetMapping("/graduation")
     public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY,required = false)SessionForm sessionForm,
-                             Model model) throws IOException, InterruptedException, SQLException {
+                             Model model) throws IOException, InterruptedException {
 
         if(sessionForm.getIntCookie().isEmpty()){
             return "redirect:/login";
         }
+
         if(sessionForm.getSid().substring(4, 7).equals("070")){
             model.addAttribute("exceptionMsg", "편입생은 서비스를 준비중입니다...");
             model.addAttribute("exceptionUri", "/");
@@ -58,13 +58,15 @@ public class GraduationController {
 
         String intCookie = sessionForm.getIntCookie();
         String sid = sessionForm.getSid();
-        String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
-        GraduationConditionEnum graduationConditionEnum = GraduationConditionEnum.valueOf(groupName);
-
-        //졸업요건표
+        //학과 + 학번에 맞는 졸업요건 상수 Enum 추출
+        String graduationCondition = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
+        GraduationConditionEnum graduationConditionEnum = GraduationConditionEnum.valueOf(graduationCondition);
         model.addAttribute("graduationConditionEnum", graduationConditionEnum);
+
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
+
+
 
         //졸업 시험 테이블 추출
         Optional<ExamForm> examBySid = examRepository.findExamBySid(sid);

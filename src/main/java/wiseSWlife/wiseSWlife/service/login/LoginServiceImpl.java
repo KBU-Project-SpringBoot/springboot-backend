@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class SimpleLoginService implements LoginService {
+public class LoginServiceImpl implements LoginService {
     @Value("${python.engine}")
     String pythonEngine;
 

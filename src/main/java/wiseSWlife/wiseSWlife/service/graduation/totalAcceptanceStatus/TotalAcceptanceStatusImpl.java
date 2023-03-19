@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.scraping;
+package wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,7 +13,7 @@ import java.io.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TotalAcceptanceStatus implements TotalAcceptanceStatusScraping {
+public class TotalAcceptanceStatusImpl implements TotalAcceptanceStatus {
     @Value("${python.engine}")
     String pythonEngine;
 

@@ -17,8 +17,8 @@ import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
 import wiseSWlife.wiseSWlife.dto.member.Member;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
 import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
-import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
-import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
+import wiseSWlife.wiseSWlife.service.graduation.exam.Exam;
+import wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatus;
 import wiseSWlife.wiseSWlife.service.login.LoginService;
 
 import java.io.IOException;
@@ -38,9 +38,9 @@ public class GraduationScheduler {
     private final LoginService loginService;
     private final BasicCommonRequirement basicCommonRequirement;
     private final Condition condition;
-    private final ExamScraping examScraping;
+    private final Exam examScraping;
     private final ExamRepository examRepository;
-    private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
+    private final TotalAcceptanceStatus totalAcceptanceStatusScraping;
     private final MajorRepository majorRepository;
     private final RefinementRepository refinementRepo;
     private final TotalCreditRepository totalCreditRepository;

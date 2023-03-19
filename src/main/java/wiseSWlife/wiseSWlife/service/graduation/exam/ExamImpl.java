@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.scraping;
+package wiseSWlife.wiseSWlife.service.graduation.exam;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.ExamForm;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class Exam implements ExamScraping {
+public class ExamImpl implements Exam {
     @Value("${python.engine}")
     String pythonEngine;
 
