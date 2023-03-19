@@ -7,14 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
-import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.db.repository.refinementRepository.RefinementRepository;
 import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
 import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
@@ -31,11 +29,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GraduationController {
 
-    private final Exam examScraping;
+    private final Exam examService;
     private final TotalAcceptanceStatus totalAcceptanceStatusScraping;
     private final Condition condition;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final ExamRepository examRepository;
     private final MajorRepository majorRepository;
     private final RefinementRepository refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
@@ -66,18 +63,8 @@ public class GraduationController {
 
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
 
-
-
-        //졸업 시험 테이블 추출
-        Optional<ExamForm> examBySid = examRepository.findExamBySid(sid);
-        if(examBySid.isEmpty()){
-            ExamTable examTable = examScraping.scraping(intCookie);
-            ExamForm examForm = examScraping.convert(sid, examTable);//key : 시험이름, value : 통과여부
-            examRepository.save(examForm);
-            model.addAttribute("examForm", examForm);
-        }else{
-            model.addAttribute("examForm", examBySid.get());
-        }
+        ExamForm examForm = examService.exam(sid, intCookie);
+        model.addAttribute("examForm", examForm);
 
         Optional<MajorForm> majorBySid = majorRepository.findMajorBySid(sid);
         if(majorBySid.isEmpty()){

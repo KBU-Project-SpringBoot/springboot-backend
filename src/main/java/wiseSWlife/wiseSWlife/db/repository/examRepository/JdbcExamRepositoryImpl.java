@@ -67,6 +67,7 @@ public class JdbcExamRepositoryImpl implements ExamRepository {
             pstmt.setBoolean(3, examForm.getEnglish());
             pstmt.setBoolean(4, examForm.getComputer());
             pstmt.setBoolean(5, examForm.getComputer2());
+            pstmt.setString(6, examForm.getSid());
             pstmt.executeUpdate();
 
         } catch (Exception e){

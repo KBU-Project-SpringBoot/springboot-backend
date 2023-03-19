@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
-import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.db.repository.intranetRepository.IntranetRepository;
 import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.db.repository.refinementRepository.RefinementRepository;
 import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
-import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
@@ -38,8 +36,7 @@ public class GraduationScheduler {
     private final LoginService loginService;
     private final BasicCommonRequirement basicCommonRequirement;
     private final Condition condition;
-    private final Exam examScraping;
-    private final ExamRepository examRepository;
+    private final Exam examService;
     private final TotalAcceptanceStatus totalAcceptanceStatusScraping;
     private final MajorRepository majorRepository;
     private final RefinementRepository refinementRepo;
@@ -86,9 +83,7 @@ public class GraduationScheduler {
 //            }
 
             //졸업 시험 테이블 추출
-            ExamTable examTable = examScraping.scraping(intCookie);
-            ExamForm examForm = examScraping.convert(sid, examTable);
-            examRepository.update(examForm);
+            ExamForm exam = examService.exam(sid, intCookie);
 
             //전체 이수 현황 테이블 추출
             TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(loginMember.getIntCookie());
