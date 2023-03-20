@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
-import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.db.repository.refinementRepository.RefinementRepository;
 import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
@@ -16,8 +15,11 @@ import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
+import wiseSWlife.wiseSWlife.service.graduation.credit.Credit;
 import wiseSWlife.wiseSWlife.service.graduation.exam.Exam;
-import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
+import wiseSWlife.wiseSWlife.service.graduation.gpa.Gpa;
+import wiseSWlife.wiseSWlife.service.graduation.major.Major;
+import wiseSWlife.wiseSWlife.service.graduation.refinement.Refinement;
 import wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatus;
 import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 
@@ -31,9 +33,11 @@ public class GraduationController {
 
     private final Exam examService;
     private final TotalAcceptanceStatus totalAcceptanceStatusScraping;
-    private final Condition condition;
+    private final Credit creditService;
+    private final Gpa gpaService;
+    private final Major majorService;
+    private final Refinement refinementService;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final MajorRepository majorRepository;
     private final RefinementRepository refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
     private final GPARepository gpaRepository;
@@ -66,19 +70,12 @@ public class GraduationController {
         ExamForm examForm = examService.exam(sid, intCookie);
         model.addAttribute("examForm", examForm);
 
-        Optional<MajorForm> majorBySid = majorRepository.findMajorBySid(sid);
-        if(majorBySid.isEmpty()){
-            MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
-
-            majorRepository.save(majorForm);
-            model.addAttribute("majorForm", majorForm);
-        }else{
-            model.addAttribute("majorForm", majorBySid.get());
-        }
+        MajorForm majorForm = majorService.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
+        model.addAttribute("majorForm", majorForm);
 
         Optional<RefinementForm> refinementBySid = refinementRepo.findRefinementBySid(sid);
         if(refinementBySid.isEmpty()){
-            RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+            RefinementForm refinementForm = refinementService.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
 
             refinementRepo.save(refinementForm);
             model.addAttribute("refinementForm", refinementForm);
@@ -88,7 +85,7 @@ public class GraduationController {
 
         Optional<CreditForm> totalCreditBySid = totalCreditRepository.findTotalCreditBySid(sid);
         if(totalCreditBySid.isEmpty()){
-            CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+            CreditForm creditForm = creditService.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
 
             totalCreditRepository.save(creditForm);
             model.addAttribute("creditForm", creditForm);
@@ -98,7 +95,7 @@ public class GraduationController {
 
         Optional<GPAForm> gpaBySid = gpaRepository.findGPABySid(sid);
         if(gpaBySid.isEmpty()){
-            GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+            GPAForm gpaForm = gpaService.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
 
             gpaRepository.save(gpaForm);
             model.addAttribute("gpaForm", gpaForm);

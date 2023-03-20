@@ -14,8 +14,11 @@ import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.dto.intranet.Intranet;
 import wiseSWlife.wiseSWlife.dto.member.Member;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
-import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
+import wiseSWlife.wiseSWlife.service.graduation.credit.Credit;
 import wiseSWlife.wiseSWlife.service.graduation.exam.Exam;
+import wiseSWlife.wiseSWlife.service.graduation.gpa.Gpa;
+import wiseSWlife.wiseSWlife.service.graduation.major.Major;
+import wiseSWlife.wiseSWlife.service.graduation.refinement.Refinement;
 import wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatus;
 import wiseSWlife.wiseSWlife.service.login.LoginService;
 
@@ -35,7 +38,10 @@ public class GraduationScheduler {
     private final IntranetRepository intranetRepository;
     private final LoginService loginService;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final Condition condition;
+    private final Credit creditService;
+    private final Gpa gpaService;
+    private final Major majorService;
+    private final Refinement refinementService;
     private final Exam examService;
     private final TotalAcceptanceStatus totalAcceptanceStatusScraping;
     private final MajorRepository majorRepository;
@@ -88,13 +94,13 @@ public class GraduationScheduler {
             //전체 이수 현황 테이블 추출
             TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(loginMember.getIntCookie());
 
-            MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
+            MajorForm majorForm = majorService.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
             majorRepository.update(majorForm);
-            RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+            RefinementForm refinementForm = refinementService.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
             refinementRepo.update(refinementForm);
-            CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+            CreditForm creditForm = creditService.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
             totalCreditRepository.update(creditForm);
-            GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+            GPAForm gpaForm = gpaService.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
             gpaRepository.update(gpaForm);
             BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
             bcrRepository.update(bcrForm);
