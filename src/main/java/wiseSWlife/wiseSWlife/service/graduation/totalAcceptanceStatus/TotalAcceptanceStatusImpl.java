@@ -51,8 +51,6 @@ public class TotalAcceptanceStatusImpl implements TotalAcceptanceStatus {
         Gson gson = gsonBuilder.create();
 
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = gson.fromJson(totalAcceptStatusApiResponse, TotalAcceptanceStatusTable.class);
-
-
         return totalAcceptanceStatusTable;
     }
 }
