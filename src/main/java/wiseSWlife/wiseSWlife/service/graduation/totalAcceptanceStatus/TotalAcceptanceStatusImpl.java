@@ -23,7 +23,22 @@ public class TotalAcceptanceStatusImpl implements TotalAcceptanceStatus {
     @Value("${python.encoding}")
     String pythonEncoding;
 
-    public TotalAcceptanceStatusTable scrapping(String intCookie) throws IOException, InterruptedException {
+    public final static String TOTAL_ACCEPT_STATUS_NULL_EXCEPTION_MESSAGE = "totalAcceptStatus NULL 에러";
+
+    @Override
+    public TotalAcceptanceStatusTable totalAcceptanceStatus(String intCookie) throws IOException, InterruptedException {
+        String totalAcceptStatusApiResponse = getTotalAcceptanceStatusApiResponse(intCookie);
+
+        if (totalAcceptStatusApiResponse == null) {
+            throw new NullPointerException(TOTAL_ACCEPT_STATUS_NULL_EXCEPTION_MESSAGE);
+        }
+
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = convertStringToTotalAcceptStatusTable(totalAcceptStatusApiResponse);
+
+        return totalAcceptanceStatusTable;
+    }
+
+    private String getTotalAcceptanceStatusApiResponse(String intCookie) throws IOException, InterruptedException {
         File testFile = new File(pythonFile);
         FileWriter fw = new FileWriter(testFile);
         fw.write("import asyncio\n" + "\n");
@@ -44,8 +59,10 @@ public class TotalAcceptanceStatusImpl implements TotalAcceptanceStatus {
         if(exitVal != 0) {//비정상적으로 종료시
             log.warn("서브 프로세스가 비정상 종료되었습니다.");
         }
+        return br.readLine();
+    }
 
-        String totalAcceptStatusApiResponse = br.readLine();
+    private TotalAcceptanceStatusTable convertStringToTotalAcceptStatusTable(String totalAcceptStatusApiResponse) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();

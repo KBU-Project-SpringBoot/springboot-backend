@@ -56,7 +56,7 @@ public class GraduationController {
         GraduationConditionEnum graduationConditionEnum = GraduationConditionEnum.valueOf(graduationCondition);
         model.addAttribute("graduationConditionEnum", graduationConditionEnum);
 
-        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.totalAcceptanceStatus(intCookie);
 
         ExamForm examForm = examService.exam(sid, intCookie);
         model.addAttribute("examForm", examForm);

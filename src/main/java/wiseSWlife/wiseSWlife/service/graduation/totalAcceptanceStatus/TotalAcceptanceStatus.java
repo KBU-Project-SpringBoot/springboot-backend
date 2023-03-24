@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface TotalAcceptanceStatus {
 
-    TotalAcceptanceStatusTable scrapping(String intCookie) throws IOException, InterruptedException;
+    TotalAcceptanceStatusTable totalAcceptanceStatus(String intCookie) throws IOException, InterruptedException;
 }

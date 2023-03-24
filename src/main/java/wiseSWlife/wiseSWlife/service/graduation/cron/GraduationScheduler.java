@@ -92,7 +92,7 @@ public class GraduationScheduler {
             ExamForm exam = examService.exam(sid, intCookie);
 
             //전체 이수 현황 테이블 추출
-            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(loginMember.getIntCookie());
+            TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.totalAcceptanceStatus(loginMember.getIntCookie());
 
             MajorForm majorForm = majorService.getMajorForm(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
             majorRepository.update(majorForm);
