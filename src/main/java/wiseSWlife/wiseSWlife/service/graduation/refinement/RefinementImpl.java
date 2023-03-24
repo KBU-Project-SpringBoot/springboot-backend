@@ -2,10 +2,12 @@ package wiseSWlife.wiseSWlife.service.graduation.refinement;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import wiseSWlife.wiseSWlife.db.repository.refinementRepository.RefinementRepository;
 import wiseSWlife.wiseSWlife.dto.graduation.form.RefinementForm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +20,8 @@ public class RefinementImpl implements Refinement{
     private final static String THOUGHT_AND_EXPRESSION = "사고와표현";
     private final static String COLLEGE_LIFE_AND_SELF_DEVELOPMENT = "대학생활과자기계발";
 
+    private final RefinementRepository refinementRepository;
+
     @Override
     public RefinementForm getRefinementForm(String sid, ArrayList<String>[] myRefinementSelect, ArrayList<String>[] myRefinementRequirement){
         HashMap<String, Integer> refinementMap = new HashMap<>();
@@ -29,6 +33,7 @@ public class RefinementImpl implements Refinement{
         boolean myCollegeLifeAndSelfDevelopment = checkCollegeLifeAndSelfDevelopment(refinementMap);
 
         RefinementForm refinementForm = new RefinementForm(sid, myRefinementArr, refinementMap.get(REFINEMENT_REQUIREMENT), myEnglishArr, refinementMap.get(ENGLISH), refinementMap.get(REFINEMENT_SELECT), myCollegeLifeAndSelfDevelopment);
+        saveRefinement(sid, refinementForm);
 
         return refinementForm;
     }
@@ -63,4 +68,11 @@ public class RefinementImpl implements Refinement{
         return myCollegeLifeAndSelfDevelopment;
     }
 
+    private void saveRefinement(String sid, RefinementForm refinementForm) {
+        Optional<RefinementForm> refinementBySid = refinementRepository.findRefinementBySid(sid);
+        if (refinementBySid.isEmpty()) {
+            refinementRepository.save(refinementForm);
+        }
+        refinementRepository.update(refinementForm);
+    }
 }

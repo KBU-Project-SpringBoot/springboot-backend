@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
-import wiseSWlife.wiseSWlife.db.repository.refinementRepository.RefinementRepository;
 import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
@@ -38,7 +37,6 @@ public class GraduationController {
     private final Major majorService;
     private final Refinement refinementService;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final RefinementRepository refinementRepo;
     private final TotalCreditRepository totalCreditRepository;
     private final GPARepository gpaRepository;
     private final BCRRepository bcrRepository;
@@ -73,15 +71,8 @@ public class GraduationController {
         MajorForm majorForm = majorService.getMajorForm(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
         model.addAttribute("majorForm", majorForm);
 
-        Optional<RefinementForm> refinementBySid = refinementRepo.findRefinementBySid(sid);
-        if (refinementBySid.isEmpty()) {
-            RefinementForm refinementForm = refinementService.getRefinementForm(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
-
-            refinementRepo.save(refinementForm);
-            model.addAttribute("refinementForm", refinementForm);
-        } else {
-            model.addAttribute("refinementForm", refinementBySid.get());
-        }
+        RefinementForm refinementForm = refinementService.getRefinementForm(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        model.addAttribute("refinementForm", refinementForm);
 
         Optional<CreditForm> totalCreditBySid = totalCreditRepository.findTotalCreditBySid(sid);
         if (totalCreditBySid.isEmpty()) {
