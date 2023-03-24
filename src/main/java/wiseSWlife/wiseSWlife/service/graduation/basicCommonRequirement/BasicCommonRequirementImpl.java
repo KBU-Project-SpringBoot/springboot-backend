@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
+import static wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatusImpl.*;
+
 @Service
 @RequiredArgsConstructor
 public class BasicCommonRequirementImpl implements BasicCommonRequirement {
@@ -43,21 +45,21 @@ public class BasicCommonRequirementImpl implements BasicCommonRequirement {
     @Override
     public void checkBCR(ArrayList<String>[] myBasicCommonRequirement, ArrayList<String>[] myRefinementRequirement, HashMap<String, Integer> basicCommonRequirementMap) {
         for(ArrayList<String> i : myBasicCommonRequirement){
-            if(i.get(0).startsWith(CONDUCTION)){
+            if(i.get(SUBJECT_NAME_COLUMN).startsWith(CONDUCTION)){
                 basicCommonRequirementMap.put(CONDUCTION, basicCommonRequirementMap.getOrDefault(CONDUCTION, 0) + 1);
-            }else if(i.get(0).startsWith(CHAPEL)){
+            }else if(i.get(SUBJECT_NAME_COLUMN).startsWith(CHAPEL)){
                 basicCommonRequirementMap.put(CHAPEL, basicCommonRequirementMap.getOrDefault(CHAPEL, 0) + 1);
-            }else if(i.get(0).startsWith(WHEAT_GRAIN_TRAINING)){
+            }else if(i.get(SUBJECT_NAME_COLUMN).startsWith(WHEAT_GRAIN_TRAINING)){
                 basicCommonRequirementMap.put(WHEAT_GRAIN_TRAINING, 0);
-            }else if(i.get(0).startsWith(BIBLE) || i.get(0).startsWith(GLOBAL_CIVILIZATION)){
+            }else if(i.get(SUBJECT_NAME_COLUMN).startsWith(BIBLE) || i.get(0).startsWith(GLOBAL_CIVILIZATION)){
                 basicCommonRequirementMap.put(BIBLE, basicCommonRequirementMap.getOrDefault(BIBLE, 0) + 1);
             }
         }
 
         for(ArrayList<String> i : myRefinementRequirement){
-            if(i.get(0).startsWith(CONDUCTION)){
+            if(i.get(SUBJECT_NAME_COLUMN).startsWith(CONDUCTION)){
                 basicCommonRequirementMap.put(CONDUCTION, basicCommonRequirementMap.getOrDefault(CONDUCTION, 0) + 1);
-            }else if(i.get(0).startsWith(CHAPEL)){
+            }else if(i.get(SUBJECT_NAME_COLUMN).startsWith(CHAPEL)){
                 basicCommonRequirementMap.put(CHAPEL, basicCommonRequirementMap.getOrDefault(CHAPEL, 0) + 1);
             }
         }
