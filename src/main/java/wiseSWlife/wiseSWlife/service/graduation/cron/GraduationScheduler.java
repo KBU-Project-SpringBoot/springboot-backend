@@ -98,7 +98,7 @@ public class GraduationScheduler {
             majorRepository.update(majorForm);
             RefinementForm refinementForm = refinementService.getRefinementForm(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
             refinementRepo.update(refinementForm);
-            CreditForm creditForm = creditService.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+            CreditForm creditForm = creditService.credit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
             totalCreditRepository.update(creditForm);
             GPAForm gpaForm = gpaService.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
             gpaRepository.update(gpaForm);

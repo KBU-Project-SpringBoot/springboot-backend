@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
 import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
-import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
@@ -37,7 +36,6 @@ public class GraduationController {
     private final Major majorService;
     private final Refinement refinementService;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final TotalCreditRepository totalCreditRepository;
     private final GPARepository gpaRepository;
     private final BCRRepository bcrRepository;
 
@@ -74,15 +72,8 @@ public class GraduationController {
         RefinementForm refinementForm = refinementService.getRefinementForm(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("refinementForm", refinementForm);
 
-        Optional<CreditForm> totalCreditBySid = totalCreditRepository.findTotalCreditBySid(sid);
-        if (totalCreditBySid.isEmpty()) {
-            CreditForm creditForm = creditService.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
-
-            totalCreditRepository.save(creditForm);
-            model.addAttribute("creditForm", creditForm);
-        } else {
-            model.addAttribute("creditForm", totalCreditBySid.get());
-        }
+        CreditForm creditForm = creditService.credit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+        model.addAttribute("creditForm", creditForm);
 
         Optional<GPAForm> gpaBySid = gpaRepository.findGPABySid(sid);
         if (gpaBySid.isEmpty()) {
