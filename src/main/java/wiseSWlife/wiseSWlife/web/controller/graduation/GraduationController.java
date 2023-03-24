@@ -75,7 +75,7 @@ public class GraduationController {
 
         Optional<RefinementForm> refinementBySid = refinementRepo.findRefinementBySid(sid);
         if (refinementBySid.isEmpty()) {
-            RefinementForm refinementForm = refinementService.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+            RefinementForm refinementForm = refinementService.getRefinementForm(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
 
             refinementRepo.save(refinementForm);
             model.addAttribute("refinementForm", refinementForm);
