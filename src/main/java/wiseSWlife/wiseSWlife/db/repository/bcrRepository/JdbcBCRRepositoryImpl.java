@@ -66,6 +66,7 @@ public class JdbcBCRRepositoryImpl implements BCRRepository {
             pstmt.setInt(3,bcrForm.getConduction());
             pstmt.setBoolean(4,bcrForm.getWheatGrain());
             pstmt.setInt(5,bcrForm.getBibleStudy());
+            pstmt.setString(6, bcrForm.getSid());
             pstmt.executeUpdate();
 
         } catch (Exception e){

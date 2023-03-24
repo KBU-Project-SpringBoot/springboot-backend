@@ -29,6 +29,15 @@ public class ExamImpl implements Exam {
     @Value("${python.encoding}")
     String pythonEncoding;
 
+    public final static String ENGLISH = "영어";
+    public final static String BIBLE = "성경";
+    public final static String COMPUTER1 = "컴퓨터";
+    public final static String COMPUTER2 = "컴퓨터2";
+    public final static String PASS = "합격";
+    public final static int PASS_COLUMN = 4;
+    public final static int SUBJECT_COLUMN = 1;
+    public final static String EXAM_NULL_EXCEPTION_MESSAGE = "Exam NULL 에러";
+
     private final ExamRepository examRepository;
 
     @Override
@@ -36,7 +45,7 @@ public class ExamImpl implements Exam {
         String examApiResponse = getExamApiResponse(intCookie);
 
         if (examApiResponse == null) {
-            throw new NullPointerException("Exam 정보가 없습니다.");
+            throw new NullPointerException(EXAM_NULL_EXCEPTION_MESSAGE);
         }
 
         ExamForm examForm = convertStringToExamForm(sid, examApiResponse);
@@ -76,19 +85,19 @@ public class ExamImpl implements Exam {
         ExamTable examTable = gson.fromJson(examApiResponse, ExamTable.class);
 
         Map<String, Boolean> examMap = new HashMap<>();
-        String[] subjects = {"성경", "영어", "컴퓨터", "컴퓨터2"};
+        String[] subjects = {BIBLE, ENGLISH, COMPUTER1, COMPUTER2};
 
         for (String i : subjects) {
             examMap.put(i, false);
         }
 
         for (ArrayList i : examTable.getBody()) {
-            if (i.get(4).equals("합격")) {
-                examMap.put(i.get(1).toString(), true);
+            if (i.get(PASS_COLUMN).equals(PASS)) {
+                examMap.put(i.get(SUBJECT_COLUMN).toString(), true);
             }
         }
 
-        ExamForm examForm = new ExamForm(sid, examMap.get("성경"), examMap.get("영어"), examMap.get("컴퓨터"), examMap.get("컴퓨터2"));
+        ExamForm examForm = new ExamForm(sid, examMap.get(BIBLE), examMap.get(ENGLISH), examMap.get(COMPUTER1), examMap.get(COMPUTER2));
 
         return examForm;
     }

@@ -44,7 +44,6 @@ public class BasicCommonRequirementImpl implements BasicCommonRequirement {
     public void checkBCR(ArrayList<String>[] myBasicCommonRequirement, ArrayList<String>[] myRefinementRequirement, HashMap<String, Integer> basicCommonRequirementMap) {
         for(ArrayList<String> i : myBasicCommonRequirement){
             if(i.get(0).startsWith(CONDUCTION)){
-                System.out.println("너뭐야" + i.get(0));
                 basicCommonRequirementMap.put(CONDUCTION, basicCommonRequirementMap.getOrDefault(CONDUCTION, 0) + 1);
             }else if(i.get(0).startsWith(CHAPEL)){
                 basicCommonRequirementMap.put(CHAPEL, basicCommonRequirementMap.getOrDefault(CHAPEL, 0) + 1);
