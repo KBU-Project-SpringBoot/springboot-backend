@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
-import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
@@ -21,7 +20,6 @@ import wiseSWlife.wiseSWlife.service.graduation.refinement.Refinement;
 import wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatus;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -35,7 +33,6 @@ public class GraduationController {
     private final Major majorService;
     private final Refinement refinementService;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final BCRRepository bcrRepository;
 
     @GetMapping("/graduation")
     public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY, required = false) SessionForm sessionForm,
@@ -76,15 +73,8 @@ public class GraduationController {
         GPAForm gpaForm = gpaService.getGpa(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
         model.addAttribute("gpaForm", gpaForm);
 
-        Optional<BCRForm> bcrBySid = bcrRepository.findBCRBySid(sid);
-        if (bcrBySid.isEmpty()) {
-            BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
-
-            bcrRepository.save(bcrForm);
-            model.addAttribute("bcrForm", bcrForm);
-        } else {
-            model.addAttribute("bcrForm", bcrBySid.get());
-        }
+        BCRForm bcrForm = basicCommonRequirement.getBCR(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        model.addAttribute("bcrForm", bcrForm);
 
         model.addAttribute("sessionForm", sessionForm);
         return "graduate/graduation";

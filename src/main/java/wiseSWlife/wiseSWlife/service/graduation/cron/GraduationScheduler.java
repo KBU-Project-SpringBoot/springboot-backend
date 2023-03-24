@@ -102,7 +102,7 @@ public class GraduationScheduler {
             totalCreditRepository.update(creditForm);
             GPAForm gpaForm = gpaService.getGpa(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
             gpaRepository.update(gpaForm);
-            BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+            BCRForm bcrForm = basicCommonRequirement.getBCR(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
             bcrRepository.update(bcrForm);
         }
 
