@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
+import static wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatusImpl.*;
+
 @Service
 @RequiredArgsConstructor
 public class RefinementImpl implements Refinement{
-    private final static String REFINEMENT_SELECT = "교양선택";
-    private final static String REFINEMENT_REQUIREMENT = "교양필수";
+    private final static String REFINEMENT = "교양";
     private final static String ENGLISH = "영어";
     private final static String ACADEMIC_WRITING = "학술적글쓰기";
     private final static String BASIS_WRITING = "글쓰기의기초";
@@ -29,10 +30,13 @@ public class RefinementImpl implements Refinement{
         ArrayList<String> myEnglishArr = new ArrayList<>();
 
         checkRefinementSelect(myRefinementSelect, refinementMap, myRefinementArr);
-        checkRefinementRequirement(myRefinementRequirement, refinementMap, myEnglishArr);
+        checkRefinementRequirement(myRefinementRequirement, refinementMap, myEnglishArr, myRefinementArr);
         boolean myCollegeLifeAndSelfDevelopment = checkCollegeLifeAndSelfDevelopment(refinementMap);
 
-        RefinementForm refinementForm = new RefinementForm(sid, myRefinementArr, refinementMap.get(REFINEMENT_REQUIREMENT), myEnglishArr, refinementMap.get(ENGLISH), refinementMap.get(REFINEMENT_SELECT), myCollegeLifeAndSelfDevelopment);
+        RefinementForm refinementForm = new RefinementForm(sid, myRefinementArr,
+                refinementMap.get(REFINEMENT),
+                myEnglishArr, refinementMap.get(ENGLISH),
+                refinementMap.get(ACADEMIC_WRITING), myCollegeLifeAndSelfDevelopment);
         saveRefinement(sid, refinementForm);
 
         return refinementForm;
@@ -41,31 +45,27 @@ public class RefinementImpl implements Refinement{
     @Override
     public void checkRefinementSelect(ArrayList<String>[] myRefinementSelect, HashMap<String, Integer> refinementMap, ArrayList<String> myRefinementArr) {
         for(ArrayList<String> i : myRefinementSelect){
-            refinementMap.put(REFINEMENT_SELECT, refinementMap.getOrDefault(REFINEMENT_SELECT, 0) + Integer.parseInt(i.get(1)));
-            myRefinementArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
+            refinementMap.put(REFINEMENT, refinementMap.getOrDefault(REFINEMENT, 0) + Integer.parseInt(i.get(CREDIT_COLUMN)));
+            myRefinementArr.add(i.get(SUBJECT_NAME_COLUMN).substring(0, i.get(SUBJECT_NAME_COLUMN).indexOf(LEFT_BRACKET)));
         }
     }
 
     @Override
-    public void checkRefinementRequirement(ArrayList<String>[] myRefinementRequirement, HashMap<String, Integer> refinementMap, ArrayList<String> myEnglishArr) {
+    public void checkRefinementRequirement(ArrayList<String>[] myRefinementRequirement, HashMap<String, Integer> refinementMap, ArrayList<String> myEnglishArr, ArrayList<String> myRefinementArr) {
         for(ArrayList<String> i : myRefinementRequirement){
-            if(i.get(0).contains(ENGLISH)){
-                refinementMap.put(ENGLISH, refinementMap.getOrDefault(ENGLISH, 0) + Integer.parseInt(i.get(1)));
-                myEnglishArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
-            }else if(i.get(0).contains(ACADEMIC_WRITING) || i.get(0).contains(BASIS_WRITING) || i.get(0).contains(THOUGHT_AND_EXPRESSION)){
-                refinementMap.put(REFINEMENT_REQUIREMENT, refinementMap.getOrDefault(REFINEMENT_REQUIREMENT, 0) + Integer.parseInt(i.get(1)));
-            }else if(i.get(0).contains(COLLEGE_LIFE_AND_SELF_DEVELOPMENT)){
+            if(i.get(SUBJECT_NAME_COLUMN).startsWith(ENGLISH)){
+                refinementMap.put(ENGLISH, refinementMap.getOrDefault(ENGLISH, 0) + Integer.parseInt(i.get(CREDIT_COLUMN)));
+                myEnglishArr.add(i.get(SUBJECT_NAME_COLUMN).substring(0, i.get(SUBJECT_NAME_COLUMN).indexOf(LEFT_BRACKET)));
+            }else if(i.get(SUBJECT_NAME_COLUMN).startsWith(ACADEMIC_WRITING) || i.get(SUBJECT_NAME_COLUMN).startsWith(BASIS_WRITING) || i.get(SUBJECT_NAME_COLUMN).startsWith(THOUGHT_AND_EXPRESSION)){
+                refinementMap.put(ACADEMIC_WRITING, refinementMap.getOrDefault(ACADEMIC_WRITING, 0) + Integer.parseInt(i.get(CREDIT_COLUMN)));
+            }else if(i.get(SUBJECT_NAME_COLUMN).startsWith(COLLEGE_LIFE_AND_SELF_DEVELOPMENT)){
                 refinementMap.put(COLLEGE_LIFE_AND_SELF_DEVELOPMENT, 0);
             }
         }
     }
 
     private boolean checkCollegeLifeAndSelfDevelopment(HashMap<String, Integer> refinementMap) {
-        boolean myCollegeLifeAndSelfDevelopment = false;
-        if (refinementMap.containsKey(COLLEGE_LIFE_AND_SELF_DEVELOPMENT)) {
-            myCollegeLifeAndSelfDevelopment = true;
-        }
-        return myCollegeLifeAndSelfDevelopment;
+        return refinementMap.containsKey(COLLEGE_LIFE_AND_SELF_DEVELOPMENT);
     }
 
     private void saveRefinement(String sid, RefinementForm refinementForm) {

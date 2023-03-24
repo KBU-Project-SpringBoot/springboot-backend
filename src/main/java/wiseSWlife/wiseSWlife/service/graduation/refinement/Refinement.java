@@ -10,5 +10,5 @@ public interface Refinement {
 
     void checkRefinementSelect(ArrayList<String>[] myRefinementSelect, HashMap<String, Integer> refinementMap, ArrayList<String> myRefinementArr);
 
-    void checkRefinementRequirement(ArrayList<String>[] myRefinementRequirement, HashMap<String, Integer> refinementMap, ArrayList<String> myEnglishArr);
+    void checkRefinementRequirement(ArrayList<String>[] myRefinementRequirement, HashMap<String, Integer> refinementMap, ArrayList<String> myEnglishArr, ArrayList<String> myRefinementArr);
 }
