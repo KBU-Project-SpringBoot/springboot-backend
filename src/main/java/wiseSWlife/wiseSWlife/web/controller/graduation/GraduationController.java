@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
-import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
 import wiseSWlife.wiseSWlife.global.session.SessionConst;
@@ -36,7 +35,6 @@ public class GraduationController {
     private final Major majorService;
     private final Refinement refinementService;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final GPARepository gpaRepository;
     private final BCRRepository bcrRepository;
 
     @GetMapping("/graduation")
@@ -72,18 +70,11 @@ public class GraduationController {
         RefinementForm refinementForm = refinementService.getRefinementForm(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
         model.addAttribute("refinementForm", refinementForm);
 
-        CreditForm creditForm = creditService.credit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+        CreditForm creditForm = creditService.getCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
         model.addAttribute("creditForm", creditForm);
 
-        Optional<GPAForm> gpaBySid = gpaRepository.findGPABySid(sid);
-        if (gpaBySid.isEmpty()) {
-            GPAForm gpaForm = gpaService.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
-
-            gpaRepository.save(gpaForm);
-            model.addAttribute("gpaForm", gpaForm);
-        } else {
-            model.addAttribute("gpaForm", gpaBySid.get());
-        }
+        GPAForm gpaForm = gpaService.getGpa(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
+        model.addAttribute("gpaForm", gpaForm);
 
         Optional<BCRForm> bcrBySid = bcrRepository.findBCRBySid(sid);
         if (bcrBySid.isEmpty()) {

@@ -13,7 +13,7 @@ public class CreditImpl implements Credit{
     private final TotalCreditRepository totalCreditRepository;
 
     @Override
-    public CreditForm credit(String sid, int myCredit){
+    public CreditForm getCredit(String sid, int myCredit){
         CreditForm creditForm = new CreditForm(sid, myCredit);
 
         Optional<CreditForm> totalCreditBySid = totalCreditRepository.findTotalCreditBySid(sid);

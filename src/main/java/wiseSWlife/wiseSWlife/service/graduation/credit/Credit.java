@@ -3,5 +3,5 @@ package wiseSWlife.wiseSWlife.service.graduation.credit;
 import wiseSWlife.wiseSWlife.dto.graduation.form.CreditForm;
 
 public interface Credit {
-    CreditForm credit(String sid, int myCredit);
+    CreditForm getCredit(String sid, int myCredit);
 }
