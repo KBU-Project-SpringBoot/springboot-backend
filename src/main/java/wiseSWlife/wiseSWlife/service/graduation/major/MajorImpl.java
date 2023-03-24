@@ -6,78 +6,79 @@ import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
 import wiseSWlife.wiseSWlife.dto.graduation.form.MajorForm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
+
+import static wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatusImpl.*;
 
 @Service
 @RequiredArgsConstructor
 public class MajorImpl implements Major {
+    private final static String MAJOR_BEGIN = "전공기초";
+    private final static String MAJOR_REQUIREMENT = "전공필수";
+    private final static String MAJOR_SELECT = "전공선택";
+    private final static String FUTURE_AND_DESIGN = "미래설계상담";
+
     private final MajorRepository majorRepository;
 
     @Override
     public MajorForm getMajorForm(String sid, ArrayList<String>[] intranetMyMajorBegin, ArrayList<String>[] intranetMyMajorSelect, ArrayList<String>[] intranetMyMajorRequirement) {
+        HashMap<String, Integer> majorMap = new HashMap<>();
         ArrayList<String> myMajorSelectArr = new ArrayList<>();
         ArrayList<String> myMajorBeginAndRequirementArr = new ArrayList<>();
 
-        int majorBeginCreditResult = checkMajorBegin(intranetMyMajorBegin, myMajorBeginAndRequirementArr);
-        int majorRequirementCreditResult = checkMajorRequirement(intranetMyMajorRequirement, myMajorBeginAndRequirementArr);
-        int futureDesignCntResult = checkFutureDesign(intranetMyMajorRequirement);
-        int majorSelectCreditResult = checkMajorSelect(intranetMyMajorSelect, myMajorSelectArr);
+        checkMajorBegin(intranetMyMajorBegin, majorMap, myMajorBeginAndRequirementArr);
+        checkMajorRequirement(intranetMyMajorRequirement, majorMap, myMajorBeginAndRequirementArr);
+        checkMajorSelect(intranetMyMajorSelect, majorMap, myMajorSelectArr);
+        checkFutureDesign(intranetMyMajorRequirement, majorMap);
 
-        MajorForm majorForm = new MajorForm(sid, myMajorBeginAndRequirementArr, majorBeginCreditResult + majorRequirementCreditResult, myMajorSelectArr, majorBeginCreditResult + majorRequirementCreditResult + majorSelectCreditResult, futureDesignCntResult);
+        MajorForm majorForm = new MajorForm(sid, myMajorBeginAndRequirementArr,
+                majorMap.get(MAJOR_BEGIN) + majorMap.get(MAJOR_REQUIREMENT),
+                myMajorSelectArr,
+                majorMap.get(MAJOR_BEGIN) + majorMap.get(MAJOR_REQUIREMENT) + majorMap.get(MAJOR_SELECT),
+                majorMap.get(FUTURE_AND_DESIGN));
+
         saveMajor(sid, majorForm);
 
         return majorForm;
     }
 
     @Override
-    public int checkMajorBegin(ArrayList<String>[] intranetMyBeginMajor, ArrayList<String> myMajorBeginAndRequirementArr) {
-        int majorBeginCreditResult = 0;
+    public void checkMajorBegin(ArrayList<String>[] intranetMyBeginMajor, HashMap<String, Integer> majorMap, ArrayList<String> myMajorBeginAndRequirementArr) {
         for (ArrayList<String> i : intranetMyBeginMajor) {
-            majorBeginCreditResult += Integer.parseInt(i.get(1));
-            myMajorBeginAndRequirementArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
+            majorMap.put(MAJOR_BEGIN, majorMap.getOrDefault(MAJOR_BEGIN, 0) + Integer.parseInt(i.get(CREDIT_COLUMN)));
+            myMajorBeginAndRequirementArr.add(i.get(SUBJECT_NAME_COLUMN).substring(0, i.get(SUBJECT_NAME_COLUMN).indexOf(LEFT_BRACKET)));
         }
-
-        return majorBeginCreditResult;
     }
 
     @Override
-    public int checkMajorRequirement(ArrayList<String>[] intranetMyRequirementMajor, ArrayList<String> myMajorBeginAndRequirementArr) {
-        int majorSelectCreditResult = 0;
+    public void checkMajorRequirement(ArrayList<String>[] intranetMyRequirementMajor, HashMap<String, Integer> majorMap, ArrayList<String> myMajorBeginAndRequirementArr) {
         for (ArrayList<String> i : intranetMyRequirementMajor) {
-            if (i.get(0).contains("미래설계상담")) {
+            if (i.get(SUBJECT_NAME_COLUMN).contains(FUTURE_AND_DESIGN)) {
                 continue;
             }
-
-            majorSelectCreditResult += Integer.parseInt(i.get(1));
-            myMajorBeginAndRequirementArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
+            majorMap.put(MAJOR_REQUIREMENT, majorMap.getOrDefault(MAJOR_REQUIREMENT, 0) + Integer.parseInt(i.get(CREDIT_COLUMN)));
+            myMajorBeginAndRequirementArr.add(i.get(SUBJECT_NAME_COLUMN).substring(0, i.get(SUBJECT_NAME_COLUMN).indexOf(LEFT_BRACKET)));
         }
-
-        return majorSelectCreditResult;
     }
 
     @Override
-    public int checkFutureDesign(ArrayList<String>[] intranetMyRequirementMajor) {
-        int futureDesignCntResult = 0;
-        for (ArrayList<String> i : intranetMyRequirementMajor) {
-            if (i.get(0).contains("미래설계상담")) {
-                futureDesignCntResult++;
-            }
-        }
-
-        return futureDesignCntResult;
-    }
-
-    @Override
-    public int checkMajorSelect(ArrayList<String>[] myMajorSelect, ArrayList<String> myMajorSelectArr) {
-        int majorRequirementCreditResult = 0;
+    public void checkMajorSelect(ArrayList<String>[] myMajorSelect, HashMap<String, Integer> majorMap, ArrayList<String> myMajorSelectArr) {
         if (myMajorSelect != null) {
             for (ArrayList<String> i : myMajorSelect) {
-                majorRequirementCreditResult += Integer.parseInt(i.get(1));
-                myMajorSelectArr.add(i.get(0).substring(0, i.get(0).indexOf('(')));
+                majorMap.put(MAJOR_SELECT, majorMap.getOrDefault(MAJOR_SELECT, 0) + Integer.parseInt(i.get(CREDIT_COLUMN)));
+                myMajorSelectArr.add(i.get(SUBJECT_NAME_COLUMN).substring(0, i.get(SUBJECT_NAME_COLUMN).indexOf(LEFT_BRACKET)));
             }
         }
+    }
 
-        return majorRequirementCreditResult;
+    @Override
+    public void checkFutureDesign(ArrayList<String>[] intranetMyRequirementMajor, HashMap<String, Integer> majorMap) {
+        for (ArrayList<String> i : intranetMyRequirementMajor) {
+            if (i.get(SUBJECT_NAME_COLUMN).contains(FUTURE_AND_DESIGN)) {
+                majorMap.put(FUTURE_AND_DESIGN, majorMap.getOrDefault(FUTURE_AND_DESIGN, 0) + 1);
+            }
+        }
     }
 
     private void saveMajor(String sid, MajorForm majorForm) {

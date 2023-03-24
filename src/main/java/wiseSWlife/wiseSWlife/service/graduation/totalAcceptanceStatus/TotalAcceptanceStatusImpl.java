@@ -23,6 +23,10 @@ public class TotalAcceptanceStatusImpl implements TotalAcceptanceStatus {
     @Value("${python.encoding}")
     String pythonEncoding;
 
+    public final static int SUBJECT_NAME_COLUMN = 0;
+    public final static int CREDIT_COLUMN = 1;
+    public final static String LEFT_BRACKET = "(";
+
     public final static String TOTAL_ACCEPT_STATUS_NULL_EXCEPTION_MESSAGE = "totalAcceptStatus NULL 에러";
 
     @Override
