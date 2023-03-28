@@ -1,4 +1,4 @@
-package wiseSWlife.wiseSWlife.service.graduation.scraping;
+package wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,7 +13,7 @@ import java.io.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TotalAcceptanceStatus implements TotalAcceptanceStatusScraping {
+public class TotalAcceptanceStatusImpl implements TotalAcceptanceStatus {
     @Value("${python.engine}")
     String pythonEngine;
 
@@ -23,7 +23,26 @@ public class TotalAcceptanceStatus implements TotalAcceptanceStatusScraping {
     @Value("${python.encoding}")
     String pythonEncoding;
 
-    public TotalAcceptanceStatusTable scrapping(String intCookie) throws IOException, InterruptedException {
+    public final static int SUBJECT_NAME_COLUMN = 0;
+    public final static int CREDIT_COLUMN = 1;
+    public final static String LEFT_BRACKET = "(";
+
+    public final static String TOTAL_ACCEPT_STATUS_NULL_EXCEPTION_MESSAGE = "totalAcceptStatus NULL 에러";
+
+    @Override
+    public TotalAcceptanceStatusTable totalAcceptanceStatus(String intCookie) throws IOException, InterruptedException {
+        String totalAcceptStatusApiResponse = getTotalAcceptanceStatusApiResponse(intCookie);
+
+        if (totalAcceptStatusApiResponse == null) {
+            throw new NullPointerException(TOTAL_ACCEPT_STATUS_NULL_EXCEPTION_MESSAGE);
+        }
+
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = convertStringToTotalAcceptStatusTable(totalAcceptStatusApiResponse);
+
+        return totalAcceptanceStatusTable;
+    }
+
+    private String getTotalAcceptanceStatusApiResponse(String intCookie) throws IOException, InterruptedException {
         File testFile = new File(pythonFile);
         FileWriter fw = new FileWriter(testFile);
         fw.write("import asyncio\n" + "\n");
@@ -44,15 +63,15 @@ public class TotalAcceptanceStatus implements TotalAcceptanceStatusScraping {
         if(exitVal != 0) {//비정상적으로 종료시
             log.warn("서브 프로세스가 비정상 종료되었습니다.");
         }
+        return br.readLine();
+    }
 
-        String totalAcceptStatusApiResponse = br.readLine();
+    private TotalAcceptanceStatusTable convertStringToTotalAcceptStatusTable(String totalAcceptStatusApiResponse) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
 
         TotalAcceptanceStatusTable totalAcceptanceStatusTable = gson.fromJson(totalAcceptStatusApiResponse, TotalAcceptanceStatusTable.class);
-
-
         return totalAcceptanceStatusTable;
     }
 }

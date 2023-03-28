@@ -72,6 +72,7 @@ public class JdbcRefinementRepositoryImpl implements RefinementRepository {
             pstmt.setInt(5, refinementForm.getEnglishCredit());
             pstmt.setInt(6, refinementForm.getBasicClassCredit());
             pstmt.setBoolean(7, refinementForm.isCollegeLifeAndSelfDevelopment());
+            pstmt.setString(8, refinementForm.getSid());
 
             pstmt.executeUpdate();
 

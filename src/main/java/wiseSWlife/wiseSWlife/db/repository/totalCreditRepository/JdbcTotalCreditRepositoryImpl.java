@@ -49,7 +49,7 @@ public class JdbcTotalCreditRepositoryImpl implements TotalCreditRepository {
 
     @Override
     public CreditForm update(CreditForm creditForm) {
-        String sql = "update Total_Credit_TB set student_id = ?, total_credit = ? where student_id = ?";
+        String sql = "update Total_Credit_TB set student_id = ?, credit = ? where student_id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -60,6 +60,7 @@ public class JdbcTotalCreditRepositoryImpl implements TotalCreditRepository {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, creditForm.getSid());
             pstmt.setInt(2, creditForm.getCredit());
+            pstmt.setString(3, creditForm.getSid());
             pstmt.executeUpdate();
 
         } catch (Exception e){

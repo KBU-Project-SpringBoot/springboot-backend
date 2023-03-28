@@ -6,126 +6,85 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import wiseSWlife.wiseSWlife.db.repository.bcrRepository.BCRRepository;
-import wiseSWlife.wiseSWlife.db.repository.examRepository.ExamRepository;
-import wiseSWlife.wiseSWlife.db.repository.gpaRepository.GPARepository;
-import wiseSWlife.wiseSWlife.db.repository.majorRepository.MajorRepository;
-import wiseSWlife.wiseSWlife.db.repository.refinementRepository.RefinementRepository;
-import wiseSWlife.wiseSWlife.db.repository.totalCreditRepository.TotalCreditRepository;
-import wiseSWlife.wiseSWlife.global.session.SessionConst;
-import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
-import wiseSWlife.wiseSWlife.dto.graduation.ExamTable;
+import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
 import wiseSWlife.wiseSWlife.dto.graduation.TotalAcceptanceStatusTable;
 import wiseSWlife.wiseSWlife.dto.graduation.form.*;
+import wiseSWlife.wiseSWlife.global.session.SessionConst;
+import wiseSWlife.wiseSWlife.global.session.form.SessionForm;
 import wiseSWlife.wiseSWlife.service.graduation.basicCommonRequirement.BasicCommonRequirement;
-import wiseSWlife.wiseSWlife.service.graduation.scraping.ExamScraping;
-import wiseSWlife.wiseSWlife.service.graduation.condition.Condition;
-import wiseSWlife.wiseSWlife.service.graduation.scraping.TotalAcceptanceStatusScraping;
-import wiseSWlife.wiseSWlife.constant.GraduationConditionEnum;
+import wiseSWlife.wiseSWlife.service.graduation.credit.Credit;
+import wiseSWlife.wiseSWlife.service.graduation.exam.Exam;
+import wiseSWlife.wiseSWlife.service.graduation.gpa.Gpa;
+import wiseSWlife.wiseSWlife.service.graduation.major.Major;
+import wiseSWlife.wiseSWlife.service.graduation.refinement.Refinement;
+import wiseSWlife.wiseSWlife.service.graduation.totalAcceptanceStatus.TotalAcceptanceStatus;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Optional;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class GraduationController {
+    private final static String MAJOR_BEGIN = "전공기초";
+    private final static String MAJOR_SELECT = "전공선택";
+    private final static String MAJOR_REQUIREMENT = "전공필수";
+    private final static String REFINEMENT_SELECT = "교양선택";
+    private final static String REFINEMENT_REQUIREMENT = "교양필수";
+    public final static String COMPLETION_CREDIT = "이수학점";
+    public final static String AVERAGE_RATING = "평균평점";
+    public final static String BASIC_COMMON_REQUIREMENT = "기초공통필수";
+    public final static String TRANSFER_STUDENT_EXCEPTION_MESSAGE = "편입생은 서비스를 준비중입니다...";
+    public final static String TRANSFER_STUDENT_EXCEPTION_URL = "/";
 
-    private final ExamScraping examScraping;
-    private final TotalAcceptanceStatusScraping totalAcceptanceStatusScraping;
-    private final Condition condition;
+    private final Exam examService;
+    private final TotalAcceptanceStatus totalAcceptanceStatusScraping;
+    private final Credit creditService;
+    private final Gpa gpaService;
+    private final Major majorService;
+    private final Refinement refinementService;
     private final BasicCommonRequirement basicCommonRequirement;
-    private final ExamRepository examRepository;
-    private final MajorRepository majorRepository;
-    private final RefinementRepository refinementRepo;
-    private final TotalCreditRepository totalCreditRepository;
-    private final GPARepository gpaRepository;
-    private final BCRRepository bcrRepository;
 
     @GetMapping("/graduation")
-    public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY,required = false)SessionForm sessionForm,
-                             Model model) throws IOException, InterruptedException, SQLException {
+    public String Graduation(@SessionAttribute(name = SessionConst.LOGIN_SESSION_KEY, required = false) SessionForm sessionForm,
+                             Model model) throws IOException, InterruptedException {
 
-        if(sessionForm.getIntCookie().isEmpty()){
+        if (sessionForm.getIntCookie().isEmpty()) {
             return "redirect:/login";
         }
-        if(sessionForm.getSid().substring(4, 7).equals("070")){
-            model.addAttribute("exceptionMsg", "편입생은 서비스를 준비중입니다...");
-            model.addAttribute("exceptionUri", "/");
+
+        if (sessionForm.getSid().substring(4, 7).equals("070")) {
+            model.addAttribute("exceptionMsg", TRANSFER_STUDENT_EXCEPTION_MESSAGE);
+            model.addAttribute("exceptionUri", TRANSFER_STUDENT_EXCEPTION_URL);
             return "home/home";
         }
 
         String intCookie = sessionForm.getIntCookie();
         String sid = sessionForm.getSid();
-        String groupName = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2,4);
 
-        GraduationConditionEnum graduationConditionEnum = GraduationConditionEnum.valueOf(groupName);
-
-        //졸업요건표
+        //학과 + 학번에 맞는 졸업요건 상수 Enum 추출
+        String graduationCondition = sessionForm.getMajor().charAt(0) + sessionForm.getSid().substring(2, 4);
+        GraduationConditionEnum graduationConditionEnum = GraduationConditionEnum.valueOf(graduationCondition);
         model.addAttribute("graduationConditionEnum", graduationConditionEnum);
-        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.scrapping(intCookie);
 
-        //졸업 시험 테이블 추출
-        Optional<ExamForm> examBySid = examRepository.findExamBySid(sid);
-        if(examBySid.isEmpty()){
-            ExamTable examTable = examScraping.scraping(intCookie);
-            ExamForm examForm = examScraping.convert(sid, examTable);//key : 시험이름, value : 통과여부
-            examRepository.save(examForm);
-            model.addAttribute("examForm", examForm);
-        }else{
-            model.addAttribute("examForm", examBySid.get());
-        }
+        TotalAcceptanceStatusTable totalAcceptanceStatusTable = totalAcceptanceStatusScraping.totalAcceptanceStatus(intCookie);
 
-        Optional<MajorForm> majorBySid = majorRepository.findMajorBySid(sid);
-        if(majorBySid.isEmpty()){
-            MajorForm majorForm = this.condition.checkMajor(sid, totalAcceptanceStatusTable.getBody().get("전공기초"), totalAcceptanceStatusTable.getBody().get("전공선택"), totalAcceptanceStatusTable.getBody().get("전공필수"));
+        ExamForm examForm = examService.exam(sid, intCookie);
+        model.addAttribute("examForm", examForm);
 
-            majorRepository.save(majorForm);
-            model.addAttribute("majorForm", majorForm);
-        }else{
-            model.addAttribute("majorForm", majorBySid.get());
-        }
+        MajorForm majorForm = majorService.getMajorForm(sid, totalAcceptanceStatusTable.getBody().get(MAJOR_BEGIN), totalAcceptanceStatusTable.getBody().get(MAJOR_SELECT), totalAcceptanceStatusTable.getBody().get(MAJOR_REQUIREMENT));
+        model.addAttribute("majorForm", majorForm);
 
-        Optional<RefinementForm> refinementBySid = refinementRepo.findRefinementBySid(sid);
-        if(refinementBySid.isEmpty()){
-            RefinementForm refinementForm = this.condition.checkRefinement(sid, totalAcceptanceStatusTable.getBody().get("교양선택"), totalAcceptanceStatusTable.getBody().get("교양필수"));
+        RefinementForm refinementForm = refinementService.getRefinementForm(sid, totalAcceptanceStatusTable.getBody().get(REFINEMENT_SELECT), totalAcceptanceStatusTable.getBody().get(REFINEMENT_REQUIREMENT));
+        model.addAttribute("refinementForm", refinementForm);
 
-            refinementRepo.save(refinementForm);
-            model.addAttribute("refinementForm", refinementForm);
-        }else{
-            model.addAttribute("refinementForm", refinementBySid.get());
-        }
+        CreditForm creditForm = creditService.getCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get(COMPLETION_CREDIT)));
+        model.addAttribute("creditForm", creditForm);
 
-        Optional<CreditForm> totalCreditBySid = totalCreditRepository.findTotalCreditBySid(sid);
-        if(totalCreditBySid.isEmpty()){
-            CreditForm creditForm = this.condition.checkCredit(sid, Integer.parseInt(totalAcceptanceStatusTable.getSummary().get("이수학점")));
+        GPAForm gpaForm = gpaService.getGpa(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get(AVERAGE_RATING)));
+        model.addAttribute("gpaForm", gpaForm);
 
-            totalCreditRepository.save(creditForm);
-            model.addAttribute("creditForm", creditForm);
-        }else{
-            model.addAttribute("creditForm", totalCreditBySid.get());
-        }
-
-        Optional<GPAForm> gpaBySid = gpaRepository.findGPABySid(sid);
-        if(gpaBySid.isEmpty()){
-            GPAForm gpaForm = this.condition.checkGPA(sid, Double.parseDouble(totalAcceptanceStatusTable.getSummary().get("평점평균")));
-
-            gpaRepository.save(gpaForm);
-            model.addAttribute("gpaForm", gpaForm);
-        }else{
-            model.addAttribute("gpaForm", gpaBySid.get());
-        }
-
-        Optional<BCRForm> bcrBySid = bcrRepository.findBCRBySid(sid);
-        if(bcrBySid.isEmpty()){
-            BCRForm bcrForm = basicCommonRequirement.parse(sid, totalAcceptanceStatusTable.getBody().get("기초공통필수"), totalAcceptanceStatusTable.getBody().get("교양필수"));
-
-            bcrRepository.save(bcrForm);
-            model.addAttribute("bcrForm", bcrForm);
-        }else{
-            model.addAttribute("bcrForm", bcrBySid.get());
-        }
+        BCRForm bcrForm = basicCommonRequirement.getBCR(sid, totalAcceptanceStatusTable.getBody().get(BASIC_COMMON_REQUIREMENT), totalAcceptanceStatusTable.getBody().get(REFINEMENT_REQUIREMENT));
+        model.addAttribute("bcrForm", bcrForm);
 
         model.addAttribute("sessionForm", sessionForm);
         return "graduate/graduation";

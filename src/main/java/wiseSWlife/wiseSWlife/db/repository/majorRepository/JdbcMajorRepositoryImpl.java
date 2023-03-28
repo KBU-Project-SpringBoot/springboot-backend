@@ -72,6 +72,7 @@ public class JdbcMajorRepositoryImpl implements MajorRepository {
             pstmt.setString(4, majorForm.getMajorSelectArr().toString().substring(1, majorForm.getMajorSelectArr().toString().length()-1));
             pstmt.setInt(5, majorForm.getCommonMajor());
             pstmt.setInt(6, majorForm.getFutureDesign());
+            pstmt.setString(7, majorForm.getSid());
             pstmt.executeUpdate();
 
         } catch (Exception e){

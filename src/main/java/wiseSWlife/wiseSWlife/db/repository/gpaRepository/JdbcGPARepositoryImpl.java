@@ -60,6 +60,7 @@ public class JdbcGPARepositoryImpl implements GPARepository {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, gpaForm.getSid());
             pstmt.setDouble(2, gpaForm.getGpa());
+            pstmt.setString(3, gpaForm.getSid());
             pstmt.executeUpdate();
 
         } catch (Exception e){
