@@ -31,7 +31,7 @@ public class GraduationController {
     private final static String REFINEMENT_SELECT = "교양선택";
     private final static String REFINEMENT_REQUIREMENT = "교양필수";
     public final static String COMPLETION_CREDIT = "이수학점";
-    public final static String AVERAGE_RATING = "평균평점";
+    public final static String AVERAGE_RATING = "평점평균";
     public final static String BASIC_COMMON_REQUIREMENT = "기초공통필수";
     public final static String TRANSFER_STUDENT_EXCEPTION_MESSAGE = "편입생은 서비스를 준비중입니다...";
     public final static String TRANSFER_STUDENT_EXCEPTION_URL = "/";
