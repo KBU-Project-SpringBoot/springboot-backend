@@ -26,10 +26,6 @@
 
 ![image](https://user-images.githubusercontent.com/84673536/219850064-0570826d-c9a8-43f9-abf3-5e8be06c4561.png)
 
-## 개발 환경
-
-![image](https://user-images.githubusercontent.com/84673536/224469946-8a3701f6-fc57-4be7-b57a-a02eecf0fa6f.png)
-
 
 # 실행 화면
 <br>
